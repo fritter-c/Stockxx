@@ -2,8 +2,8 @@
 #define CUSTOMSTUDIE_H
 
 #include <QGraphicsItem>
-#include <pricescalevisual.h>
-#include <timescalevisual.h>
+#include "pricescalevisual.h"
+#include "timescalevisual.h"
 
 class CustomStudie : public QGraphicsItem
 {
@@ -15,6 +15,7 @@ public:
     CustomStudie(TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent=nullptr);
     void changeGeometry();
     virtual void updatePrice(double);
+    virtual void updateLastPos(QPointF);
 };
 
 #endif // CUSTOMSTUDIE_H

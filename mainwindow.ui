@@ -64,6 +64,9 @@
    <addaction name="actionResistance_Studie"/>
    <addaction name="separator"/>
    <addaction name="actionCross"/>
+   <addaction name="actionHand_Mouse"/>
+   <addaction name="separator"/>
+   <addaction name="actionDelete_All"/>
   </widget>
   <action name="actionLine_Studie">
    <property name="checkable">
@@ -111,6 +114,27 @@
    </property>
    <property name="text">
     <string>Cross</string>
+   </property>
+  </action>
+  <action name="actionHand_Mouse">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/Hand.png</normaloff>:/imgs/Hand.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hand Mouse</string>
+   </property>
+  </action>
+  <action name="actionDelete_All">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/TrashBin.png</normaloff>:/imgs/TrashBin.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete All</string>
    </property>
   </action>
  </widget>

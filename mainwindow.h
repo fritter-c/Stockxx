@@ -18,11 +18,15 @@ public:
 signals:
     void studieSelected(StudieType, bool);
     void crossToggles(bool);
+    void handToggles(bool);
+    void deleteAllStudies();
 private slots:
     void on_actionResistance_Studie_toggled(bool arg1);
     void on_actionLine_Studie_toggled(bool arg1);
     void on_actionCursor_toggled(bool arg1);
     void on_actionCross_toggled(bool arg1);
+    void on_actionHand_Mouse_toggled(bool arg1);
+    void on_actionDelete_All_triggered();
 
 private:
     Ui::MainWindow *ui;

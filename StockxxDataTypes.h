@@ -43,6 +43,9 @@ public:
         }
         return false;
     }
+    inline bool operator !=(const QuoteIdentifier &a) const{
+        return (not (a == *this));
+    }
 
 };
 inline uint qHash(const QuoteIdentifier &key, uint seed)

@@ -1,9 +1,10 @@
 #ifndef CUSTOMDATASERIE_H
 #define CUSTOMDATASERIE_H
-#include "StockxxDataTypes.h"
+
 #include <QDateTime>
 #include <QList>
 #include <QObject>
+#include "StockxxDataTypes.h"
 
 const quint32 c_StreamStart = 0xA0B0C0D0;
 class CustomDataSerie : public QObject

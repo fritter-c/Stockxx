@@ -7,10 +7,12 @@ void TimeScaleVisual::popuplateDateTimes()
     QList<Candle*> candles;
     candles = m_price->getCandles();
     m_mapCandles.clear();
+
     for (long long i {candles.size() - 1}; i >= 0; --i){
         m_dtDateTimes.append(candles[i]->qi);
     }
     nZoom = m_dtDateTimes.size() - 30;
+    m_nFirstIndex = nZoom - nOffset;
 
 }
 
@@ -47,9 +49,45 @@ void TimeScaleVisual::zoom(int delta)
     }
 }
 
+void TimeScaleVisual::moveTime(int x)
+{
+    if (x < 0){
+        if ((nOffset + x) >= 0)
+            nOffset += x;
+            recalculatePositions();
+            update();
+    }
+    else if (x > 0){
+        if ((nOffset + x) <= nZoom){
+            nOffset += x;
+            recalculatePositions();
+            update();
+        }
+    }
+}
+
+QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x, qreal *pos)
+{
+    qreal actualX{boundingRect().width() - x};
+    int nTime{std::lround((actualX / m_rSpacing)) + 1};
+
+    if (nTime + m_nFirstIndex < m_dtDateTimes.size()){
+        *pos = m_rFirst + nTime * m_rSpacing;
+        return m_dtDateTimes[nTime + m_nFirstIndex];
+    }
+    else{
+        *pos = m_rLast;
+        return m_dtDateTimes.last();
+    }
+}
+
+QuoteIdentifier TimeScaleVisual::getFirstQuote()
+{
+    return m_dtDateTimes[m_nFirstID];
+}
+
 void TimeScaleVisual::recalculatePositions()
 {
-    m_datePositions.clear();
     QFont font;
     font.setPixelSize(12);
     QFontMetricsF fm{font};
@@ -59,12 +97,12 @@ void TimeScaleVisual::recalculatePositions()
     double nSpaceNeeded{nEntrys * nText};
     double nSpacing {(nSpace - nSpaceNeeded) / nEntrys};
     double nX{boundingRect().width() - nText - c_rTimeScaleBoldMargin};
-    for(long long  i {m_dtDateTimes.size() + nOffset - 1}; i >= nZoom + nOffset; i--)
-    {
-        QuoteIdentifier strDate = m_dtDateTimes[i];
-        m_datePositions.insert(strDate, nX);
-        nX = nX - nText - nSpacing;
-    }
+    m_rFirst = nX;
+    m_rSpacing = (-nText-nSpacing);
+    m_nFirstIndex = m_dtDateTimes.size() - nOffset - 1;
+    m_nFirstID = m_dtDateTimes[m_nFirstIndex].id;
+    m_rLast = m_rFirst + nEntrys * m_rSpacing;
+    m_nLastID = m_dtDateTimes[nZoom - nOffset].id;
 }
 
 void TimeScaleVisual::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
@@ -96,6 +134,16 @@ TimeScaleVisual::TimeScaleVisual(PriceVisual *price, QObject* parent, QGraphicsV
     popuplateDateTimes();
 }
 
+qreal TimeScaleVisual::getFirstPos()
+{
+    return m_rFirst;
+}
+
+qreal TimeScaleVisual::getSpacing()
+{
+    return m_rSpacing;
+}
+
 int TimeScaleVisual::getEntrys()
 {
     return m_dtDateTimes.count() - nZoom;
@@ -122,12 +170,12 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     QFontMetricsF fm(font);
     double nText = fm.horizontalAdvance("00.00.0000");
     double nSpace = boundingRect().width() - nText;
-    qreal nX = XAtQuote(m_dtDateTimes[m_dtDateTimes.size() - 1 + nOffset]);
+    qreal nX;
     long long nEntrys{m_dtDateTimes.size() - nZoom};
     double nSpaceNeeded = nEntrys * nText;
     double nSpacing = (nSpace - nSpaceNeeded) / nEntrys;
     int nSkip = 1;
-    QPointF point(nX, boundingRect().bottom() - c_rTimeScaleBottomMargin);
+    QPointF point(0, boundingRect().bottom() - c_rTimeScaleBottomMargin);
     if (m_bHighLight)
         font.setBold(true);
 
@@ -137,25 +185,23 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     {
         nSkip = qMax(qCeil((nText + c_rTimeScaleTagMargin)/ (nText + nSpacing)), 2) + 1;
     }
-    for(long long i {m_dtDateTimes.size() + nOffset - 1}; i > nZoom + nOffset; i = i - nSkip){
+    nX = m_rFirst;
+    for(long long i {m_nFirstIndex}; i > nZoom - nOffset; i = i - nSkip){
         QString strDate = m_dtDateTimes[i].dtQuoteDate.toString("dd.MM.yyyy");
-        nX = XAtQuote(m_dtDateTimes[i]);
         point.rx() = nX;
-        qreal h {fm.height()};
         if ((nX + nText) > boundingRect().right()) break;
         painter->drawText(point, strDate);
+        nX += nSkip * m_rSpacing;
     }
-
 }
 
 qreal TimeScaleVisual::XAtQuote(QuoteIdentifier quote)
 {
-    if (m_datePositions.contains(quote))
-      {
-          return m_datePositions[quote];
-      }
-      else
-      {
-          return -1;
-      }
+    if (quote.id > m_nLastID){
+        return -1;
+    }
+    else{
+        uint64_t nTimes {quote.id - m_nFirstID};
+        return m_rFirst + nTimes * m_rSpacing;
+    }
 }

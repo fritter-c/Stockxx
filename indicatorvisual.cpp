@@ -7,6 +7,7 @@ IndicatorVisual::IndicatorVisual(CustomPrice *customPrice, QObject *parent, QGra
     m_view = view;
 }
 
+
 QRectF IndicatorVisual::boundingRect() const
 {
     return QRectF(0,0,0,0);

@@ -49,22 +49,27 @@ void PriceVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 {
     QPointF pointHigh, pointLow, pointOpen, pointClose;
     QBrush brush {Qt::SolidPattern};
-    QPen pen {Qt::black, 1};
-    bool bNext{true};
+
     bool bFirst{true};
     bool bPainted{false};
-    painter->setPen(pen);
+
     int nEntrys {m_tsVisual->getEntrys()};
     qreal nSpace{boundingRect().width()};
-    qreal rCandleSize = fmin(40,(nSpace / nEntrys) - qMax(200/nEntrys, 5));
+    qreal rCandleSize = fmin(100,(nSpace / nEntrys) - qMax(200/nEntrys, 5));
+    QPen pen {Qt::black, fmax(0.4 ,fmin((0.1 * rCandleSize), 2))};
+    painter->setPen(pen);
     m_priceCalc->PriorAll();
     Candle* candle;
     m_candlesDrawn.clear();
     m_candlePos.clear();
-    while(bNext){
+    qreal rFirstPos{m_tsVisual->getFirstPos()};
+    qreal rSpacing{m_tsVisual->getSpacing()};
+    QuoteIdentifier qiFirstQuote{m_tsVisual->getFirstQuote()};
+    m_priceCalc->GoToQuote(qiFirstQuote);
+    do{
         candle = m_priceCalc->getCandle();
         pointHigh.ry() = m_psVisual->YAtPrice(m_priceCalc->High());
-        pointHigh.rx() = m_tsVisual->XAtQuote(candle->qi);
+        pointHigh.rx() = rFirstPos;
 
         pointLow.ry() = m_psVisual->YAtPrice(m_priceCalc->Low());
         pointLow.rx() = pointHigh.rx();
@@ -86,11 +91,10 @@ void PriceVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             QLineF shadow{pointHigh, pointLow};
             // Desenha a linha (sombra, pavio) do candle
             painter->drawLine(shadow);
-            if (rCandleSize >= 2){
+            if (rCandleSize >= 1){
                 QRectF body;
                 if (candle->ct == ctBull)
                 {
-
                     brush.setColor(Qt::green);
                     body.setRect(pointClose.x() - rCandleSize/2 , pointClose.y(), rCandleSize, pointOpen.y() - pointClose.y());
                 }
@@ -109,9 +113,9 @@ void PriceVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             }
 
          }
-         bNext = m_priceCalc->Next();
+         rFirstPos += rSpacing;
 
-    }
+    } while(m_priceCalc->Next());
 }
 
 PriceScaleVisual *PriceVisual::GetPriceScale()

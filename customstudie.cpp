@@ -17,3 +17,8 @@ void CustomStudie::updatePrice(double)
 {
 
 }
+
+void CustomStudie::updateLastPos(QPointF)
+{
+
+}

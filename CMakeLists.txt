@@ -60,6 +60,9 @@ set(PROJECT_SOURCES
         customstudie.h
         resistancestudie.cpp
         resistancestudie.h
+        linestudie.cpp
+        linestudie.h
+        stockxxdateutils.h
         resources.qrc
 
 )

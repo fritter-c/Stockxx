@@ -17,6 +17,7 @@ public:
     virtual bool NextAll();
     virtual bool PriorN(size_t N);
     virtual bool NextN(size_t N);
+    virtual void GoToQuote(QuoteIdentifier qt);
     virtual size_t Size();
     virtual void CreateIndicatorsValues();
     virtual size_t nIndex() const;

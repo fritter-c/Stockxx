@@ -46,6 +46,11 @@ bool IndicatorCalc::NextN(size_t N)
     return false;
 }
 
+void IndicatorCalc::GoToQuote(QuoteIdentifier qt)
+{
+
+}
+
 size_t IndicatorCalc::Size()
 {
     return 0;

@@ -5,5 +5,7 @@
         <file>imgs/ResStudie.png</file>
         <file>imgs/Cursor.png</file>
         <file>imgs/Cross.png</file>
+        <file>imgs/Hand.png</file>
+        <file>imgs/TrashBin.png</file>
     </qresource>
 </RCC>

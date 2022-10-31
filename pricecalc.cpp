@@ -130,3 +130,14 @@ size_t PriceCalc::Size()
 {
     return ar_values.size();
 }
+
+void PriceCalc::GoToQuote(QuoteIdentifier qi)
+{
+    uint64_t i{m_price->Quote().id - qi.id};
+    if (i > 0){
+        NextN(i);
+    }
+    else{
+        PriorN(i);
+    }
+}

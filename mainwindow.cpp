@@ -14,9 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mdiArea->addSubWindow(m_forms[0]);
     ui->mdiArea->currentSubWindow()->resize(QSize(500,500));
     QActionGroup* studieActionGroup = new QActionGroup(this);
+    QActionGroup* mouseMode = new QActionGroup(this);
     studieActionGroup->addAction(ui->actionCursor);
     studieActionGroup->addAction(ui->actionLine_Studie);
     studieActionGroup->addAction(ui->actionResistance_Studie);
+    mouseMode->addAction(ui->actionCross);
+    mouseMode->addAction(ui->actionHand_Mouse);
 
 }
 
@@ -50,5 +53,17 @@ void MainWindow::on_actionCursor_toggled(bool arg1)
 void MainWindow::on_actionCross_toggled(bool arg1)
 {
     emit crossToggles(arg1);
+}
+
+
+void MainWindow::on_actionHand_Mouse_toggled(bool arg1)
+{
+    emit handToggles(arg1);
+}
+
+
+void MainWindow::on_actionDelete_All_triggered()
+{
+    emit deleteAllStudies();
 }
 

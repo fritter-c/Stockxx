@@ -168,6 +168,14 @@ void PriceScaleVisual::updatePriceTag(QGraphicsItem *sender, double price, QColo
 
 }
 
+void PriceScaleVisual::movePrice(qreal y)
+{
+    double aux{m_dTopPrice};
+    m_dTopPrice += y * 0.1 * aux;
+    m_dBottomPrice += y * 0.1 * aux;
+    UpdateSpan();
+}
+
 void PriceScaleVisual::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     m_bHighLight = true;

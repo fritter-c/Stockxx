@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QGraphicsItem>
+#include <QGraphicsView>
 #include "customprice.h"
 #include "indicatorcalc.h"
-#include <QGraphicsView>
 #include "pricescalevisual.h"
 #include "timescalevisual.h"
 #include "priceguide.h"

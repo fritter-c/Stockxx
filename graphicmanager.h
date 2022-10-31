@@ -32,8 +32,13 @@ private:
     StudieType m_mainStudie;
     CustomStudie* m_draggingStudie{nullptr};
     CustomStudie* m_selectedStudie{nullptr};
+    QPointF m_lastChartPos{0,0};
+    bool m_bHandMode{false};
+    bool m_draggingChart{false};
+    bool m_bAddingStudie{false};
 
     void addStudie(QMouseEvent* event);
+    void fullUpdate();
 public:
     explicit GraphicManager(QObject *parent = nullptr, CustomChart *chart = nullptr);
     CustomChart* GetCustomChart();
@@ -47,6 +52,8 @@ public slots:
     void onViewMouseMove(QMouseEvent* event);
     void onViewKeyPress(QKeyEvent* event);
     void onMainCrossToggled(bool);
+    void onMainHandToggle(bool);
+    void onMainDeleteAllStudies();
 
 };
 

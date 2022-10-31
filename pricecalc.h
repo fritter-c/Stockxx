@@ -19,6 +19,7 @@ public:
     virtual bool PriorN(size_t N) override;
     virtual bool NextN(size_t N) override;
     virtual size_t Size() override;
+    virtual void GoToQuote(QuoteIdentifier qi) override;
     virtual void CreateIndicatorsValues() override;
     double Open();
     double Close();

@@ -51,6 +51,7 @@ public:
   void addPriceTag(double price, QColor color, QGraphicsItem* sender);
   void removePriceTag(QGraphicsItem* sender);
   void updatePriceTag(QGraphicsItem* sender, double price, QColor color = QColor());
+  void movePrice(qreal y);
 };
 
 
