@@ -31,14 +31,14 @@ public:
     }
     inline bool operator >(const QuoteIdentifier &a) const{
         if ((a.id > id) &&
-            (a.dtQuoteDate >= dtQuoteDate)){
+            (a.dtQuoteDate <= dtQuoteDate)){
             return true;
         }
         return false;
     }
     inline bool operator <(const QuoteIdentifier &a) const{
         if ((a.id < id) &&
-            (a.dtQuoteDate <= dtQuoteDate)){
+            (a.dtQuoteDate >= dtQuoteDate)){
             return true;
         }
         return false;
@@ -64,7 +64,7 @@ struct DataSerieValue{
     QuoteIdentifier qiQuote;
 };
 
-
+enum StudieType {stNoStudie, stLine, stResistance, stFibonacci};
 
 #endif
 

@@ -42,7 +42,7 @@ QRectF CandleMagnifier::boundingRect() const
 
 qreal
 inline CandleMagnifier::YAtPrice(double price, double space, double low, double span){
-return -(price - low) * (space - 0.1 * m_rHeight) / span + space;
+    return -(price - low) * (space - 0.1 * m_rHeight) / span + space;
 }
 void CandleMagnifier::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

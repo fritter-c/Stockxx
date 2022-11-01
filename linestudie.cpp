@@ -6,8 +6,6 @@ LineStudie::LineStudie(qreal x, double price, TimeScaleVisual *ts_Visual, PriceS
     m_dStartPrice = price;
     m_dEndPrice = price;
     m_qiStartQuote = m_tsVisual->findNearestDate(x, &rX);
-    m_rStartX = rX;
-    m_rEndX = rX;
     m_qiEndQuote = m_qiStartQuote;
 }
 
@@ -57,7 +55,6 @@ void LineStudie::updateLastPos(QPointF pf)
     qreal rX;
     m_qiEndQuote = m_tsVisual->findNearestDate(pf.x(), &rX);
     m_dEndPrice  = m_psVisual->PriceAtY(pf.y());
-    m_rEndX = rX;
     update();
 }
 

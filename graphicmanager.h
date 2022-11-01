@@ -11,7 +11,6 @@
 #include "timescalevisual.h"
 #include <dailydataserie.h>
 
-enum StudieType {stNoStudie, stLine, stResistance, stDragging};
 
 class GraphicManager : public QObject
 {

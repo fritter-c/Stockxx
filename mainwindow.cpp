@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     studieActionGroup->addAction(ui->actionCursor);
     studieActionGroup->addAction(ui->actionLine_Studie);
     studieActionGroup->addAction(ui->actionResistance_Studie);
+    studieActionGroup->addAction(ui->actionFibonacci_Studie);
     mouseMode->addAction(ui->actionCross);
     mouseMode->addAction(ui->actionHand_Mouse);
 
@@ -43,7 +44,6 @@ void MainWindow::on_actionLine_Studie_toggled(bool arg1)
 }
 
 
-
 void MainWindow::on_actionCursor_toggled(bool arg1)
 {
     emit studieSelected(stNoStudie, arg1);
@@ -65,5 +65,11 @@ void MainWindow::on_actionHand_Mouse_toggled(bool arg1)
 void MainWindow::on_actionDelete_All_triggered()
 {
     emit deleteAllStudies();
+}
+
+
+void MainWindow::on_actionFibonacci_Studie_toggled(bool arg1)
+{
+    emit studieSelected(stFibonacci, arg1);
 }
 

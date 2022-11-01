@@ -7,5 +7,6 @@
         <file>imgs/Cross.png</file>
         <file>imgs/Hand.png</file>
         <file>imgs/TrashBin.png</file>
+        <file>imgs/Fibonacci.png</file>
     </qresource>
 </RCC>

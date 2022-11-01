@@ -5,6 +5,7 @@ CustomStudie::CustomStudie(TimeScaleVisual *ts_Visual, PriceScaleVisual *ps_Visu
 {
     m_tsVisual = ts_Visual;
     m_psVisual = ps_Visual;
+    setParentItem(parent);
 
 }
 

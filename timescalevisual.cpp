@@ -22,28 +22,30 @@ void TimeScaleVisual::zoom(int delta)
         if (nZoom + delta/10 < m_dtDateTimes.size() - 1){
             nZoom += delta/10;
             recalculatePositions();
-            update();
             m_price->update();
+            update();
+
         }
         else if (nZoom < m_dtDateTimes.size() - 1){
             nZoom++;
             recalculatePositions();
-            update();
             m_price->update();
+            update();
+
         }
     }
     else{
         if ((nZoom + nOffset + delta/10) > 0){
             nZoom += delta/10;
             recalculatePositions();
-            update();
             m_price->update();
+            update();         
         }
         else if(nZoom + nOffset > 0){
             nZoom--;
             recalculatePositions();
-            update();
             m_price->update();
+            update();          
         }
 
     }

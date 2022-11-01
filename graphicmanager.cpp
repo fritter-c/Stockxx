@@ -1,6 +1,7 @@
 #include "graphicmanager.h"
 #include "candlemagnifier.h"
 #include "dailyprice.h"
+#include "fibonaccistudie.h"
 #include "linestudie.h"
 #include "mainwindow.h"
 #include <QResizeEvent>
@@ -14,6 +15,11 @@ void GraphicManager::addStudie(QMouseEvent *event)
     }
     else if(m_mainStudie == stLine){
         m_visualStudies.append(new LineStudie(event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
+        m_selectedStudie = m_visualStudies.last();
+        m_bAddingStudie = true;
+    }
+    else if(m_mainStudie == stFibonacci){
+        m_visualStudies.append(new FibonacciStudie(event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
         m_selectedStudie = m_visualStudies.last();
         m_bAddingStudie = true;
     }
@@ -135,7 +141,6 @@ void GraphicManager::onViewMouseRelease(QMouseEvent *event)
 void GraphicManager::onViewMouseMove(QMouseEvent *event)
 {
     const int c_yProportion{10};
-    const int c_xProportion{10};
     if (m_bAddingStudie){
         m_selectedStudie->updateLastPos(event->pos());
         return;
