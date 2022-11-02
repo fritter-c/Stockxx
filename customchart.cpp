@@ -7,6 +7,7 @@ CustomChart::CustomChart(QWidget *parent) :
 {
     ui->setupUi(this);
     m_view = new GoTView(this);
+    m_gManager = new GraphicManager(m_view, parent, this);
     ui->horizontalLayout->addWidget(m_view);
     setMouseTracking(true);
 }

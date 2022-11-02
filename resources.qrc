@@ -8,5 +8,6 @@
         <file>imgs/Hand.png</file>
         <file>imgs/TrashBin.png</file>
         <file>imgs/Fibonacci.png</file>
+        <file>imgs/VertLine.png</file>
     </qresource>
 </RCC>

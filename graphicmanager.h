@@ -5,18 +5,16 @@
 #include "indicatorvisual.h"
 #include "pricescalevisual.h"
 #include <QObject>
-#include <customchart.h>
 #include "gotview.h"
 #include "pricevisual.h"
 #include "timescalevisual.h"
 #include <dailydataserie.h>
 
-
 class GraphicManager : public QObject
 {
     Q_OBJECT
 private:
-    CustomChart *m_chart;
+    QWidget *m_chart;
     GoTView *m_view;
     QGraphicsScene *m_scene;
     PriceScaleVisual *m_psVisual;
@@ -39,8 +37,8 @@ private:
     void addStudie(QMouseEvent* event);
     void fullUpdate();
 public:
-    explicit GraphicManager(QObject *parent = nullptr, CustomChart *chart = nullptr);
-    CustomChart* GetCustomChart();
+    explicit GraphicManager(GoTView *m_view, QObject *parent = nullptr, QWidget *chart = nullptr);
+    QWidget* GetCustomChart();
     void candleHoveredChanged();
 
 public slots:

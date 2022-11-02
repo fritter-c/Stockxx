@@ -9,28 +9,23 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_managers.append(new GraphicManager(this, new CustomChart(this)));
-    m_forms.append(m_managers[0]->GetCustomChart());  
+    m_forms.append(new CustomChart(this));
     ui->mdiArea->addSubWindow(m_forms[0]);
     ui->mdiArea->currentSubWindow()->resize(QSize(500,500));
     QActionGroup* studieActionGroup = new QActionGroup(this);
-    QActionGroup* mouseMode = new QActionGroup(this);
     studieActionGroup->addAction(ui->actionCursor);
     studieActionGroup->addAction(ui->actionLine_Studie);
     studieActionGroup->addAction(ui->actionResistance_Studie);
     studieActionGroup->addAction(ui->actionFibonacci_Studie);
-    mouseMode->addAction(ui->actionCross);
-    mouseMode->addAction(ui->actionHand_Mouse);
-
+    studieActionGroup->addAction(ui->actionCross);
+    studieActionGroup->addAction(ui->actionHand_Mouse);
+    studieActionGroup->addAction(ui->actionVerticalLine_Studie);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
-
 
 void MainWindow::on_actionResistance_Studie_toggled(bool arg1)
 {
@@ -71,5 +66,11 @@ void MainWindow::on_actionDelete_All_triggered()
 void MainWindow::on_actionFibonacci_Studie_toggled(bool arg1)
 {
     emit studieSelected(stFibonacci, arg1);
+}
+
+
+void MainWindow::on_actionVerticalLine_Studie_toggled(bool arg1)
+{
+    emit studieSelected(stVertLine, arg1);
 }
 

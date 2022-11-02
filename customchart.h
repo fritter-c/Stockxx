@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QGraphicsView>
 #include "gotview.h"
+#include "graphicmanager.h"
 
 namespace Ui {
 class CustomChart;
@@ -14,6 +15,7 @@ class CustomChart : public QWidget
     Q_OBJECT
 private:
     GoTView* m_view;
+    GraphicManager* m_gManager;
 public:
     CustomChart(QWidget *parent = nullptr);
     ~CustomChart();

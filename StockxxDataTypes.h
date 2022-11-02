@@ -64,7 +64,7 @@ struct DataSerieValue{
     QuoteIdentifier qiQuote;
 };
 
-enum StudieType {stNoStudie, stLine, stResistance, stFibonacci};
+enum StudieType {stNoStudie, stLine, stResistance, stFibonacci, stVertLine};
 
 #endif
 

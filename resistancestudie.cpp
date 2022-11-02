@@ -15,7 +15,8 @@ ResistanceStudie::~ResistanceStudie()
 
 QRectF ResistanceStudie::boundingRect() const
 {
-    return QRectF(m_tsVisual->boundingRect().left(),m_psVisual->YAtPrice(m_price),m_tsVisual->boundingRect().right() - (m_tsVisual->boundingRect().left()-m_cPriceScaleMargin) ,m_nPenWidth);
+    return QRectF(m_tsVisual->boundingRect().left(),m_psVisual->YAtPrice(m_price) - m_nPenWidth / 2
+                  ,m_tsVisual->boundingRect().right() - (m_tsVisual->boundingRect().left()-m_cPriceScaleMargin) ,m_nPenWidth);
 }
 
 void ResistanceStudie::updatePrice(double price)

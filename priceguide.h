@@ -6,6 +6,7 @@
 
 class PriceGuide : public QGraphicsItem
 {
+private:
     qreal m_rGuideLenght;
     qreal m_rY;
     QGraphicsItem* m_parent;

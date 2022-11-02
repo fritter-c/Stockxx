@@ -7,6 +7,13 @@
 #include "StockxxDataTypes.h"
 
 class PriceVisual;
+
+struct TimeTag
+{
+public:
+    QuoteIdentifier iq;
+    QColor color;
+};
 class TimeScaleVisual : public QGraphicsItem
 {
 private:
@@ -29,6 +36,8 @@ private:
     qreal m_rLast{0};
     uint64_t m_nFirstID{0};
     uint64_t m_nLastID{0};
+    QHash<QGraphicsItem*, TimeTag> m_timeTags;
+    void paintTimeTags(QPainter*, TimeTag);
 public:
     TimeScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
     const qreal c_rTimeScaleHeight = 30;
@@ -44,7 +53,11 @@ public:
     void changeGeometry();
     void moveTime(int);
     QuoteIdentifier findNearestDate(qreal x, qreal *pos);
+    QuoteIdentifier findNearestDate(qreal x);
     QuoteIdentifier getFirstQuote();
+    void addPriceTag(qreal x, QColor color, QGraphicsItem* sender);
+    void removePriceTag(QGraphicsItem* sender);
+    void updatePriceTag(QGraphicsItem* sender, qreal x, QColor color = QColor());
 
     // QGraphicsItem interface
     virtual QRectF boundingRect() const override;

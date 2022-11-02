@@ -8,6 +8,7 @@
 class PriceVisual;
 
 struct PriceTag{
+public:
     double price;
     QColor color;
 };
@@ -35,23 +36,23 @@ protected:
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void wheelEvent(QGraphicsSceneWheelEvent *event) override;
 public:
-  PriceScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
-  const qreal c_PriceScaleFWidth = 70;
-  const qreal c_dTimeScaleHeight = 30;
-  const qreal c_rPriceScaleTagOffset = 5;
-  virtual QRectF boundingRect() const override;
-  virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-  void UpdateExtremePrices();
-  void UpdateSpan();
-  void UpdateSpacing();
-  qreal PriceAtY(qreal y);
-  qreal YAtPrice(double price);
-  QVector<qreal> priceTagPositions;
-  void changeGeometry();
-  void addPriceTag(double price, QColor color, QGraphicsItem* sender);
-  void removePriceTag(QGraphicsItem* sender);
-  void updatePriceTag(QGraphicsItem* sender, double price, QColor color = QColor());
-  void movePrice(qreal y);
+    PriceScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
+    const qreal c_PriceScaleFWidth = 70;
+    const qreal c_dTimeScaleHeight = 30;
+    const qreal c_rPriceScaleTagOffset = 5;
+    virtual QRectF boundingRect() const override;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void UpdateExtremePrices();
+    void UpdateSpan();
+    void UpdateSpacing();
+    qreal PriceAtY(qreal y);
+    qreal YAtPrice(double price);
+    QVector<qreal> priceTagPositions;
+    void changeGeometry();
+    void addPriceTag(double price, QColor color, QGraphicsItem* sender);
+    void removePriceTag(QGraphicsItem* sender);
+    void updatePriceTag(QGraphicsItem* sender, double price, QColor color = QColor());
+    void movePrice(qreal y);
 };
 
 

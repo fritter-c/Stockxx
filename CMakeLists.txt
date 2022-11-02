@@ -65,6 +65,8 @@ set(PROJECT_SOURCES
         stockxxdateutils.h
         fibonaccistudie.cpp
         fibonaccistudie.h
+        vertlinestudie.cpp
+        vertlinestudie.h
         resources.qrc
 
 )

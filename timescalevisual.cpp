@@ -48,6 +48,25 @@ void TimeScaleVisual::zoom(int delta){
     }
 }
 
+void TimeScaleVisual::paintTimeTags(QPainter * painter, TimeTag tg)
+{
+    painter->setClipRect(boundingRect());
+    const qreal rRectMargin = 2;
+    QString date{tg.iq.dtQuoteDate.toString("dd.MM.yyyy hh.mm")};
+    QFont font{painter->font()};
+    QFontMetricsF fm{font};
+    qreal rAdvance{fm.horizontalAdvance(date)};
+    QPointF p1 {XAtQuote(tg.iq) - rAdvance/2, boundingRect().bottom() - c_rTimeScaleBottomMargin};
+    QPointF p2 {XAtQuote(tg.iq) - rAdvance/2 - rRectMargin, boundingRect().top()};
+    QBrush brush{tg.color};
+    painter->setBrush(brush);
+    QRectF rect{p2, QSizeF{rAdvance + 2 * rRectMargin, boundingRect().bottom() - p2.y()}};
+    QPen pen {Qt::black, 1};
+    painter->setPen(pen);
+    painter->drawRect(rect);
+    painter->drawText(p1, date);
+}
+
 void TimeScaleVisual::moveTime(int x)
 {
     if (x < 0){
@@ -82,10 +101,47 @@ QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x, qreal *pos)
    }
    else return m_dtDateTimes.last();
 }
+QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x)
+{
+    if(x <= boundingRect().width()){
+        qreal actualX{m_rFirst - x};
+        int nTime{static_cast<int>(std::ceil((actualX / m_rSpacing)))};
+        if (nTime + m_nFirstIndex < m_dtDateTimes.size()){
+            return m_dtDateTimes[nTime + m_nFirstIndex];
+        }
+        else{
+            return m_dtDateTimes.last();
+        }
+   }
+   else return m_dtDateTimes.last();
+}
 
 QuoteIdentifier TimeScaleVisual::getFirstQuote()
 {
     return m_dtDateTimes[m_nFirstIndex];
+}
+
+void TimeScaleVisual::addPriceTag(qreal x, QColor color, QGraphicsItem *sender)
+{
+    m_timeTags.insert(sender, {findNearestDate(x), color});
+    update();
+}
+
+void TimeScaleVisual::removePriceTag(QGraphicsItem *sender)
+{
+    if (m_timeTags.contains(sender)){
+        m_timeTags.remove(sender);
+        update();
+    }
+}
+
+void TimeScaleVisual::updatePriceTag(QGraphicsItem *sender, qreal x, QColor color)
+{
+    if (m_timeTags.contains(sender)){
+        m_timeTags[sender].iq = findNearestDate(x);
+        m_timeTags[sender].color = color;
+        update();
+    }
 }
 
 void TimeScaleVisual::recalculatePositions()
@@ -194,6 +250,12 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         if ((nX + nText) > boundingRect().right()) break;
         painter->drawText(point, strDate);
         nX += nSkip * m_rSpacing;
+    }
+    QHashIterator<QGraphicsItem*, TimeTag> i(m_timeTags);
+    while(i.hasNext()){
+        i.next();
+        if (i.key()->isVisible())
+            paintTimeTags(painter, i.value());
     }
 }
 

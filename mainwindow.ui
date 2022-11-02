@@ -59,11 +59,12 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionCursor"/>
    <addaction name="actionLine_Studie"/>
    <addaction name="actionResistance_Studie"/>
+   <addaction name="actionVerticalLine_Studie"/>
    <addaction name="actionFibonacci_Studie"/>
    <addaction name="separator"/>
+   <addaction name="actionCursor"/>
    <addaction name="actionCross"/>
    <addaction name="actionHand_Mouse"/>
    <addaction name="separator"/>
@@ -148,6 +149,18 @@
    </property>
    <property name="text">
     <string>Fibonacci Studie</string>
+   </property>
+  </action>
+  <action name="actionVerticalLine_Studie">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/VertLine.png</normaloff>:/imgs/VertLine.png</iconset>
+   </property>
+   <property name="text">
+    <string>Vertical Line Studie</string>
    </property>
   </action>
  </widget>

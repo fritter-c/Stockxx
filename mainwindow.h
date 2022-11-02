@@ -30,6 +30,8 @@ private slots:
 
     void on_actionFibonacci_Studie_toggled(bool arg1);
 
+    void on_actionVerticalLine_Studie_toggled(bool arg1);
+
 private:
     Ui::MainWindow *ui;
     QList<QWidget*> m_forms;

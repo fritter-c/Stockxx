@@ -27,7 +27,7 @@ void FibonacciStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         // main line
         QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
         QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
-        QPen blackPen{Qt::black, m_nPenWidth};
+        QPen blackPen{Qt::cyan, m_nPenWidth};
         blackPen.setStyle(Qt::DashLine);
         painter->setPen(blackPen);
         painter->drawLine(point1, point2);

@@ -6,7 +6,42 @@
 #include "mainwindow.h"
 #include <QResizeEvent>
 #include "resistancestudie.h"
+#include "vertlinestudie.h"
 
+GraphicManager::GraphicManager(GoTView *m_view, QObject *parent, QWidget *chart)
+    : QObject{parent}
+{
+    m_chart = chart;
+    this->m_view = m_view;
+    m_scene = new QGraphicsScene(0,0, m_view->width(), m_view->height(), m_view);
+    m_assetId.name = "PETR4";
+
+    m_view->setScene(m_scene);
+    m_dailyDataSerie = new DailyDataSerie(m_assetId);
+    m_priceVisual = new PriceVisual(new DailyPrice(m_dailyDataSerie, this), this, m_view);
+    m_psVisual = m_priceVisual->GetPriceScale();
+    m_tsVisual = m_priceVisual->GetTimeScale();
+    m_candleMag = new CandleMagnifier();
+    m_scene->addItem(m_tsVisual);
+    m_scene->addItem(m_psVisual);
+    m_scene->addItem(m_priceVisual);
+    m_scene->addItem(m_candleMag);
+    m_baseIndicator = m_priceVisual;
+
+    connect(m_view, &GoTView::Resize, this,&GraphicManager::onViewResize);
+    connect(qobject_cast<MainWindow*>(parent), &MainWindow::studieSelected, this, &GraphicManager::onMainStudieSelected);
+    connect(qobject_cast<MainWindow*>(parent), &MainWindow::crossToggles, this, &GraphicManager::onMainCrossToggled);
+    connect(m_view, &GoTView::MouseClick, this, &GraphicManager::onViewMouseClick);
+    connect(m_view, &GoTView::MouseRelease, this, &GraphicManager::onViewMouseRelease);
+    connect(m_view, &GoTView::MouseMove, this, &GraphicManager::onViewMouseMove);
+    connect(m_view, &GoTView::KeyPress, this, &GraphicManager::onViewKeyPress);
+    connect(qobject_cast<MainWindow*>(parent), &MainWindow::handToggles, this, &GraphicManager::onMainHandToggle);
+    connect(qobject_cast<MainWindow*>(parent), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies);
+
+    m_visualItems.append(m_priceVisual);
+    m_visualItems.append(m_psVisual);
+    m_visualItems.append(m_tsVisual);
+}
 
 void GraphicManager::addStudie(QMouseEvent *event)
 {
@@ -23,60 +58,18 @@ void GraphicManager::addStudie(QMouseEvent *event)
         m_selectedStudie = m_visualStudies.last();
         m_bAddingStudie = true;
     }
+    else if(m_mainStudie == stVertLine){
+        m_visualStudies.append(new VertLineStudie(event->pos().x(), m_tsVisual, m_psVisual, m_priceVisual));
+    }
 }
 
 void GraphicManager::fullUpdate()
 {
-
     for (int i{0}; i < m_visualStudies.size(); ++i){
         m_visualStudies[i]->changeGeometry();
     }
     m_baseIndicator->update();
-
 }
-
-GraphicManager::GraphicManager(QObject *parent, CustomChart *chart)
-    : QObject{parent}
-{
-    m_chart = chart;
-    m_view = chart->GetGraphicsView();
-    m_scene = new QGraphicsScene(0,0, m_view->width(), m_view->height(), m_view);
-    m_assetId.name = "PETR4";
-
-    m_view->setScene(m_scene);
-    m_dailyDataSerie = new DailyDataSerie(m_assetId);
-    m_priceVisual = new PriceVisual(new DailyPrice(m_dailyDataSerie, this), this, m_view);
-    m_psVisual = m_priceVisual->GetPriceScale();
-    m_tsVisual = m_priceVisual->GetTimeScale();
-    m_candleMag = new CandleMagnifier();
-    m_scene->addItem(m_tsVisual);
-    m_scene->addItem(m_psVisual);
-    m_scene->addItem(m_priceVisual);
-    m_scene->addItem(m_candleMag);
-    m_baseIndicator = m_priceVisual;
-
-
-    connect(m_view, &GoTView::Resize, this,&GraphicManager::onViewResize);
-    connect(qobject_cast<MainWindow*>(parent), &MainWindow::studieSelected, this, &GraphicManager::onMainStudieSelected);
-    connect(qobject_cast<MainWindow*>(parent), &MainWindow::crossToggles, this, &GraphicManager::onMainCrossToggled);
-    connect(m_view, &GoTView::MouseClick, this, &GraphicManager::onViewMouseClick);
-    connect(m_view, &GoTView::MouseRelease, this, &GraphicManager::onViewMouseRelease);
-    connect(m_view, &GoTView::MouseMove, this, &GraphicManager::onViewMouseMove);
-    connect(m_view, &GoTView::KeyPress, this, &GraphicManager::onViewKeyPress);
-    connect(qobject_cast<MainWindow*>(parent), &MainWindow::handToggles, this, &GraphicManager::onMainHandToggle);
-    connect(qobject_cast<MainWindow*>(parent), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies);
-
-
-    m_visualItems.append(m_priceVisual);
-    m_visualItems.append(m_psVisual);
-    m_visualItems.append(m_tsVisual);
-}
-
-CustomChart *GraphicManager::GetCustomChart()
-{
-    return m_chart;
-}
-
 void GraphicManager::candleHoveredChanged()
 {
     dynamic_cast <CandleMagnifier*>(m_candleMag)->setSelectedCandle(m_priceVisual->getHoveredCandle());
@@ -99,8 +92,12 @@ void GraphicManager::onViewResize(QResizeEvent *event)
 
 void GraphicManager::onMainStudieSelected(StudieType studie, bool enabled)
 {
-    if (enabled)
+    if (enabled){
         m_mainStudie = studie;
+        m_view->setCursor(Qt::BitmapCursor);
+    }
+    else
+        m_mainStudie = stNoStudie;
 }
 
 void GraphicManager::onViewMouseClick(QMouseEvent *event)

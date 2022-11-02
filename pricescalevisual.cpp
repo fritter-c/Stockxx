@@ -35,7 +35,6 @@ void PriceScaleVisual::paintPriceTags(QPainter *painter, PriceTag tag)
     painter->drawText(pointText,QString::number(PriceAtY(pointVertice1.y()), 'f', 2));
 }
 
-
 PriceScaleVisual::PriceScaleVisual(PriceVisual *price, QObject* parent, QGraphicsView* view)
 {
     m_price = price;
@@ -163,7 +162,6 @@ void PriceScaleVisual::updatePriceTag(QGraphicsItem *sender, double price, QColo
 
         }
         update();
-
     }
 
 }
