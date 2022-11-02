@@ -4,6 +4,7 @@ ResistanceStudie::ResistanceStudie(double price, TimeScaleVisual* ts_Visual, Pri
 {
     m_price = price;
     m_psVisual->addPriceTag(m_price, Qt::yellow, this);
+    setAcceptHoverEvents(true);
 }
 
 ResistanceStudie::~ResistanceStudie()
@@ -12,10 +13,9 @@ ResistanceStudie::~ResistanceStudie()
 }
 
 
-
 QRectF ResistanceStudie::boundingRect() const
 {
-    return QRectF(m_tsVisual->boundingRect().left(),m_psVisual->YAtPrice(m_price),m_tsVisual->boundingRect().right() - (m_tsVisual->boundingRect().left()-m_cPriceScaleMargin) ,2);
+    return QRectF(m_tsVisual->boundingRect().left(),m_psVisual->YAtPrice(m_price),m_tsVisual->boundingRect().right() - (m_tsVisual->boundingRect().left()-m_cPriceScaleMargin) ,m_nPenWidth);
 }
 
 void ResistanceStudie::updatePrice(double price)
@@ -27,14 +27,22 @@ void ResistanceStudie::updatePrice(double price)
 }
 
 
+QPainterPath ResistanceStudie::shape() const
+{
+    QPainterPath path;
+    path.addRect(boundingRect());
+
+    return path;
+}
+
 
 void ResistanceStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    CustomStudie::paint(painter, option, widget); // clips
     QPointF point1{m_tsVisual->boundingRect().left(), m_psVisual->YAtPrice(m_price)};
     QPointF point2{m_tsVisual->boundingRect().right() - m_cPriceScaleMargin, m_psVisual->YAtPrice(m_price)};
-    QPen blackPen{Qt::yellow, 2};
+    QPen blackPen{Qt::yellow, m_nPenWidth};
     painter->setPen(blackPen);
     m_line = {point1, point2};
     painter->drawLine(m_line);
-
 }

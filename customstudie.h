@@ -16,11 +16,20 @@ protected:
     QuoteIdentifier m_qiEndQuote{ZERO_DATE};
     double m_dStartPrice{0};
     double m_dEndPrice{0};
+    double m_nPenWidth{1};
 public:
-    CustomStudie(TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent=nullptr);
+    CustomStudie(TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent);
     void changeGeometry();
     virtual void updatePrice(double);
     virtual void updateLastPos(QPointF);
+    virtual QRectF boundingRect() const override;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    virtual QPainterPath shape() const override;
+
+    // QGraphicsItem interface
+protected:
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 };
 
 #endif // CUSTOMSTUDIE_H

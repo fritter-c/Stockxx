@@ -8,6 +8,7 @@ GoTView::GoTView(QWidget* parent) : QGraphicsView(parent)
     setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
     setFocusPolicy(Qt::StrongFocus);
+    setBackgroundBrush(QBrush(QColor::fromRgb(2,42,68)));
 }
 
 void GoTView::resizeEvent(QResizeEvent *event)

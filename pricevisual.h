@@ -11,9 +11,6 @@ class PriceVisual : public IndicatorVisual
 
 private:
     PriceCalc* m_priceCalc;
-    QVector<Candle*> m_candlesDrawn;
-    QVector<qreal> m_candlePos;
-    size_t findNearestCandle(qreal mousePos);
     Candle* hoveredCandle{nullptr};
     QObject* m_parent;
 

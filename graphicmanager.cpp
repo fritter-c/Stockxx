@@ -29,7 +29,7 @@ void GraphicManager::fullUpdate()
 {
 
     for (int i{0}; i < m_visualStudies.size(); ++i){
-        m_visualStudies[i]->update();
+        m_visualStudies[i]->changeGeometry();
     }
     m_baseIndicator->update();
 
@@ -141,7 +141,7 @@ void GraphicManager::onViewMouseRelease(QMouseEvent *event)
 void GraphicManager::onViewMouseMove(QMouseEvent *event)
 {
     const int c_yProportion{10};
-    if (m_bAddingStudie){
+    if ((m_bAddingStudie) and (m_selectedStudie != nullptr)){
         m_selectedStudie->updateLastPos(event->pos());
         return;
     }
@@ -160,18 +160,8 @@ void GraphicManager::onViewMouseMove(QMouseEvent *event)
 
 void GraphicManager::onViewKeyPress(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Delete){
-        if (m_selectedStudie != nullptr){
-            for(int i{0}; i < m_visualStudies.count(); ++i){
-                if (m_visualStudies[i] == m_selectedStudie){
-                    m_visualStudies.remove(i);
-                    break;
-                }
-            }
-            delete m_selectedStudie;
-            m_selectedStudie = nullptr;
-        }
-    }
+
+
 }
 
 void GraphicManager::onMainCrossToggled(bool enabled)

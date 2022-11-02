@@ -7,16 +7,17 @@ class LineStudie : public CustomStudie
 {
 private:
     QLineF m_line;
-public:
-    LineStudie(qreal, double, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent=nullptr);
+    QPainterPath m_path;
 
-    // QGraphicsItem interface
 public:
-    virtual QRectF boundingRect() const override;
+    LineStudie(qreal, double, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent);
+
+public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
-    // CustomStudie interface
     virtual void updateLastPos(QPointF) override;
+    virtual QPainterPath shape() const override;
+    virtual QRectF boundingRect() const override;
+
 };
 
 #endif // LINESTUDIE_H

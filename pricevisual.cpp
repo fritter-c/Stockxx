@@ -4,23 +4,6 @@
 #include "graphicmanager.h"
 
 
-size_t PriceVisual::findNearestCandle(qreal mousePos)
-{
-    size_t i{0};
-    while((mousePos < m_candlePos[i]) && (i < m_candlePos.size() - 1)){
-        i++;
-    }
-    if (i > 0){
-        qreal x1 {m_candlePos[i]};
-        qreal x2 {m_candlePos[i-1]};
-        if (abs(x1 - mousePos) > abs(x2 - mousePos)) return i-1;
-        else return i;
-    }
-    else{
-        return i;
-    }
-}
-
 PriceVisual::PriceVisual(CustomPrice *customPrice, QObject *parent, QGraphicsView *view) : IndicatorVisual(customPrice, parent, view)
 {
     m_priceCalc = new PriceCalc(customPrice);
@@ -33,9 +16,10 @@ PriceVisual::PriceVisual(CustomPrice *customPrice, QObject *parent, QGraphicsVie
     m_parent = parent;
     m_pgVisual = new PriceGuide(this);
     m_tgVisual = new TimeGuideVisual(this);
+    m_pgVisual->setZValue(1);
+    m_tgVisual->setZValue(1);
     m_pgVisual->setVisible(false);
     m_tgVisual->setVisible(false);
-    setFlag(ItemClipsChildrenToShape);
 }
 
 QRectF PriceVisual::boundingRect() const
@@ -47,6 +31,7 @@ QRectF PriceVisual::boundingRect() const
 
 void PriceVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    painter->setClipRect(boundingRect());
     QPointF pointHigh, pointLow, pointOpen, pointClose;
     QBrush brush {Qt::SolidPattern};
 
@@ -60,8 +45,6 @@ void PriceVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setPen(pen);
     m_priceCalc->PriorAll();
     Candle* candle;
-    m_candlesDrawn.clear();
-    m_candlePos.clear();
     qreal rFirstPos{m_tsVisual->getFirstPos()};
     qreal rSpacing{m_tsVisual->getSpacing()};
     QuoteIdentifier qiFirstQuote{m_tsVisual->getFirstQuote()};
@@ -85,8 +68,6 @@ void PriceVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
         if (pointHigh.rx() > 0)
         {
-            m_candlesDrawn.append(candle);
-            m_candlePos.append(pointHigh.rx());
             bPainted = true;
             QLineF shadow{pointHigh, pointLow};
             // Desenha a linha (sombra, pavio) do candle
@@ -170,7 +151,8 @@ void PriceVisual::toggleCross()
 
 void PriceVisual::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
-    Candle* candle = m_candlesDrawn[findNearestCandle(event->pos().x())];
+    qreal pos;
+    Candle* candle = m_priceCalc->getCandle(m_tsVisual->findNearestDate(event->pos().x(), &pos));
     if (hoveredCandle == nullptr) {
         hoveredCandle = candle;
         dynamic_cast<GraphicManager*>(m_parent)->candleHoveredChanged();

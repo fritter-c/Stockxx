@@ -67,9 +67,20 @@ double PriceCalc::Min()
     return m_minValue;
 }
 
+QuoteIdentifier PriceCalc::Quote()
+{
+    return ar_values[m_nIndex]->qi;
+}
+
 Candle *PriceCalc::getCandle()
 {
     return ar_values[m_nIndex];
+}
+
+Candle *PriceCalc::getCandle(QuoteIdentifier qi)
+{
+    GoToQuote(qi);
+    return getCandle();
 }
 
 QList<Candle *> PriceCalc::getCandles()
@@ -133,11 +144,11 @@ size_t PriceCalc::Size()
 
 void PriceCalc::GoToQuote(QuoteIdentifier qi)
 {
-    uint64_t i{m_price->Quote().id - qi.id};
+    long long i{static_cast<long long>(Quote().id - qi.id)};
     if (i > 0){
-        NextN(i);
+        PriorN(i);
     }
     else{
-        PriorN(i);
+        NextN(abs(i));
     }
 }

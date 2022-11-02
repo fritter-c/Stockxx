@@ -29,7 +29,9 @@ public:
     double Volume();
     double Max();
     double Min();
+    QuoteIdentifier Quote();
     Candle* getCandle();
+    Candle* getCandle(QuoteIdentifier qi);
     QList<Candle*> getCandles();
 };
 

@@ -13,11 +13,9 @@ void TimeScaleVisual::popuplateDateTimes()
     }
     nZoom = m_dtDateTimes.size() - 30;
     m_nFirstIndex = nZoom - nOffset;
-
 }
 
-void TimeScaleVisual::zoom(int delta)
-{
+void TimeScaleVisual::zoom(int delta){
     if (delta > 0){
         if (nZoom + delta/10 < m_dtDateTimes.size() - 1){
             nZoom += delta/10;
@@ -35,29 +33,29 @@ void TimeScaleVisual::zoom(int delta)
         }
     }
     else{
-        if ((nZoom + nOffset + delta/10) > 0){
+        if ((nZoom - nOffset + delta/10) > 0){
             nZoom += delta/10;
             recalculatePositions();
             m_price->update();
             update();         
         }
-        else if(nZoom + nOffset > 0){
+        else if(nZoom - nOffset > 0){
             nZoom--;
             recalculatePositions();
             m_price->update();
             update();          
         }
-
     }
 }
 
 void TimeScaleVisual::moveTime(int x)
 {
     if (x < 0){
-        if ((nOffset + x) >= 0)
+        if ((nOffset + x) >= 0){
             nOffset += x;
             recalculatePositions();
             update();
+        }
     }
     else if (x > 0){
         if ((nOffset + x) <= nZoom){
@@ -70,22 +68,24 @@ void TimeScaleVisual::moveTime(int x)
 
 QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x, qreal *pos)
 {
-    qreal actualX{boundingRect().width() - x};
-    int nTime{std::lround((actualX / m_rSpacing)) + 1};
-
-    if (nTime + m_nFirstIndex < m_dtDateTimes.size()){
-        *pos = m_rFirst + nTime * m_rSpacing;
-        return m_dtDateTimes[nTime + m_nFirstIndex];
-    }
-    else{
-        *pos = m_rLast;
-        return m_dtDateTimes.last();
-    }
+    if(x <= boundingRect().width()){
+        qreal actualX{m_rFirst - x};
+        int nTime{static_cast<int>(std::ceil((actualX / m_rSpacing)))};
+        if (nTime + m_nFirstIndex < m_dtDateTimes.size()){
+            *pos = m_rFirst + nTime * m_rSpacing;
+            return m_dtDateTimes[nTime + m_nFirstIndex];
+        }
+        else{
+            *pos = m_rLast;
+            return m_dtDateTimes.last();
+        }
+   }
+   else return m_dtDateTimes.last();
 }
 
 QuoteIdentifier TimeScaleVisual::getFirstQuote()
 {
-    return m_dtDateTimes[m_nFirstID];
+    return m_dtDateTimes[m_nFirstIndex];
 }
 
 void TimeScaleVisual::recalculatePositions()
@@ -199,11 +199,6 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
 qreal TimeScaleVisual::XAtQuote(QuoteIdentifier quote)
 {
-    if (quote.id > m_nLastID){
-        return -1;
-    }
-    else{
-        uint64_t nTimes {quote.id - m_nFirstID};
-        return m_rFirst + nTimes * m_rSpacing;
-    }
+    long long nTimes {static_cast<long long>(quote.id - m_nFirstID)};
+    return m_rFirst + nTimes * m_rSpacing;
 }
