@@ -20,8 +20,8 @@ protected:
     QGraphicsView* m_view;
     TimeScaleVisual* m_tsVisual;
     PriceScaleVisual* m_psVisual;
-    PriceGuide* m_pgVisual;
-    TimeGuideVisual* m_tgVisual;
+    PriceGuide* m_pgVisual{nullptr};
+    TimeGuideVisual* m_tgVisual{nullptr};
 
 public:
     IndicatorVisual(CustomPrice* customPrice, QObject* parent = nullptr, QGraphicsView* view = nullptr);

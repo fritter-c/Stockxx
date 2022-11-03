@@ -116,7 +116,7 @@ void FibonacciStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     }
 }
 
-void FibonacciStudie::updateLastPos(QPointF pf)
+void FibonacciStudie::setSecondPrice(QPointF pf)
 {
     prepareGeometryChange();
     qreal rX;
@@ -128,9 +128,51 @@ void FibonacciStudie::updateLastPos(QPointF pf)
 QPainterPath FibonacciStudie::shape() const
 {
     QPainterPath path;
+    QPen pen;
+    pen.setWidth(m_nPenWidth);
+    QPainterPathStroker ps{pen};
+
     QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
     QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
+    QPointF point3{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
+    QPointF point4{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dStartPrice)};
+    QPointF point5{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dEndPrice)};
+    QPointF point6{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
+    path.moveTo(point1);
+    path.lineTo(point2);
+    path.moveTo(point3);
+    path.lineTo(point4);
+    path.moveTo(point5);
+    path.lineTo(point6);
+    double dSpread{abs(m_dEndPrice - m_dStartPrice)};
+    if (m_dStartPrice < m_dEndPrice){
+        QPointF point7{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice + dSpread / 2)};
+        QPointF point8{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dStartPrice + dSpread / 2)};
+        QPointF point9{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice + dSpread * 0.382)};
+        QPointF point10{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dStartPrice + dSpread * 0.382)};
+        QPointF point11{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice + dSpread * 0.618)};
+        QPointF point12{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dStartPrice + dSpread * 0.618)};
+        path.moveTo(point7);
+        path.lineTo(point8);
+        path.moveTo(point9);
+        path.lineTo(point10);
+        path.moveTo(point11);
+        path.lineTo(point12);
+    }
+    else{
+        QPointF point7{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice - dSpread / 2)};
+        QPointF point8{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dStartPrice - dSpread / 2)};
+        QPointF point9{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice - dSpread * 0.382)};
+        QPointF point10{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dStartPrice - dSpread * 0.382)};
+        QPointF point11{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice - dSpread * 0.618)};
+        QPointF point12{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dStartPrice - dSpread * 0.618)};
+        path.moveTo(point7);
+        path.lineTo(point8);
+        path.moveTo(point9);
+        path.lineTo(point10);
+        path.moveTo(point11);
+        path.lineTo(point12);
+    }
 
-    path.addRect(QRectF(point1, point2).normalized());
     return path;
 }

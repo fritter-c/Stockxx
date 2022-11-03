@@ -9,5 +9,7 @@
         <file>imgs/TrashBin.png</file>
         <file>imgs/Fibonacci.png</file>
         <file>imgs/VertLine.png</file>
+        <file>imgs/ChannelStudie.png</file>
+        <file>imgs/FreeHandStudie.png</file>
     </qresource>
 </RCC>

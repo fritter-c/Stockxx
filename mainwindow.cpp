@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     studieActionGroup->addAction(ui->actionCross);
     studieActionGroup->addAction(ui->actionHand_Mouse);
     studieActionGroup->addAction(ui->actionVerticalLine_Studie);
+    studieActionGroup->addAction(ui->actionChannel_Studie);
+    studieActionGroup->addAction(ui->actionFreeHand_Studie);
 }
 
 MainWindow::~MainWindow()
@@ -72,5 +74,16 @@ void MainWindow::on_actionFibonacci_Studie_toggled(bool arg1)
 void MainWindow::on_actionVerticalLine_Studie_toggled(bool arg1)
 {
     emit studieSelected(stVertLine, arg1);
+}
+
+void MainWindow::on_actionChannel_Studie_toggled(bool arg1)
+{
+    emit studieSelected(stChannel, arg1);
+}
+
+
+void MainWindow::on_actionFreeHand_Studie_toggled(bool arg1)
+{
+    emit studieSelected(stFreeHand, arg1);
 }
 

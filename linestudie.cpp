@@ -23,7 +23,7 @@ void LineStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     }
 }
 
-void LineStudie::updateLastPos(QPointF pf)
+void LineStudie::setSecondPrice(QPointF pf)
 {
     prepareGeometryChange();
     qreal rX;

@@ -19,7 +19,17 @@ void CustomStudie::updatePrice(double)
 
 }
 
-void CustomStudie::updateLastPos(QPointF)
+void CustomStudie::setThirdPrice(QPointF)
+{
+
+}
+
+void CustomStudie::addPoint(QPointF)
+{
+
+}
+
+void CustomStudie::setSecondPrice(QPointF)
 {
 
 }

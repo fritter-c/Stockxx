@@ -137,8 +137,12 @@ Candle *PriceVisual::getHoveredCandle()
 void PriceVisual::changeGeometry()
 {
     IndicatorVisual::changeGeometry();
-    m_pgVisual->geometryChanged();
-    m_tgVisual->geometryChanged();
+    if (m_pgVisual != nullptr){
+        m_pgVisual->geometryChanged();
+    }
+    if (m_tgVisual != nullptr){
+        m_tgVisual->geometryChanged();
+    }
 }
 
 void PriceVisual::toggleCross()

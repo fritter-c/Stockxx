@@ -10,6 +10,12 @@
 #include "timescalevisual.h"
 #include <dailydataserie.h>
 
+enum StudieState  {ssSettingSecondPoint,
+                  ssSettingThirdPoint,
+                  ssDragging,
+                  ssAddingPoint,
+                  ssNone};
+
 class GraphicManager : public QObject
 {
     Q_OBJECT
@@ -27,8 +33,8 @@ private:
     QVector<CustomStudie*> m_visualStudies;
     QGraphicsItem* m_candleMag;
     StudieType m_mainStudie;
-    CustomStudie* m_draggingStudie{nullptr};
     CustomStudie* m_selectedStudie{nullptr};
+    StudieState m_studieState{ssNone};
     QPointF m_lastChartPos{0,0};
     bool m_bHandMode{false};
     bool m_draggingChart{false};
@@ -36,6 +42,9 @@ private:
 
     void addStudie(QMouseEvent* event);
     void fullUpdate();
+    void handleMouseReleaseStudie();
+    void handleMousePressStudie();
+    void handleMouseMoveStudie(QMouseEvent *event);
 public:
     explicit GraphicManager(GoTView *m_view, QObject *parent = nullptr, QWidget *chart = nullptr);
     QWidget* GetCustomChart();

@@ -19,9 +19,11 @@ protected:
     double m_nPenWidth{1};
 public:
     CustomStudie(TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent);
-    void changeGeometry();
+    virtual void changeGeometry();
     virtual void updatePrice(double);
-    virtual void updateLastPos(QPointF);
+    virtual void setSecondPrice(QPointF);
+    virtual void setThirdPrice(QPointF);
+    virtual void addPoint(QPointF);
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     virtual QPainterPath shape() const override;

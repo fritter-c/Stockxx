@@ -27,10 +27,11 @@ private slots:
     void on_actionCross_toggled(bool arg1);
     void on_actionHand_Mouse_toggled(bool arg1);
     void on_actionDelete_All_triggered();
-
     void on_actionFibonacci_Studie_toggled(bool arg1);
-
     void on_actionVerticalLine_Studie_toggled(bool arg1);
+    void on_actionChannel_Studie_toggled(bool arg1);
+
+    void on_actionFreeHand_Studie_toggled(bool arg1);
 
 private:
     Ui::MainWindow *ui;

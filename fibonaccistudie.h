@@ -11,7 +11,7 @@ public:
     // QGraphicsItem interface
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    virtual void updateLastPos(QPointF) override;
+    virtual void setSecondPrice(QPointF) override;
     virtual QPainterPath shape() const override;
 };
 

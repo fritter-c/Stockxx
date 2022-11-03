@@ -67,6 +67,10 @@ set(PROJECT_SOURCES
         fibonaccistudie.h
         vertlinestudie.cpp
         vertlinestudie.h
+        channelstudie.cpp
+        channelstudie.h
+        freehandstudie.cpp
+        freehandstudie.h
         resources.qrc
 
 )

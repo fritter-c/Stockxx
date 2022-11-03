@@ -2,11 +2,13 @@
 #include "candlemagnifier.h"
 #include "dailyprice.h"
 #include "fibonaccistudie.h"
+#include "freehandstudie.h"
 #include "linestudie.h"
 #include "mainwindow.h"
 #include <QResizeEvent>
 #include "resistancestudie.h"
 #include "vertlinestudie.h"
+#include "channelstudie.h"
 
 GraphicManager::GraphicManager(GoTView *m_view, QObject *parent, QWidget *chart)
     : QObject{parent}
@@ -43,6 +45,11 @@ GraphicManager::GraphicManager(GoTView *m_view, QObject *parent, QWidget *chart)
     m_visualItems.append(m_tsVisual);
 }
 
+QWidget *GraphicManager::GetCustomChart()
+{
+    return m_chart;
+}
+
 void GraphicManager::addStudie(QMouseEvent *event)
 {
     if(m_mainStudie == stResistance){
@@ -52,14 +59,28 @@ void GraphicManager::addStudie(QMouseEvent *event)
         m_visualStudies.append(new LineStudie(event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
         m_selectedStudie = m_visualStudies.last();
         m_bAddingStudie = true;
+        m_studieState = ssSettingSecondPoint;
     }
     else if(m_mainStudie == stFibonacci){
         m_visualStudies.append(new FibonacciStudie(event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
         m_selectedStudie = m_visualStudies.last();
+        m_studieState = ssSettingSecondPoint;
         m_bAddingStudie = true;
     }
     else if(m_mainStudie == stVertLine){
         m_visualStudies.append(new VertLineStudie(event->pos().x(), m_tsVisual, m_psVisual, m_priceVisual));
+    }
+    else if(m_mainStudie == stChannel){
+        m_visualStudies.append(new ChannelStudie(event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
+        m_selectedStudie = m_visualStudies.last();
+        m_bAddingStudie = true;
+        m_studieState = ssSettingSecondPoint;
+    }
+    else if(m_mainStudie == stFreeHand){
+         m_visualStudies.append(new FreeHandStudie(event->pos(), m_tsVisual, m_psVisual, m_priceVisual));
+         m_bAddingStudie = true;
+         m_selectedStudie = m_visualStudies.last();
+         m_studieState = ssAddingPoint;
     }
 }
 
@@ -69,6 +90,57 @@ void GraphicManager::fullUpdate()
         m_visualStudies[i]->changeGeometry();
     }
     m_baseIndicator->update();
+}
+
+void GraphicManager::handleMouseReleaseStudie()
+{
+    switch(m_mainStudie){
+        case stChannel:{
+            if (m_studieState == ssSettingSecondPoint){
+                m_studieState = ssSettingThirdPoint;
+            }
+            else if (m_studieState == ssSettingThirdPoint){
+                m_bAddingStudie = false;
+                m_selectedStudie = nullptr;
+
+            }
+            break;
+         }
+        default:{
+            m_bAddingStudie = false;
+            m_selectedStudie = nullptr;
+            m_studieState = ssNone;
+            break;
+        }
+    }
+}
+
+void GraphicManager::handleMousePressStudie()
+{
+    if (m_studieState == ssSettingThirdPoint){
+        m_bAddingStudie = false;
+        m_selectedStudie = nullptr;
+        m_studieState = ssNone;
+        return;
+    }
+}
+
+void GraphicManager::handleMouseMoveStudie(QMouseEvent *event)
+{
+    if (m_selectedStudie != nullptr){
+        if (m_studieState == ssSettingSecondPoint){
+            m_selectedStudie->setSecondPrice(event->pos());
+            return;
+        }
+        else if (m_studieState == ssSettingThirdPoint){
+            m_selectedStudie->setThirdPrice(event->pos());
+            return;
+        }
+        else if (m_studieState == ssAddingPoint){
+            m_selectedStudie->addPoint(event->pos());
+            return;
+        }
+   }
 }
 void GraphicManager::candleHoveredChanged()
 {
@@ -102,34 +174,31 @@ void GraphicManager::onMainStudieSelected(StudieType studie, bool enabled)
 
 void GraphicManager::onViewMouseClick(QMouseEvent *event)
 {
-    for (int i{0}; i < m_visualStudies.size(); ++i){
-        if (m_visualStudies[i]->isUnderMouse()){
-            m_draggingStudie = m_visualStudies[i];
-            m_selectedStudie = m_draggingStudie;
-            m_draggingChart  = false;
-            return;
+    if (m_bAddingStudie){
+        handleMousePressStudie();
+    }
+    else{
+        if ((event->button() == Qt::LeftButton) and (not m_candleMag->isUnderMouse()) and (!m_bHandMode)){
+            addStudie(event);
         }
-    }
-    if ((event->button() == Qt::LeftButton) and (not m_candleMag->isUnderMouse())){
-        addStudie(event);
-    }
-    else{
-        m_selectedStudie = nullptr; // não estava em cima de nenhum estudo, desceleciona
-    }
-    if (m_bHandMode){
-        m_draggingChart = true;
-        m_view->setCursor(Qt::ClosedHandCursor);
-    }
-    else{
-        m_draggingChart = false;
+        else{
+            if (m_bHandMode){
+                m_draggingChart = true;
+                m_view->setCursor(Qt::ClosedHandCursor);
+            }
+            else{
+                m_draggingChart = false;
+            }
+        }
     }
 }
 
 void GraphicManager::onViewMouseRelease(QMouseEvent *event)
 {
-    m_draggingStudie = nullptr;
+    if (m_bAddingStudie){
+        handleMouseReleaseStudie();
+    }
     m_draggingChart = false;
-    m_bAddingStudie = false;
     if (m_bHandMode){
         m_view->setCursor(Qt::OpenHandCursor);
     }
@@ -138,13 +207,8 @@ void GraphicManager::onViewMouseRelease(QMouseEvent *event)
 void GraphicManager::onViewMouseMove(QMouseEvent *event)
 {
     const int c_yProportion{10};
-    if ((m_bAddingStudie) and (m_selectedStudie != nullptr)){
-        m_selectedStudie->updateLastPos(event->pos());
-        return;
-    }
-    else if (m_draggingStudie != nullptr){
-        m_draggingStudie->updatePrice(m_psVisual->PriceAtY(event->pos().y()));
-        return;
+    if (m_bAddingStudie){
+        handleMouseMoveStudie(event);
     }
     else if((m_bHandMode) and (m_draggingChart) and (not m_candleMag->isUnderMouse())) {
         m_psVisual->movePrice((event->pos().y() - m_lastChartPos.y())/c_yProportion);
