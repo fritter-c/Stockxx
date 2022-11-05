@@ -25,8 +25,6 @@ void CandleMagnifier::changeSize(QSizeF newSize)
     prepareGeometryChange();
     m_rHeight = viewSize/2.5;
     m_rWidth  = viewSize/2.5;
-
-
 }
 
 void CandleMagnifier::setSelectedCandle(Candle * newCandle)

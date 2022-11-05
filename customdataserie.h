@@ -11,16 +11,18 @@ class CustomDataSerie : public QObject
 {
     Q_OBJECT
 protected:
-    virtual void LoadSerieFromCSV(QString path, QChar delimiter);
-    virtual void LoadSerieFromStream();
-    virtual void SerieToStream();
-    QString m_strPath = "D:\\Projects\\ChartOnGraphicsView\\DJI_D.dat";
+    virtual void loadSerieFromCSV(QString path, QChar delimiter);
+    virtual void loadSerieFromStream();
+    virtual void serieToStream();
+    QString m_strPath = "D:\\Projects\\ChartOnGraphicsView\\database\\assets\\daily\\";
+    QString m_strDat;
+    AssetId m_assetId;
     void ClearDataSerie();
     int m_nOffset = 1;
 public:
     CustomDataSerie(AssetId assetID);
     QVector<DataSerieValue*> ar_values;
-    AssetId assetID;
+    virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
 };
 

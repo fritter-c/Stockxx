@@ -9,17 +9,17 @@
 #include "resistancestudie.h"
 #include "vertlinestudie.h"
 #include "channelstudie.h"
+#include "dataseriemanager.h"
 
-GraphicManager::GraphicManager(GoTView *m_view, QObject *parent, QWidget *chart)
+GraphicManager::GraphicManager(AssetId assetId, GoTView *m_view, QObject *parent, QWidget *chart)
     : QObject{parent}
 {
     m_chart = chart;
     this->m_view = m_view;
+    m_assetId = assetId;
     m_scene = new QGraphicsScene(0,0, m_view->width(), m_view->height(), m_view);
-    m_assetId.name = "PETR4";
-
     m_view->setScene(m_scene);
-    m_dailyDataSerie = new DailyDataSerie(m_assetId);
+    m_dailyDataSerie = DataSerieManager::Instance().getDailyDataSerie(m_assetId, true);
     m_priceVisual = new PriceVisual(new DailyPrice(m_dailyDataSerie, this), this, m_view);
     m_psVisual = m_priceVisual->GetPriceScale();
     m_tsVisual = m_priceVisual->GetTimeScale();

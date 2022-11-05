@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_forms.append(new CustomChart(this));
+    AssetId id {"IBM"};
+    m_forms.append(new CustomChart(id,this));
     ui->mdiArea->addSubWindow(m_forms[0]);
     ui->mdiArea->currentSubWindow()->resize(QSize(500,500));
     QActionGroup* studieActionGroup = new QActionGroup(this);
@@ -22,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
     studieActionGroup->addAction(ui->actionVerticalLine_Studie);
     studieActionGroup->addAction(ui->actionChannel_Studie);
     studieActionGroup->addAction(ui->actionFreeHand_Studie);
+
+#ifdef QT_DEBUG
+    ui->menuTests->setVisible(false);
+#endif
 }
 
 MainWindow::~MainWindow()
@@ -85,5 +90,11 @@ void MainWindow::on_actionChannel_Studie_toggled(bool arg1)
 void MainWindow::on_actionFreeHand_Studie_toggled(bool arg1)
 {
     emit studieSelected(stFreeHand, arg1);
+}
+
+
+void MainWindow::on_actionAlphaVantage_Get_Daily_triggered()
+{
+
 }
 

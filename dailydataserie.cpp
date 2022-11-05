@@ -1,7 +1,7 @@
 #include "dailydataserie.h"
 #include <QFile>
 
-void DailyDataSerie::LoadSerieFromCSV(QString path, QChar delimiter)
+void DailyDataSerie::loadSerieFromCSV(QString path, QChar delimiter)
 {
     QFile f("D:\\Projects\\ChartOnGraphicsView\\DJI.csv");
     delimiter = ';';
@@ -10,7 +10,7 @@ void DailyDataSerie::LoadSerieFromCSV(QString path, QChar delimiter)
     DataSerieValue* pquoteaux{nullptr};
     DataSerieValue quote;
     ClearDataSerie();
-    assetID.name = "PETR4";
+    m_assetId.name = "DJI";
     try{
         if (f.open(QIODevice::ReadOnly))
         {
@@ -20,7 +20,7 @@ void DailyDataSerie::LoadSerieFromCSV(QString path, QChar delimiter)
             {
                 data = f.readLine();
                 list = data.split(delimiter);
-                quote.dtQuoteDate = QDateTime(QDateTime::fromString(list[0], "dd/MM/yyyy"));
+                quote.dtQuoteDate = QDateTime::fromString(list[0], "dd/MM/yyyy");
                 quote.dOpen = list[1].toDouble();
                 quote.dHigh = list[2].toDouble();
                 quote.dLow  = list[3].toDouble();
@@ -37,7 +37,7 @@ void DailyDataSerie::LoadSerieFromCSV(QString path, QChar delimiter)
                 pquoteaux = pquote;
             }
         }
-        DailyDataSerie::SerieToStream();
+        DailyDataSerie::serieToStream();
     }
 
     catch(...){
@@ -46,12 +46,58 @@ void DailyDataSerie::LoadSerieFromCSV(QString path, QChar delimiter)
 
 }
 
-DailyDataSerie::DailyDataSerie(AssetId assetId) : CustomDataSerie(assetId)
+void DailyDataSerie::loadSerieFromJsonAV(QString json)
 {
-    DailyDataSerie::LoadSerieFromStream();
+    QJsonDocument json_doc = QJsonDocument::fromJson(json.toUtf8());
+    QVariantMap vmap = qvariant_cast<QVariantMap>(json_doc["Time Series (Daily)"]);
+    DataSerieValue quote;
+    DataSerieValue* pquote;
+    DataSerieValue* pquoteaux{nullptr};
+    QList<QString> list = vmap.keys();
+    for(long long i{list.count() - 1}; i >= 0; --i){
+        QString key = list[i];
+        quote.dtQuoteDate = QDateTime::fromString(key, "yyyy-MM-dd");
+        quote.qiQuote.dtQuoteDate = quote.dtQuoteDate;
+        if (pquoteaux)
+            quote.qiQuote.id = pquoteaux->qiQuote.id + 1;
+        else
+          quote.qiQuote.id = 0;
+        QJsonObject obj = vmap[key].toJsonObject();
+
+        QJsonValue open = obj.value("1. open");
+        QJsonValue high = obj.value("2. high");
+        QJsonValue low = obj.value("3. low");
+        QJsonValue close = obj.value("4. close");
+        QJsonValue volume = obj.value("5. volume");
+
+        quote.dOpen = (open.toString()).toDouble();
+        quote.dHigh = (high.toString()).toDouble();
+        quote.dLow =  (low.toString()).toDouble();
+        quote.dClose = (close.toString()).toDouble();
+        quote.dVolume = (volume.toString()).toDouble();
+
+
+        pquote = new DataSerieValue(quote);
+        ar_values.append(pquote);
+        pquoteaux = pquote;
+    }
+    serieToStream();
 }
 
-void DailyDataSerie::LoadSerieFromStream()
+DailyDataSerie::DailyDataSerie(AssetId assetId, bool bLoad) : CustomDataSerie(assetId)
+{
+    m_strDat = assetId.name + strPathSufix;
+    m_strPath += m_strDat;
+    if (bLoad)
+        DailyDataSerie::loadSerieFromStream();
+}
+
+DailyDataSerie::~DailyDataSerie()
+{
+
+}
+
+void DailyDataSerie::loadSerieFromStream()
 {
     QFile file(m_strPath);
     if(!file.open(QIODevice::ReadOnly)) return;
@@ -69,7 +115,7 @@ void DailyDataSerie::LoadSerieFromStream()
 
     in >> id.name;
 
-    if (assetID != id) return;
+    if (m_assetId != id) return;
 
     if(in.version() != QDataStream::Qt_6_0){
         file.close();
@@ -95,13 +141,13 @@ void DailyDataSerie::LoadSerieFromStream()
     file.close();
 }
 
-void DailyDataSerie::SerieToStream()
+void DailyDataSerie::serieToStream()
 {
     QFile file(m_strPath);
     if (!file.open(QIODevice::WriteOnly)) return;
     QDataStream out(&file);
     out << c_StreamStart;
-    out << assetID.name;
+    out << m_assetId.name;
     out.setVersion(QDataStream::Qt_6_0);
     DataSerieValue dt;
     for(size_t i{0}; i < ar_values.count(); i++)

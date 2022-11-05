@@ -33,6 +33,8 @@ private slots:
 
     void on_actionFreeHand_Studie_toggled(bool arg1);
 
+    void on_actionAlphaVantage_Get_Daily_triggered();
+
 private:
     Ui::MainWindow *ui;
     QList<QWidget*> m_forms;

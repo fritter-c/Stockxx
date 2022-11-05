@@ -5,13 +5,18 @@
 
 class DailyDataSerie : public CustomDataSerie
 {
+private:
+    const QString strPathSufix = "_D.dat";
     // CustomDataSerie interface
 protected:
-    virtual void LoadSerieFromStream() override;
-    virtual void SerieToStream() override;
-    virtual void LoadSerieFromCSV(QString path, QChar delimiter) override;
+    virtual void loadSerieFromStream() override;
+    virtual void serieToStream() override;
+    virtual void loadSerieFromCSV(QString path, QChar delimiter) override;
+
 public:
-    DailyDataSerie(AssetId assetId);
+    virtual void loadSerieFromJsonAV(QString json) override;
+    DailyDataSerie(AssetId assetId, bool bLoad = true);
+    ~DailyDataSerie();
 };
 
 #endif // DAILYDATASERIE_H

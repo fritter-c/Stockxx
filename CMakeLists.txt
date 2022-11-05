@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Network)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -71,6 +72,12 @@ set(PROJECT_SOURCES
         channelstudie.h
         freehandstudie.cpp
         freehandstudie.h
+        stockdataapi.cpp
+        stockdataapi.h
+        timeseriesdaemon.cpp
+        timeseriesdaemon.h
+        dataseriemanager.cpp
+        dataseriemanager.h
         resources.qrc
 
 )
@@ -100,6 +107,7 @@ endif()
 
 target_link_libraries(ChartOnGraphicsView PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(ChartOnGraphicsView PRIVATE Qt6::OpenGLWidgets)
+target_link_libraries(ChartOnGraphicsView PRIVATE Qt6::Network)
 
 set_target_properties(ChartOnGraphicsView PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

@@ -40,7 +40,14 @@
      <string>Stockxx</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuTests">
+    <property name="title">
+     <string>Tests</string>
+    </property>
+    <addaction name="actionAlphaVantage_Get_Daily"/>
+   </widget>
    <addaction name="menuStockxx"/>
+   <addaction name="menuTests"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -187,6 +194,11 @@
    </property>
    <property name="text">
     <string>FreeHand Studie</string>
+   </property>
+  </action>
+  <action name="actionAlphaVantage_Get_Daily">
+   <property name="text">
+    <string>AlphaVantage Get Daily</string>
    </property>
   </action>
  </widget>

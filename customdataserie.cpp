@@ -1,16 +1,21 @@
 #include "customdataserie.h"
 
-void CustomDataSerie::LoadSerieFromCSV(QString path, QChar delimiter)
+void CustomDataSerie::loadSerieFromCSV(QString path, QChar delimiter)
 {
 
 }
 
-void CustomDataSerie::LoadSerieFromStream()
+void CustomDataSerie::loadSerieFromStream()
 {
 
 }
 
-void CustomDataSerie::SerieToStream()
+void CustomDataSerie::serieToStream()
+{
+
+}
+
+void CustomDataSerie::loadSerieFromJsonAV(QString json)
 {
 
 }
@@ -26,7 +31,7 @@ void CustomDataSerie::ClearDataSerie()
 
 CustomDataSerie::CustomDataSerie(AssetId assetID)
 {
-    this->assetID = assetID;
+    this->m_assetId = assetID;
 }
 
 size_t CustomDataSerie::Size()

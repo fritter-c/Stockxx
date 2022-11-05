@@ -16,8 +16,9 @@ class CustomChart : public QWidget
 private:
     GoTView* m_view;
     GraphicManager* m_gManager;
+    AssetId m_assetId;
 public:
-    CustomChart(QWidget *parent = nullptr);
+    CustomChart(AssetId assetid, QWidget *parent = nullptr);
     ~CustomChart();
     GoTView* GetGraphicsView();
 

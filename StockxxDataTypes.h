@@ -52,6 +52,10 @@ inline uint qHash(const QuoteIdentifier &key, uint seed)
 {
     return qHash(key.dtQuoteDate, seed) ^ (key.id + 1);
 }
+inline uint qHash(const AssetId &key, uint seed)
+{
+    return qHash(key.name, seed);
+}
 
 struct DataSerieValue{
     double dOpen;
