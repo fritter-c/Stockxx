@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "graphicmanager.h"
+#include "customchart.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -11,6 +12,8 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+private:
+    void syncButtons();
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

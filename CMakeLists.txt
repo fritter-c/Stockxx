@@ -87,7 +87,6 @@ set(PROJECT_SOURCES
         tickercompleter.cpp
         tickercompleter.h
         resources.qrc
-
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

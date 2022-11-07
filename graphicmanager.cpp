@@ -11,8 +11,8 @@
 #include "channelstudie.h"
 #include "dataseriemanager.h"
 
-GraphicManager::GraphicManager(AssetId assetId, GoTView *m_view, QObject *parent, QWidget *chart)
-    : QObject{parent}
+GraphicManager::GraphicManager(AssetId assetId, GoTView *m_view, QObject *parent_main, QWidget *chart)
+    : QObject{parent_main}
 {
     setParent(chart); // o pai é a janela do gráfico
     m_chart = chart;
@@ -32,14 +32,14 @@ GraphicManager::GraphicManager(AssetId assetId, GoTView *m_view, QObject *parent
     m_baseIndicator = m_priceVisual;
 
     connect(m_view, &GoTView::Resize, this,&GraphicManager::onViewResize);
-    connect(qobject_cast<MainWindow*>(parent), &MainWindow::studieSelected, this, &GraphicManager::onMainStudieSelected);
-    connect(qobject_cast<MainWindow*>(parent), &MainWindow::crossToggles, this, &GraphicManager::onMainCrossToggled);
+    connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::studieSelected, this, &GraphicManager::onMainStudieSelected);
+    connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::crossToggles, this, &GraphicManager::onMainCrossToggled);
     connect(m_view, &GoTView::MouseClick, this, &GraphicManager::onViewMouseClick);
     connect(m_view, &GoTView::MouseRelease, this, &GraphicManager::onViewMouseRelease);
     connect(m_view, &GoTView::MouseMove, this, &GraphicManager::onViewMouseMove);
     connect(m_view, &GoTView::KeyPress, this, &GraphicManager::onViewKeyPress);
-    connect(qobject_cast<MainWindow*>(parent), &MainWindow::handToggles, this, &GraphicManager::onMainHandToggle);
-    connect(qobject_cast<MainWindow*>(parent), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies);
+    connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::handToggles, this, &GraphicManager::onMainHandToggle);
+    connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies);
 
     m_visualItems.append(m_priceVisual);
     m_visualItems.append(m_psVisual);

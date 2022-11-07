@@ -1,10 +1,15 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "customchart.h"
 #include <QMdiSubWindow>
 #include "QActionGroup"
+#include "customchart.h"
 #include "dataseriemanager.h"
 #include "symbolsearcher.h"
+
+void MainWindow::syncButtons()
+{
+
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     AssetId id {"IBM"};
-    m_forms.append(new CustomChart(id,this));
+    m_forms.append(new CustomChart(id,this, ui->mdiArea));
     ui->mdiArea->addSubWindow(m_forms[0]);
     ui->mdiArea->currentSubWindow()->resize(QSize(500,500));
     QActionGroup* studieActionGroup = new QActionGroup(this);
@@ -98,7 +103,6 @@ void MainWindow::on_actionFreeHand_Studie_toggled(bool arg1)
 void MainWindow::on_actionSearch_Ticker_triggered()
 {
     SymbolSearcher symbolSearcher;
-    symbolSearcher.show();
     symbolSearcher.exec();
     if (symbolSearcher.result() == QDialog::Accepted){
         DataSerieManager::Instance().requestDailySerie(symbolSearcher.getTicker());
@@ -115,15 +119,21 @@ void MainWindow::on_actionClose_triggered()
 void MainWindow::on_actionNew_Chart_triggered()
 {
     SymbolSearcher symbolSearcher{this, true};
-    symbolSearcher.show();
     symbolSearcher.exec();
-    AssetId id;
     if (symbolSearcher.result() == QDialog::Accepted){
+        AssetId id;
         id.name = symbolSearcher.getTicker();
-        CustomChart *chart = new CustomChart(id,this);
+        CustomChart *chart;
+        if(!symbolSearcher.getFreeWindow()){
+            chart = new CustomChart(id,this, ui->mdiArea);
+            ui->mdiArea->addSubWindow(chart);
+        }
+        else{
+            chart = new CustomChart(id,this, parentWidget());
+        }
         m_forms.append(chart);
-        ui->mdiArea->addSubWindow(chart);
-        ui->mdiArea->update();
+        chart->show();
+        syncButtons();
     }
 }
 

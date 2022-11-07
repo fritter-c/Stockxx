@@ -20,6 +20,11 @@ QString SymbolSearcher::getTicker()
     return ui->lineEdit_tickerKeyword->text();
 }
 
+bool SymbolSearcher::getFreeWindow()
+{
+    return ui->checkBox_FreeWindow->isChecked();
+}
+
 void SymbolSearcher::onSearchTimer()
 {
     m_tmrSearch->stop();
@@ -38,6 +43,7 @@ SymbolSearcher::SymbolSearcher(QWidget *parent, bool bLocal) :
     ui(new Ui::SymbolSearcher)
 {
     ui->setupUi(this);
+    setFixedSize(400,300);
     if (!bLocal){
         m_tmrSearch = new QTimer(this);
         m_tmrSearch->setInterval(500);

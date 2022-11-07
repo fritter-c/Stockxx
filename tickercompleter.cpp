@@ -26,4 +26,5 @@ void TickerModel::resetItems(QStringList list)
     foreach(word , list){
         appendRow(new QStandardItem(word));
     }
+
 }

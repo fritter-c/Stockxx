@@ -32,6 +32,7 @@ public:
     void NewRequest();
     void setKeyWord(const QString &newKeyWord);
     QString getTicker();
+    bool getFreeWindow();
 
 private:
     Ui::SymbolSearcher *ui;
