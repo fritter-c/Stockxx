@@ -11,20 +11,31 @@ const QString &StockDataApi::getJsonString() const
     return m_jsonString;
 }
 
-StockDataApi::StockDataApi(QObject *parent)
+StockDataApi::StockDataApi(QString ticker, QObject *parent)
     : QObject{parent}
 {
-    QUrl url("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=" + m_apiKey);
-    m_manager = new QNetworkAccessManager(this);
-    connect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
-    m_reply = m_manager->get(QNetworkRequest(url));
-    connect(m_reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
+    m_symbol = ticker;
+    if (ticker == ""){
+        QUrl url("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=" + m_apiKey);
+        m_manager = new QNetworkAccessManager(this);
+        connect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
+        QNetworkReply* reply = m_manager->get(QNetworkRequest(url));
+        connect(reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
+    }
+    else{
+        QUrl url(m_request + m_function + m_requestSymbol + ticker + m_output + m_requestKey);
+        m_manager = new QNetworkAccessManager(this);
+        connect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
+        QNetworkReply* reply = m_manager->get(QNetworkRequest(url));
+        connect(reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
+    }
 
 }
 
-void StockDataApi::finished(QNetworkReply* replay)
+void StockDataApi::finished(QNetworkReply* reply)
 {
-    emit dataReady();
+    emit dataReady(m_symbol);
+    reply->deleteLater();
 }
 
 void StockDataApi::read()

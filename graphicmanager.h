@@ -47,6 +47,7 @@ private:
     void handleMouseMoveStudie(QMouseEvent *event);
 public:
     explicit GraphicManager(AssetId assetId, GoTView *m_view, QObject *parent = nullptr, QWidget *chart = nullptr);
+    ~GraphicManager();
     QWidget* GetCustomChart();
     void candleHoveredChanged();
 

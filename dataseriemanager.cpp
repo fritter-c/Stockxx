@@ -7,13 +7,30 @@ void DataSerieManager::loadStdDataSerie()
 
 }
 
+void DataSerieManager::populateLocalDataseries()
+{
+    QDir dir(m_path);
+    QStringList aux = dir.entryList(QStringList() << "*.dat", QDir::Files);
+
+    foreach(const QString& word, aux){
+        avaiableDataSeries.append(word.left(word.count() - 6));
+    }
+}
+
 DataSerieManager::DataSerieManager(QObject *parent)
     : QObject{parent}
 {
     assert(instance == nullptr);
     instance = this;
+    populateLocalDataseries();
     //m_alphaVantageApi = new StockDataApi(this);
     //connect(m_alphaVantageApi, &StockDataApi::dataReady, this, &DataSerieManager::onAlphaVantageJsonLoaded);
+}
+
+void DataSerieManager::requestDailySerie(QString ticker)
+{
+    m_alphaVantageApi = new StockDataApi(ticker, this);
+    connect(m_alphaVantageApi, &StockDataApi::dataReady, this, &DataSerieManager::onAlphaVantageJsonLoaded);
 }
 
 DailyDataSerie* DataSerieManager::getDailyDataSerie(AssetId id, bool bCreate)
@@ -33,10 +50,10 @@ DailyDataSerie* DataSerieManager::getDailyDataSerie(AssetId id, bool bCreate)
     }
 }
 
-void DataSerieManager::onAlphaVantageJsonLoaded()
+void DataSerieManager::onAlphaVantageJsonLoaded(QString ticker)
 {
     AssetId id;
-    id.name = "IBM";
+    id.name = ticker;
     DailyDataSerie* aux = new DailyDataSerie(id, false);
     if (m_alphaVantageApi != nullptr)
         aux->loadSerieFromJsonAV(m_alphaVantageApi->getJsonString());

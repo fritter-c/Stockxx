@@ -3,6 +3,8 @@
 #include "customchart.h"
 #include <QMdiSubWindow>
 #include "QActionGroup"
+#include "dataseriemanager.h"
+#include "symbolsearcher.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,14 +26,15 @@ MainWindow::MainWindow(QWidget *parent)
     studieActionGroup->addAction(ui->actionChannel_Studie);
     studieActionGroup->addAction(ui->actionFreeHand_Studie);
 
-#ifdef QT_DEBUG
-    ui->menuTests->setVisible(false);
-#endif
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    foreach(QWidget *form, m_forms){
+        delete form;
+    }
+    m_forms.clear();
 }
 
 void MainWindow::on_actionResistance_Studie_toggled(bool arg1)
@@ -92,9 +95,35 @@ void MainWindow::on_actionFreeHand_Studie_toggled(bool arg1)
     emit studieSelected(stFreeHand, arg1);
 }
 
-
-void MainWindow::on_actionAlphaVantage_Get_Daily_triggered()
+void MainWindow::on_actionSearch_Ticker_triggered()
 {
+    SymbolSearcher symbolSearcher;
+    symbolSearcher.show();
+    symbolSearcher.exec();
+    if (symbolSearcher.result() == QDialog::Accepted){
+        DataSerieManager::Instance().requestDailySerie(symbolSearcher.getTicker());
+    }
+}
 
+
+void MainWindow::on_actionClose_triggered()
+{
+    close();
+}
+
+
+void MainWindow::on_actionNew_Chart_triggered()
+{
+    SymbolSearcher symbolSearcher{this, true};
+    symbolSearcher.show();
+    symbolSearcher.exec();
+    AssetId id;
+    if (symbolSearcher.result() == QDialog::Accepted){
+        id.name = symbolSearcher.getTicker();
+        CustomChart *chart = new CustomChart(id,this);
+        m_forms.append(chart);
+        ui->mdiArea->addSubWindow(chart);
+        ui->mdiArea->update();
+    }
 }
 

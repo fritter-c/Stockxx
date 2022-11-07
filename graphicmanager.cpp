@@ -14,6 +14,7 @@
 GraphicManager::GraphicManager(AssetId assetId, GoTView *m_view, QObject *parent, QWidget *chart)
     : QObject{parent}
 {
+    setParent(chart); // o pai é a janela do gráfico
     m_chart = chart;
     this->m_view = m_view;
     m_assetId = assetId;
@@ -43,6 +44,17 @@ GraphicManager::GraphicManager(AssetId assetId, GoTView *m_view, QObject *parent
     m_visualItems.append(m_priceVisual);
     m_visualItems.append(m_psVisual);
     m_visualItems.append(m_tsVisual);
+}
+
+GraphicManager::~GraphicManager()
+{
+    delete m_candleMag;
+    delete m_priceVisual;
+    foreach(QGraphicsItem* item, m_visualStudies){
+        delete item;
+    }
+    m_visualStudies.clear();
+
 }
 
 QWidget *GraphicManager::GetCustomChart()

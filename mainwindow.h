@@ -11,7 +11,6 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -30,10 +29,12 @@ private slots:
     void on_actionFibonacci_Studie_toggled(bool arg1);
     void on_actionVerticalLine_Studie_toggled(bool arg1);
     void on_actionChannel_Studie_toggled(bool arg1);
-
     void on_actionFreeHand_Studie_toggled(bool arg1);
+    void on_actionSearch_Ticker_triggered();
 
-    void on_actionAlphaVantage_Get_Daily_triggered();
+    void on_actionClose_triggered();
+
+    void on_actionNew_Chart_triggered();
 
 private:
     Ui::MainWindow *ui;

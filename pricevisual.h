@@ -16,6 +16,7 @@ private:
 
 public:
     PriceVisual(CustomPrice* customPrice, QObject* parent = nullptr, QGraphicsView* view = nullptr);
+    ~PriceVisual();
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     PriceScaleVisual* GetPriceScale();

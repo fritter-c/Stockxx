@@ -11,5 +11,6 @@
         <file>imgs/VertLine.png</file>
         <file>imgs/ChannelStudie.png</file>
         <file>imgs/FreeHandStudie.png</file>
+        <file>imgs/NewChart.png</file>
     </qresource>
 </RCC>

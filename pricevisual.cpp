@@ -22,6 +22,15 @@ PriceVisual::PriceVisual(CustomPrice *customPrice, QObject *parent, QGraphicsVie
     m_tgVisual->setVisible(false);
 }
 
+PriceVisual::~PriceVisual()
+{
+    delete m_pgVisual;
+    delete m_tgVisual;
+    delete m_tsVisual;
+    delete m_psVisual;
+    delete m_priceCalc;
+}
+
 QRectF PriceVisual::boundingRect() const
 {
     return QRectF(0, 0,
