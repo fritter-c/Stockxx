@@ -39,6 +39,10 @@ private slots:
 
     void on_actionNew_Chart_triggered();
 
+    void on_actionOpen_100_Charts_triggered();
+
+    void on_actionClose_All_Charts_triggered();
+
 private:
     Ui::MainWindow *ui;
     QList<QWidget*> m_forms;

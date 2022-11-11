@@ -37,6 +37,7 @@ protected:
     virtual void wheelEvent(QGraphicsSceneWheelEvent *event) override;
 public:
     PriceScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
+    ~PriceScaleVisual();
     const qreal c_PriceScaleFWidth = 70;
     const qreal c_dTimeScaleHeight = 30;
     const qreal c_rPriceScaleTagOffset = 5;

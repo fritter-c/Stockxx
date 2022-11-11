@@ -32,5 +32,6 @@ Candle::Candle(double dOpen, double dClose, double dLow, double dHigh, QDateTime
     this->dtDate = dt;
     this->qi = qi;
     SetCandleType();
+
 }
 

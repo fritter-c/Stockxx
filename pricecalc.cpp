@@ -6,6 +6,15 @@ PriceCalc::PriceCalc(CustomPrice *price) : IndicatorCalc(price)
 
 }
 
+PriceCalc::~PriceCalc()
+{
+    while(ar_values.count() > 0){
+        delete ar_values[ar_values.count() - 1];
+        ar_values.pop_back();
+    }
+    delete m_price;
+}
+
 void PriceCalc::CreateIndicatorsValues()
 {
     bool bNext = true;

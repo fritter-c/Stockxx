@@ -44,6 +44,12 @@ PriceScaleVisual::PriceScaleVisual(PriceVisual *price, QObject* parent, QGraphic
     UpdateExtremePrices();
 }
 
+PriceScaleVisual::~PriceScaleVisual()
+{
+    m_priceTags.clear();
+    priceTagPositions.clear();
+}
+
 QRectF PriceScaleVisual::boundingRect() const
 {
     return QRectF(m_view->width() - c_PriceScaleFWidth, 0 ,c_PriceScaleFWidth, m_view->height()- c_dTimeScaleHeight);

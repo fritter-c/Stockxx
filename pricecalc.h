@@ -12,6 +12,7 @@ private:
     double m_minValue = 0;
 public:
     PriceCalc(CustomPrice* price);
+    ~PriceCalc();
     virtual bool Next() override;
     virtual bool Prior() override;
     virtual bool PriorAll() override;

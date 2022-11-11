@@ -9,6 +9,7 @@ class GoTView : public QGraphicsView
     Q_OBJECT
 public:
     GoTView(QWidget* parent = nullptr);
+    ~GoTView();
 
     // QWidget interface
 protected:

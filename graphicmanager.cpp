@@ -54,6 +54,7 @@ GraphicManager::~GraphicManager()
         delete item;
     }
     m_visualStudies.clear();
+    m_scene->clear();
 
 }
 

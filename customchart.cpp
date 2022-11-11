@@ -16,6 +16,7 @@ CustomChart::CustomChart(AssetId assetid, QWidget *parent_main, QWidget *parent)
 CustomChart::~CustomChart()
 {
     delete m_gManager;
+    delete m_view;
     delete ui;
 }
 

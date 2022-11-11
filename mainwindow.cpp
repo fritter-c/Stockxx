@@ -137,3 +137,27 @@ void MainWindow::on_actionNew_Chart_triggered()
     }
 }
 
+
+void MainWindow::on_actionOpen_100_Charts_triggered()
+{
+    for (int i{0}; i < 100; ++i){
+        AssetId id;
+        id.name = "IBM";
+        CustomChart *chart;
+        chart = new CustomChart(id,this, ui->mdiArea);
+        m_forms.append(chart);
+        ui->mdiArea->addSubWindow(chart);
+        chart->show();
+    }
+    ui->mdiArea->cascadeSubWindows();
+}
+
+
+void MainWindow::on_actionClose_All_Charts_triggered()
+{
+    for(qsizetype i{m_forms.size() - 1}; 0 <= i; --i){
+        m_forms.pop_back();
+    }
+    ui->mdiArea->closeAllSubWindows();
+}
+

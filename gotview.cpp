@@ -11,6 +11,12 @@ GoTView::GoTView(QWidget* parent) : QGraphicsView(parent)
     setBackgroundBrush(QBrush(QColor::fromRgb(2,42,68)));
 }
 
+GoTView::~GoTView()
+{
+    delete scene();
+    deleteLater();
+}
+
 void GoTView::resizeEvent(QResizeEvent *event)
 {
     emit Resize(event);

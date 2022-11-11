@@ -192,6 +192,15 @@ TimeScaleVisual::TimeScaleVisual(PriceVisual *price, QObject* parent, QGraphicsV
     popuplateDateTimes();
 }
 
+TimeScaleVisual::~TimeScaleVisual()
+{
+    m_hashDates.clear();
+    m_drawnPositions.clear();
+    m_dtDateTimes.clear();
+    m_mapCandles.clear();
+    m_timeTags.clear();
+}
+
 qreal TimeScaleVisual::getFirstPos()
 {
     return m_rFirst;

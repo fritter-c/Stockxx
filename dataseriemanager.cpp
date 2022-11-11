@@ -59,4 +59,6 @@ void DataSerieManager::onAlphaVantageJsonLoaded(QString ticker)
         aux->loadSerieFromJsonAV(m_alphaVantageApi->getJsonString());
     m_hshDataSeries.insert(id, aux);
     m_dataSeries.append(aux);
+    populateLocalDataseries();
+
 }

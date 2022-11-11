@@ -40,6 +40,7 @@ private:
     void paintTimeTags(QPainter*, TimeTag);
 public:
     TimeScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
+    ~TimeScaleVisual();
     const qreal c_rTimeScaleHeight = 30;
     const qreal c_rPriceScaleWidth = 70;
     const qreal c_rTimeScaleBottomMargin = 10;

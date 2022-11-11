@@ -47,8 +47,16 @@
     </property>
     <addaction name="actionSearch_Ticker"/>
    </widget>
+   <widget class="QMenu" name="menuTests">
+    <property name="title">
+     <string>Tests</string>
+    </property>
+    <addaction name="actionOpen_100_Charts"/>
+    <addaction name="actionClose_All_Charts"/>
+   </widget>
    <addaction name="menuStockxx"/>
    <addaction name="menuTicker"/>
+   <addaction name="menuTests"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -232,6 +240,16 @@
    </property>
    <property name="text">
     <string>New Chart</string>
+   </property>
+  </action>
+  <action name="actionOpen_100_Charts">
+   <property name="text">
+    <string>Open 100 Charts...</string>
+   </property>
+  </action>
+  <action name="actionClose_All_Charts">
+   <property name="text">
+    <string>Close All Charts...</string>
    </property>
   </action>
  </widget>
