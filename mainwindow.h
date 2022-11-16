@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "graphicmanager.h"
-#include "customchart.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,14 +33,12 @@ private slots:
     void on_actionChannel_Studie_toggled(bool arg1);
     void on_actionFreeHand_Studie_toggled(bool arg1);
     void on_actionSearch_Ticker_triggered();
-
     void on_actionClose_triggered();
-
     void on_actionNew_Chart_triggered();
-
     void on_actionOpen_100_Charts_triggered();
-
     void on_actionClose_All_Charts_triggered();
+
+    void onCustomChartDestroy(QObject*);
 
 private:
     Ui::MainWindow *ui;

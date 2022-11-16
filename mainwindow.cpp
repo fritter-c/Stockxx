@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_forms.append(new CustomChart(id,this, ui->mdiArea));
     ui->mdiArea->addSubWindow(m_forms[0]);
     ui->mdiArea->currentSubWindow()->resize(QSize(500,500));
+    connect(m_forms[0], SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
     QActionGroup* studieActionGroup = new QActionGroup(this);
     studieActionGroup->addAction(ui->actionCursor);
     studieActionGroup->addAction(ui->actionLine_Studie);
@@ -126,6 +127,7 @@ void MainWindow::on_actionNew_Chart_triggered()
         CustomChart *chart;
         if(!symbolSearcher.getFreeWindow()){
             chart = new CustomChart(id,this, ui->mdiArea);
+            connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
             ui->mdiArea->addSubWindow(chart);
         }
         else{
@@ -159,5 +161,15 @@ void MainWindow::on_actionClose_All_Charts_triggered()
         m_forms.pop_back();
     }
     ui->mdiArea->closeAllSubWindows();
+}
+
+void MainWindow::onCustomChartDestroy(QObject * sender)
+{
+    ui->mdiArea->removeSubWindow((QWidget*)sender);
+    for(qsizetype i{m_forms.size() - 1}; 0 <= i; --i){
+        if (m_forms[i] == (QWidget*)sender) {
+            m_forms.removeAt(i);
+        }
+    }
 }
 
