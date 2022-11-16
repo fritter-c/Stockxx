@@ -38,3 +38,4 @@ size_t CustomDataSerie::Size()
 {
     return ar_values.size();
 }
+

@@ -20,6 +20,7 @@ private:
     QStringList m_lstResults;
     TickerCompleter *m_completer{nullptr};
     TickerModel *m_model;
+    bool m_local;
     const QString m_apiKey {"CN0441U5HSJQDKPV"};
     const QString m_function {"SYMBOL_SEARCH"};
     const QString m_request {"https://www.alphavantage.co/query?function=" + m_function};
@@ -39,8 +40,11 @@ private:
 
 private slots:
     void onSearchTimer();
+    void onCompleterActivated(const QString&);
 public slots:
     void onDataReady();
+signals:
+    void complete(QRect);
 };
 
 #endif // SYMBOLSEARCHER_H

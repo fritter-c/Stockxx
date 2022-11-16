@@ -16,7 +16,7 @@ class TickerCompleter : public QCompleter
 private:
     TickerModel *m_model;
 public:
-    explicit TickerCompleter(QObject *parent = nullptr);
+    explicit TickerCompleter(QCompleter::CompletionMode ,QObject *parent = nullptr);
     ~TickerCompleter();
     TickerModel *model() const;
 

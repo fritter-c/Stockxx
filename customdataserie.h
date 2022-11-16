@@ -23,6 +23,7 @@ public:
     QVector<DataSerieValue*> ar_values;
     virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
+
 };
 
 #endif // CUSTOMDATASERIE_H

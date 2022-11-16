@@ -82,6 +82,7 @@ void DailyDataSerieCalc::loadSerieFromJsonAV(QString json)
         pquoteaux = pquote;
     }
     serieToStream();
+    emit serieReady(m_assetId);
 }
 
 DailyDataSerieCalc::DailyDataSerieCalc(AssetId assetId, bool bLoad) : CustomDataSerieCalc(assetId)

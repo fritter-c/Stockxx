@@ -41,3 +41,8 @@ size_t CustomDataSerieCalc::Size()
 {
     return ar_values.size();
 }
+
+void CustomDataSerieCalc::onLoadloadSerieFromJsonAV(QString json)
+{
+    loadSerieFromJsonAV(json);
+}

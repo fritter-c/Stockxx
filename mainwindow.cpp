@@ -31,7 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
     studieActionGroup->addAction(ui->actionVerticalLine_Studie);
     studieActionGroup->addAction(ui->actionChannel_Studie);
     studieActionGroup->addAction(ui->actionFreeHand_Studie);
-
+    m_progressBar.setMaximum(100);
+    m_progressBar.setMinimum(0);
+    ui->statusbar->addPermanentWidget(&m_progressBar);
+    m_progressBar.setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -107,6 +110,12 @@ void MainWindow::on_actionSearch_Ticker_triggered()
     symbolSearcher.exec();
     if (symbolSearcher.result() == QDialog::Accepted){
         DataSerieManager::Instance().requestDailySerie(symbolSearcher.getTicker());
+        connect(&DataSerieManager::Instance(), &DataSerieManager::graphReady,
+                this, &MainWindow::onDataManagerGraphReady);
+        connect(&DataSerieManager::Instance(), &DataSerieManager::notifyMain,
+                this, &MainWindow::onSerieLoadStep);
+        m_progressBar.setVisible(true);
+        m_progressBar.setValue(0);
     }
 }
 
@@ -171,5 +180,38 @@ void MainWindow::onCustomChartDestroy(QObject * sender)
             m_forms.removeAt(i);
         }
     }
+}
+
+void MainWindow::onDataManagerGraphReady(AssetId id)
+{
+    m_progressBar.setValue(100);
+    CustomChart *chart = new CustomChart(id,this, ui->mdiArea);
+    connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
+    ui->mdiArea->addSubWindow(chart);
+    m_forms.append(chart);
+    chart->show();
+    disconnect(&DataSerieManager::Instance(), &DataSerieManager::graphReady,
+               this, &MainWindow::onDataManagerGraphReady);
+    disconnect(&DataSerieManager::Instance(), &DataSerieManager::notifyMain,
+            this, &MainWindow::onSerieLoadStep);
+    if (!m_progressBarHide){
+        m_progressBarHide = new QTimer(this);
+        m_progressBarHide->setInterval(2000);
+        connect(m_progressBarHide, &QTimer::timeout,this, &MainWindow::onHideProgressBar);
+        m_progressBarHide->start();
+    }
+}
+
+void MainWindow::onSerieLoadStep()
+{
+    m_progressBar.setValue(m_progressBar.value() + 33);
+}
+
+void MainWindow::onHideProgressBar()
+{
+    m_progressBarHide->stop();
+    m_progressBar.setVisible(false);
+    delete m_progressBarHide;
+    m_progressBarHide = nullptr;
 }
 

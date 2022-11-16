@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "graphicmanager.h"
+#include "qprogressbar.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -13,6 +14,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 private:
     void syncButtons();
+    QProgressBar m_progressBar;
+    QTimer* m_progressBarHide{nullptr};
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -39,6 +42,9 @@ private slots:
     void on_actionClose_All_Charts_triggered();
 
     void onCustomChartDestroy(QObject*);
+    void onDataManagerGraphReady(AssetId);
+    void onSerieLoadStep();
+    void onHideProgressBar();
 
 private:
     Ui::MainWindow *ui;

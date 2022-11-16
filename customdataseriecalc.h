@@ -22,6 +22,11 @@ public:
     virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
 
+public slots:
+    void onLoadloadSerieFromJsonAV(QString json);
+signals:
+    void serieReady(AssetId);
+
 };
 
 #endif // CUSTOMDATASERIECALC_H
