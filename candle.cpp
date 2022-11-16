@@ -23,14 +23,15 @@ void Candle::setRGraphXValue(qreal newRGraphXValue)
     m_rGraphXValue = newRGraphXValue;
 }
 
-Candle::Candle(double dOpen, double dClose, double dLow, double dHigh, QDateTime dt, QuoteIdentifier qi)
+Candle::Candle(DataSerieValue * value)
 {
-    this->dClose = dClose;
-    this->dHigh = dHigh;
-    this->dLow = dLow;
-    this->dOpen = dOpen;
-    this->dtDate = dt;
-    this->qi = qi;
+    this->dClose = value->dClose;
+    this->dHigh = value->dHigh;
+    this->dLow = value->dLow;
+    this->dOpen = value->dOpen;
+    this->dtDate = value->dtQuoteDate;
+    this->dVolume = value->dVolume;
+    this->qi = value->qiQuote;
     SetCandleType();
 
 }

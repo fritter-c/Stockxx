@@ -50,12 +50,8 @@ GraphicManager::~GraphicManager()
 {
     delete m_candleMag;
     delete m_priceVisual;
-    foreach(QGraphicsItem* item, m_visualStudies){
-        delete item;
-    }
     m_visualStudies.clear();
     m_scene->clear();
-
 }
 
 QWidget *GraphicManager::GetCustomChart()

@@ -27,6 +27,7 @@ public:
     virtual double High();
     virtual double Low();
     virtual double Volume();
+    virtual DataSerieValue *Data();
     virtual QuoteIdentifier Quote();
 
 signals:

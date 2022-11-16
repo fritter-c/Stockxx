@@ -1,4 +1,5 @@
 #include "dataseriemanager.h"
+#include "dailydataseriecalc.h"
 
 DataSerieManager* DataSerieManager::instance = nullptr;
 
@@ -23,8 +24,6 @@ DataSerieManager::DataSerieManager(QObject *parent)
     assert(instance == nullptr);
     instance = this;
     populateLocalDataseries();
-    //m_alphaVantageApi = new StockDataApi(this);
-    //connect(m_alphaVantageApi, &StockDataApi::dataReady, this, &DataSerieManager::onAlphaVantageJsonLoaded);
 }
 
 void DataSerieManager::requestDailySerie(QString ticker)
@@ -43,6 +42,8 @@ DailyDataSerie* DataSerieManager::getDailyDataSerie(AssetId id, bool bCreate)
         DailyDataSerie* aux = new DailyDataSerie(id);
         m_hshDataSeries.insert(id, aux);
         m_dataSeries.append(aux);
+        DailyDataSerieCalc* aux2 = new DailyDataSerieCalc(id);
+        m_dataSeriesCalc.append(aux2);
         return aux;
     }
     else{

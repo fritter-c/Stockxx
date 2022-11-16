@@ -10,7 +10,7 @@ private:
     void SetCandleType();
     qreal m_rGraphXValue{-1};
 public:
-    Candle(double dOpen, double dClose, double dLow, double dHigh, QDateTime dt, QuoteIdentifier qi);
+    Candle(DataSerieValue*);
     double dOpen;
     double dClose;
     double dHigh;

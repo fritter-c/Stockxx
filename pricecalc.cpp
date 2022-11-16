@@ -23,7 +23,7 @@ void PriceCalc::CreateIndicatorsValues()
     m_maxValue = m_price->High();
     m_minValue = m_price->Low();
     while(bNext){
-        candle = new Candle(m_price->Open(), m_price->Close(), m_price->Low(), m_price->High(), m_price->Date(), m_price->Quote());
+        candle = new Candle(m_price->Data());
         ar_values.append(candle);
         if (m_price->High() > m_maxValue){
             m_maxValue = m_price->High();

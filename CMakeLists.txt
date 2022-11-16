@@ -75,8 +75,6 @@ set(PROJECT_SOURCES
         freehandstudie.h
         stockdataapi.cpp
         stockdataapi.h
-        timeseriesdaemon.cpp
-        timeseriesdaemon.h
         dataseriemanager.cpp
         dataseriemanager.h
         symbolsearcher.cpp
@@ -86,6 +84,12 @@ set(PROJECT_SOURCES
         symbolseracherapi.h
         tickercompleter.cpp
         tickercompleter.h
+        customdataseriecalc.cpp
+        customdataseriecalc.h
+        dailydataseriecalc.cpp
+        dailydataseriecalc.h
+        calcdaemon.cpp
+        calcdaemon.h
         resources.qrc
 )
 

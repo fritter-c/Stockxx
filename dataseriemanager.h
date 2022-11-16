@@ -2,6 +2,7 @@
 #define DATASERIEMANAGER_H
 
 #include "customdataserie.h"
+#include "customdataseriecalc.h"
 #include "dailydataserie.h"
 #include "stockdataapi.h"
 #include <QObject>
@@ -11,6 +12,7 @@ class DataSerieManager : public QObject
     Q_OBJECT
 private:
     QList<CustomDataSerie*> m_dataSeries;
+    QList<CustomDataSerieCalc*> m_dataSeriesCalc;
     QHash<AssetId, CustomDataSerie*> m_hshDataSeries;
     StockDataApi* m_alphaVantageApi{nullptr};
     QString m_path{"D:\\Projects\\ChartOnGraphicsView\\database\\assets\\daily"};

@@ -71,6 +71,11 @@ double CustomPrice::Volume()
     return m_dataSerie->ar_values[m_nIndex]->dVolume;
 }
 
+DataSerieValue* CustomPrice::Data()
+{
+    return m_dataSerie->ar_values[m_nIndex];
+}
+
 QuoteIdentifier CustomPrice::Quote()
 {
     return m_dataSerie->ar_values[m_nIndex]->qiQuote;

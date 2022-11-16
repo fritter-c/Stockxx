@@ -1,12 +1,10 @@
-#ifndef CUSTOMDATASERIE_H
-#define CUSTOMDATASERIE_H
+#ifndef CUSTOMDATASERIECALC_H
+#define CUSTOMDATASERIECALC_H
 
-#include <QDateTime>
-#include <QList>
 #include <QObject>
 #include "StockxxDataTypes.h"
 
-class CustomDataSerie : public QObject
+class CustomDataSerieCalc : public QObject
 {
     Q_OBJECT
 protected:
@@ -19,10 +17,11 @@ protected:
     void ClearDataSerie();
     int m_nOffset = 1;
 public:
-    CustomDataSerie(AssetId assetID);
+    CustomDataSerieCalc(AssetId assetID);
     QVector<DataSerieValue*> ar_values;
     virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
+
 };
 
-#endif // CUSTOMDATASERIE_H
+#endif // CUSTOMDATASERIECALC_H

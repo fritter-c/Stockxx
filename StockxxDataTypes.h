@@ -2,6 +2,8 @@
 #define STOCKXXDATATYPES_H
 #include <QtCore>
 
+const quint32 c_StreamStart = 0xA0B0C0D0;
+
 struct AssetId{
     QString name;
 public:
