@@ -12,7 +12,26 @@ void CustomDataSerie::loadSerieFromStream()
 
 void CustomDataSerie::serieToStream()
 {
-
+    QFile file(m_strPath);
+    if (!file.open(QIODevice::WriteOnly)) return;
+    QDataStream out(&file);
+    out << c_StreamStart;
+    out << m_assetId.name;
+    out.setVersion(QDataStream::Qt_6_0);
+    DataSerieValue dt;
+    for(size_t i{0}; i < ar_values.count(); i++)
+    {
+        dt = *ar_values[i];
+        out << dt.dOpen;
+        out << dt.dHigh;
+        out << dt.dLow;
+        out << dt.dClose;
+        out << dt.dVolume;
+        out << dt.dTrades;
+        out << dt.dtQuoteDate;
+        out << dt.qiQuote.id;
+    }
+    file.close();
 }
 
 void CustomDataSerie::loadSerieFromJsonAV(QString json)

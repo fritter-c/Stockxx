@@ -5,6 +5,7 @@
 
 class DailyDataSerieCalc : public CustomDataSerieCalc
 {
+    Q_OBJECT
 private:
     const QString strPathSufix = "_D.dat";
     // CustomDataSerie interface

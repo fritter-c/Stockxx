@@ -21,6 +21,27 @@ QString SymbolSearcher::getTicker()
     return ui->lineEdit_tickerKeyword->text();
 }
 
+SerieInterval SymbolSearcher::getInterval()
+{
+    if (ui->radioButton_Daily->isChecked()){
+        return siDaily;
+    }
+    else if(ui->radioButton_1->isChecked()){
+        return siOneMin;
+    }
+    else if(ui->radioButton_5->isChecked()){
+        return siFiveMin;
+    }
+    else if(ui->radioButton_15->isChecked()){
+        return siFifteenMin;
+    }
+    else if(ui->radioButton_30->isChecked()){
+        return siThirtyMin;
+    }
+    return siSixtyMin;
+
+}
+
 bool SymbolSearcher::getFreeWindow()
 {
     return ui->checkBox_FreeWindow->isChecked();
@@ -67,6 +88,7 @@ SymbolSearcher::SymbolSearcher(QWidget *parent, bool bLocal) :
         connect(m_completer, QOverload<const QString &>::of(&QCompleter::activated),this,
                 [this](const QString &index){this->onCompleterActivated(index);});
         ui->lineEdit_tickerKeyword->setCompleter(m_completer);
+        ui->groupBox_timeFrame->setVisible(true);
     }
     else{
         m_completer = new TickerCompleter(QCompleter::PopupCompletion, this);
@@ -74,6 +96,7 @@ SymbolSearcher::SymbolSearcher(QWidget *parent, bool bLocal) :
                 m_completer, &TickerCompleter::complete);
         ui->lineEdit_tickerKeyword->setCompleter(m_completer);
         m_completer->model()->resetItems(DataSerieManager::Instance().avaiableDataSeries);
+        ui->groupBox_timeFrame->setVisible(false);
     }
 
 

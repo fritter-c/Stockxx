@@ -10,19 +10,21 @@ class StockDataApi : public QObject
 private:
     QNetworkAccessManager* m_manager;
     const QString m_apiKey {"CN0441U5HSJQDKPV"};
-    const QString m_function {"TIME_SERIES_DAILY_ADJUSTED"};
+    const QString m_functionDaily {"TIME_SERIES_DAILY_ADJUSTED"};
+    const QString m_functionMin {"TIME_SERIES_INTRADAY"};
     const QString m_request{"https://www.alphavantage.co/query?function="};
     const QString m_requestSymbol{"&symbol="};
+    const QString m_interval{"&interval="};
     const QString m_output{"&outputsize=full"};
     const QString m_requestKey{"&apikey=" + m_apiKey};
-    QString m_symbol;
     QString m_jsonString;
+    QString m_lastTicker;
 
 public:
-    explicit StockDataApi(QString ticker = "", QObject *parent = nullptr);
-
-
+    explicit StockDataApi(QObject *parent = nullptr);
     const QString &getJsonString() const;
+    void requestDailySerie(const QString ticker);
+    void requestMinuteSerie(const QString ticker, int offset);
 
 private slots:
     void finished(QNetworkReply*);

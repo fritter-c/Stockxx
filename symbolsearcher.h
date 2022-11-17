@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QNetworkAccessManager>
+#include "StockxxDataTypes.h"
 #include "symbolseracherapi.h"
 #include "tickercompleter.h"
 
@@ -33,6 +34,7 @@ public:
     void NewRequest();
     void setKeyWord(const QString &newKeyWord);
     QString getTicker();
+    SerieInterval getInterval();
     bool getFreeWindow();
 
 private:

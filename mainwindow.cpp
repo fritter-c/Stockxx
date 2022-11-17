@@ -109,13 +109,18 @@ void MainWindow::on_actionSearch_Ticker_triggered()
     SymbolSearcher symbolSearcher;
     symbolSearcher.exec();
     if (symbolSearcher.result() == QDialog::Accepted){
-        DataSerieManager::Instance().requestDailySerie(symbolSearcher.getTicker());
-        connect(&DataSerieManager::Instance(), &DataSerieManager::graphReady,
-                this, &MainWindow::onDataManagerGraphReady);
-        connect(&DataSerieManager::Instance(), &DataSerieManager::notifyMain,
-                this, &MainWindow::onSerieLoadStep);
-        m_progressBar.setVisible(true);
-        m_progressBar.setValue(0);
+        if(symbolSearcher.getInterval() == siDaily){
+            DataSerieManager::Instance().requestDailySerie(symbolSearcher.getTicker());
+            connect(&DataSerieManager::Instance(), &DataSerieManager::graphReady,
+                    this, &MainWindow::onDataManagerGraphReady);
+            connect(&DataSerieManager::Instance(), &DataSerieManager::notifyMain,
+                    this, &MainWindow::onSerieLoadStep);
+            m_progressBar.setVisible(true);
+            m_progressBar.setValue(0);
+        }
+        else{
+           DataSerieManager::Instance().requestMinuteSerie(symbolSearcher.getTicker(), symbolSearcher.getInterval());
+        }
     }
 }
 

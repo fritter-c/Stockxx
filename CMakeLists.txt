@@ -90,6 +90,10 @@ set(PROJECT_SOURCES
         dailydataseriecalc.h
         calcdaemon.cpp
         calcdaemon.h
+        minutedataserie.cpp
+        minutedataserie.h
+        minutedataseriecalc.cpp
+        minutedataseriecalc.h
         resources.qrc
 )
 

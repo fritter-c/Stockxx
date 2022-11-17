@@ -13,7 +13,7 @@ protected:
     virtual void loadSerieFromCSV(QString path, QChar delimiter);
     virtual void loadSerieFromStream();
     virtual void serieToStream();
-    QString m_strPath = "D:\\Projects\\ChartOnGraphicsView\\database\\assets\\daily\\";
+    QString m_strPath = "D:\\Projects\\ChartOnGraphicsView\\database\\assets\\";
     QString m_strDat;
     AssetId m_assetId;
     void ClearDataSerie();

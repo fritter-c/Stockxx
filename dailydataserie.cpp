@@ -86,7 +86,7 @@ void DailyDataSerie::loadSerieFromJsonAV(QString json)
 
 DailyDataSerie::DailyDataSerie(AssetId assetId, bool bLoad) : CustomDataSerie(assetId)
 {
-    m_strDat = assetId.name + strPathSufix;
+    m_strDat = strFolder + assetId.name + strPathSufix;
     m_strPath += m_strDat;
     if (bLoad)
         DailyDataSerie::loadSerieFromStream();
@@ -143,24 +143,5 @@ void DailyDataSerie::loadSerieFromStream()
 
 void DailyDataSerie::serieToStream()
 {
-    QFile file(m_strPath);
-    if (!file.open(QIODevice::WriteOnly)) return;
-    QDataStream out(&file);
-    out << c_StreamStart;
-    out << m_assetId.name;
-    out.setVersion(QDataStream::Qt_6_0);
-    DataSerieValue dt;
-    for(size_t i{0}; i < ar_values.count(); i++)
-    {
-        dt = *ar_values[i];
-        out << dt.dOpen;
-        out << dt.dHigh;
-        out << dt.dLow;
-        out << dt.dClose;
-        out << dt.dVolume;
-        out << dt.dTrades;
-        out << dt.dtQuoteDate;
-        out << dt.qiQuote.id;
-    }
-    file.close();
+    CustomDataSerie::serieToStream();
 }

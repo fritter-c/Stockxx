@@ -82,6 +82,66 @@
     <string>Free Window</string>
    </property>
   </widget>
+  <widget class="QGroupBox" name="groupBox_timeFrame">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>190</y>
+     <width>383</width>
+     <height>65</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Interval</string>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QRadioButton" name="radioButton_Daily">
+      <property name="text">
+       <string>Daily</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_1">
+      <property name="text">
+       <string>1min</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_5">
+      <property name="text">
+       <string>5min</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_15">
+      <property name="text">
+       <string>15min</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_30">
+      <property name="text">
+       <string>30min</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_60">
+      <property name="text">
+       <string>60min</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections>

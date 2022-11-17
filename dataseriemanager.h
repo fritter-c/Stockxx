@@ -23,9 +23,11 @@ private:
     void populateLocalDataseries();
     void connectCalcSerie(CustomDataSerieCalc*);
     bool m_bWaitingCalc{false};
+    int m_requestedOffset{1};
 public:
     explicit DataSerieManager(QObject *parent = nullptr);
     void requestDailySerie(QString ticker);
+    void requestMinuteSerie(QString ticker, int offset);
     static DataSerieManager& Instance(){
         return *instance;
     }
@@ -35,7 +37,8 @@ public:
     QStringList avaiableDataSeries;
 
 public slots:
-    void onAlphaVantageJsonLoaded(QString ticker);
+    void onAlphaVantageJsonLoadedDaily(QString ticker);
+    void onAlphaVantageJsonLoadedMinute(QString ticker);
     void onCalcSerieReady(AssetId);
 
 signals:

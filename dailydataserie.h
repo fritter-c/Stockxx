@@ -7,6 +7,7 @@ class DailyDataSerie : public CustomDataSerie
 {
 private:
     const QString strPathSufix = "_D.dat";
+    const QString strFolder = "\\daily\\";
     // CustomDataSerie interface
 protected:
     virtual void loadSerieFromStream() override;

@@ -11,30 +11,38 @@ const QString &StockDataApi::getJsonString() const
     return m_jsonString;
 }
 
-StockDataApi::StockDataApi(QString ticker, QObject *parent)
+void StockDataApi::requestDailySerie(const QString ticker)
+{
+    m_lastTicker = ticker;
+    QUrl url(m_request + m_functionDaily + m_requestSymbol + ticker + m_output + m_requestKey);
+    connect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
+    QNetworkReply* reply = m_manager->get(QNetworkRequest(url));
+    connect(reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
+}
+
+void StockDataApi::requestMinuteSerie(const QString ticker, int offset)
+{
+    const QString min{"min"};
+    m_lastTicker = ticker;
+    QString strUrl{m_request + m_functionMin + m_requestSymbol +
+                ticker + m_interval + QString::number(offset) + min + m_output + m_requestKey};
+    QUrl url(strUrl);
+    connect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
+    QNetworkReply* reply = m_manager->get(QNetworkRequest(url));
+    connect(reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
+}
+
+StockDataApi::StockDataApi(QObject *parent)
     : QObject{parent}
 {
-    m_symbol = ticker;
-    if (ticker == ""){
-        QUrl url("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=" + m_apiKey);
-        m_manager = new QNetworkAccessManager(this);
-        connect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
-        QNetworkReply* reply = m_manager->get(QNetworkRequest(url));
-        connect(reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
-    }
-    else{
-        QUrl url(m_request + m_function + m_requestSymbol + ticker + m_output + m_requestKey);
-        m_manager = new QNetworkAccessManager(this);
-        connect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
-        QNetworkReply* reply = m_manager->get(QNetworkRequest(url));
-        connect(reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
-    }
-
+    m_manager = new QNetworkAccessManager(this);
 }
 
 void StockDataApi::finished(QNetworkReply* reply)
 {
-    emit dataReady(m_symbol);
+    emit dataReady(m_lastTicker);
+    disconnect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
+    disconnect(reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
     reply->deleteLater();
 }
 
