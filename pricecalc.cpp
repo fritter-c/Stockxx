@@ -1,9 +1,14 @@
 #include "pricecalc.h"
 #include <cstddef>
 
+SerieInterval PriceCalc::interval() const
+{
+    return m_interval;
+}
+
 PriceCalc::PriceCalc(CustomPrice *price) : IndicatorCalc(price)
 {
-
+    m_interval = price->interval();
 }
 
 PriceCalc::~PriceCalc()

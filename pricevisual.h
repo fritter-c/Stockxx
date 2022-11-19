@@ -13,6 +13,7 @@ private:
     PriceCalc* m_priceCalc;
     Candle* hoveredCandle{nullptr};
     QObject* m_parent;
+    SerieInterval m_interval;
 
 public:
     PriceVisual(CustomPrice* customPrice, QObject* parent = nullptr, QGraphicsView* view = nullptr);
@@ -31,6 +32,8 @@ public:
 
 
     // QGraphicsItem interface
+    SerieInterval interval() const;
+
 protected:
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;

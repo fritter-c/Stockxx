@@ -1,38 +1,63 @@
 #include "customprice.h"
 
+SerieInterval CustomPrice::interval() const
+{
+    return m_interval;
+}
+
 CustomPrice::CustomPrice(CustomDataSerie *dataSerie, QObject *parent)
     : QObject{parent}
 {
     m_dataSerie = dataSerie;
+    m_interval = dataSerie->ID().si;
+    m_nIndex = 0;
 }
 
 bool CustomPrice::Next()
 {
+    if ((m_nIndex + 1) <= Size() - 1){
+        m_nIndex++;
+        return true;
+    }
     return false;
 }
 
 bool CustomPrice::Prior()
 {
+    if((m_nIndex - 1) >= 0){
+        m_nIndex--;
+        return true;
+    }
     return false;
 }
 
 bool CustomPrice::PriorAll()
 {
-    return false;
+    m_nIndex = 0;
+    return true;
 }
 
 bool CustomPrice::NextAll()
 {
-    return false;
+    m_nIndex = Size() - 1;
+    return true;
 }
 
 bool CustomPrice::PriorN(size_t N)
 {
+    if((m_nIndex - N) >= 0){
+        m_nIndex = m_nIndex - N;
+        return true;
+    }
     return false;
 }
 
 bool CustomPrice::NextN(size_t N)
 {
+    if((m_nIndex + N) <= (Size()-1)){
+        m_nIndex = m_nIndex + N;
+        return true;
+    }
     return false;
 }
 

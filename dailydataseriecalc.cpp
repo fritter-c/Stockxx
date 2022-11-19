@@ -46,6 +46,14 @@ void DailyDataSerieCalc::loadSerieFromCSV(QString path, QChar delimiter)
 
 }
 
+void DailyDataSerieCalc::createId()
+{
+    DataSerieIdentifier id;
+    id.id = m_assetId;
+    id.si = siDaily;
+    m_ID = id;
+}
+
 void DailyDataSerieCalc::loadSerieFromJsonAV(QString json)
 {
     QJsonDocument json_doc = QJsonDocument::fromJson(json.toUtf8());
@@ -87,8 +95,9 @@ void DailyDataSerieCalc::loadSerieFromJsonAV(QString json)
 
 DailyDataSerieCalc::DailyDataSerieCalc(AssetId assetId, bool bLoad) : CustomDataSerieCalc(assetId)
 {
-    m_strDat = assetId.name + strPathSufix;
+    m_strDat = strFolder + assetId.name + strPathSufix;
     m_strPath += m_strDat;
+    DailyDataSerieCalc::createId();
     if (bLoad)
         DailyDataSerieCalc::loadSerieFromStream();
 }

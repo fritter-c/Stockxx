@@ -74,5 +74,17 @@ enum StudieType {stNoStudie, stLine, stResistance, stFibonacci, stVertLine, stCh
 
 enum SerieInterval {siDaily = 0, siOneMin = 1, siFiveMin = 5, siFifteenMin = 15, siThirtyMin = 30, siSixtyMin = 60};
 
+struct DataSerieIdentifier{
+    AssetId id;
+    SerieInterval si;
+};
+inline bool operator==(const DataSerieIdentifier &a, const DataSerieIdentifier &b){
+    return ((a.id == b.id) && (a.si == b.si));
+}
+inline uint qHash(const DataSerieIdentifier &key, uint seed)
+{
+    return qHash(key.id.name, seed) ^ (key.si + 1);
+}
+
 #endif
 

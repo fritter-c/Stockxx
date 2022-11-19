@@ -2,7 +2,7 @@
 #include "qopenglwidget.h"
 #include "ui_customchart.h"
 
-CustomChart::CustomChart(AssetId assetid, QWidget *parent_main, QWidget *parent) :
+CustomChart::CustomChart(AssetId assetid, SerieInterval si, QWidget *parent_main, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CustomChart)
 {
@@ -15,7 +15,7 @@ CustomChart::CustomChart(AssetId assetid, QWidget *parent_main, QWidget *parent)
     format.setSamples(1);
     gl->setFormat(format);
     m_view->setViewport(gl);
-    m_gManager = new GraphicManager(assetid, m_view, parent_main, this);
+    m_gManager = new GraphicManager(assetid,si, m_view, parent_main, this);
     ui->horizontalLayout->addWidget(m_view);
     setMouseTracking(true);
 }

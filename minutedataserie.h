@@ -16,6 +16,7 @@ protected:
     virtual void loadSerieFromCSV(QString path, QChar delimiter) override;
     virtual void loadSerieFromStream() override;
     virtual void serieToStream() override;
+    virtual void createId() override;
 
 public:
     MinuteDataSerie(AssetId assetId,int offset, bool bLoad = true);

@@ -99,6 +99,28 @@ void MinuteDataSerieCalc::serieToStream()
     CustomDataSerieCalc::serieToStream();
 }
 
+void MinuteDataSerieCalc::createId()
+{
+    DataSerieIdentifier dsId;
+    dsId.id = m_assetId;
+    switch (m_nOffset) {
+    case 1:
+       dsId.si = siOneMin;
+    break;
+    case 5:
+        dsId.si = siFiveMin;
+    case 15:
+        dsId.si = siFifteenMin;
+    case 30:
+        dsId.si = siThirtyMin;
+    case 60:
+        dsId.si = siSixtyMin;
+    default:
+        break;
+    }
+    m_ID = dsId;
+}
+
 void MinuteDataSerieCalc::loadSerieFromJsonAV(QString json)
 {
     QJsonDocument json_doc = QJsonDocument::fromJson(json.toUtf8());
@@ -109,7 +131,7 @@ void MinuteDataSerieCalc::loadSerieFromJsonAV(QString json)
     QList<QString> list = vmap.keys();
     for(long long i{list.count() - 1}; i >= 0; --i){
         QString key = list[i];
-        quote.dtQuoteDate = QDateTime::fromString(key, "yyyy-MM-dd");
+        quote.dtQuoteDate = QDateTime::fromString(key, "yyyy-MM-dd hh:mm:ss");
         quote.qiQuote.dtQuoteDate = quote.dtQuoteDate;
         if (pquoteaux)
             quote.qiQuote.id = pquoteaux->qiQuote.id + 1;
@@ -140,8 +162,9 @@ void MinuteDataSerieCalc::loadSerieFromJsonAV(QString json)
 MinuteDataSerieCalc::MinuteDataSerieCalc(AssetId assetId, int offset, bool bLoad) : CustomDataSerieCalc(assetId)
 {
     m_nOffset = offset;
-    m_strDat = strFolder + assetId.name + strOffset + strPathSufix;
+    m_strDat = strFolder + assetId.name + "_" + QString::number(m_nOffset) + strPathSufix;
     m_strPath += m_strDat;
+    MinuteDataSerieCalc::createId();
 
     if (bLoad)
         MinuteDataSerieCalc::loadSerieFromStream();

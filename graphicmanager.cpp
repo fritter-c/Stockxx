@@ -1,6 +1,5 @@
 #include "graphicmanager.h"
 #include "candlemagnifier.h"
-#include "dailyprice.h"
 #include "fibonaccistudie.h"
 #include "freehandstudie.h"
 #include "linestudie.h"
@@ -11,17 +10,22 @@
 #include "channelstudie.h"
 #include "dataseriemanager.h"
 
-GraphicManager::GraphicManager(AssetId assetId, GoTView *m_view, QObject *parent_main, QWidget *chart)
+GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_view, QObject *parent_main, QWidget *chart)
     : QObject{parent_main}
 {
     setParent(chart); // o pai é a janela do gráfico
     m_chart = chart;
     this->m_view = m_view;
     m_assetId = assetId;
+    m_sInterval = si;
     m_scene = new QGraphicsScene(0,0, m_view->width(), m_view->height(), m_view);
     m_view->setScene(m_scene);
-    m_dailyDataSerie = DataSerieManager::Instance().getDailyDataSerie(m_assetId, true);
-    m_priceVisual = new PriceVisual(new DailyPrice(m_dailyDataSerie, this), this, m_view);
+    if (m_sInterval == siDaily)
+        m_mainDataSerie = DataSerieManager::Instance().getDailyDataSerie(m_assetId, true);
+    else
+        m_mainDataSerie = DataSerieManager::Instance().getMinuteDataSerie(m_assetId,si, true);
+
+    m_priceVisual = new PriceVisual(new CustomPrice(m_mainDataSerie, this), this, m_view);
     m_psVisual = m_priceVisual->GetPriceScale();
     m_tsVisual = m_priceVisual->GetTimeScale();
     m_candleMag = new CandleMagnifier();

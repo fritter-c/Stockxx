@@ -150,7 +150,13 @@ void TimeScaleVisual::recalculatePositions()
     font.setPixelSize(12);
     QFontMetricsF fm{font};
     int nEntrys = m_dtDateTimes.size() - nZoom;
-    double nText {fm.horizontalAdvance("00.00.0000")};
+    double nText;
+    if (m_price->interval() == siDaily){
+         nText = fm.horizontalAdvance("00.00.0000");
+    }
+    else{
+        nText = fm.horizontalAdvance("00.00 00:00");
+    }
     double nSpace{boundingRect().width() - nText};
     double nSpaceNeeded{nEntrys * nText};
     double nSpacing {(nSpace - nSpaceNeeded) / nEntrys};
@@ -235,7 +241,14 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     QFont font;
     font.setPixelSize(12);
     QFontMetricsF fm(font);
-    double nText = fm.horizontalAdvance("00.00.0000");
+    double nText;
+    bool bIntraday{!(m_price->interval() == siDaily)};
+    if (!bIntraday){
+         nText = fm.horizontalAdvance("00.00.0000");
+    }
+    else{
+        nText = fm.horizontalAdvance("00.00 00:00");
+    }
     double nSpace = boundingRect().width() - nText;
     qreal nX;
     long long nEntrys{m_dtDateTimes.size() - nZoom};
@@ -254,7 +267,11 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     }
     nX = m_rFirst;
     for(long long i {m_nFirstIndex}; i > nZoom - nOffset; i = i - nSkip){
-        QString strDate = m_dtDateTimes[i].dtQuoteDate.toString("dd.MM.yyyy");
+        QString strDate{};
+        if (bIntraday)
+            strDate = m_dtDateTimes[i].dtQuoteDate.toString("dd.MM hh:mm");
+        else
+           strDate = m_dtDateTimes[i].dtQuoteDate.toString("dd.MM.yyyy");
         point.rx() = nX;
         if ((nX + nText) > boundingRect().right()) break;
         painter->drawText(point, strDate);

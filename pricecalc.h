@@ -10,6 +10,7 @@ private:
     QVector<Candle*> ar_values;
     double m_maxValue = 0;
     double m_minValue = 0;
+    SerieInterval m_interval;
 public:
     PriceCalc(CustomPrice* price);
     ~PriceCalc();
@@ -34,6 +35,7 @@ public:
     Candle* getCandle();
     Candle* getCandle(QuoteIdentifier qi);
     QList<Candle*> getCandles();
+    SerieInterval interval() const;
 };
 
 #endif // PRICECALC_H

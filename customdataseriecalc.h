@@ -11,9 +11,11 @@ protected:
     virtual void loadSerieFromCSV(QString path, QChar delimiter);
     virtual void loadSerieFromStream();
     virtual void serieToStream();
-    QString m_strPath = "D:\\Projects\\ChartOnGraphicsView\\database\\assets\\daily\\";
+    virtual void createId();
+    QString m_strPath = "D:\\Projects\\ChartOnGraphicsView\\database\\assets\\";
     QString m_strDat;
     AssetId m_assetId;
+    DataSerieIdentifier m_ID;
     void ClearDataSerie();
     int m_nOffset = 1;
 public:
@@ -22,8 +24,10 @@ public:
     virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
 
+    const DataSerieIdentifier &ID() const;
+
 public slots:
-    void onLoadloadSerieFromJsonAV(QString json);
+    void onLoadSerieFromJsonAV(QString json);
 signals:
     void serieReady(AssetId);
 

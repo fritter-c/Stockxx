@@ -42,7 +42,7 @@ private slots:
     void on_actionClose_All_Charts_triggered();
 
     void onCustomChartDestroy(QObject*);
-    void onDataManagerGraphReady(AssetId);
+    void onDataManagerGraphReady(DataSerieIdentifier);
     void onSerieLoadStep();
     void onHideProgressBar();
 

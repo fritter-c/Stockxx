@@ -4,11 +4,17 @@
 #include "graphicmanager.h"
 
 
+SerieInterval PriceVisual::interval() const
+{
+    return m_interval;
+}
+
 PriceVisual::PriceVisual(CustomPrice *customPrice, QObject *parent, QGraphicsView *view) : IndicatorVisual(customPrice, parent, view)
 {
     m_priceCalc = new PriceCalc(customPrice);
     m_data = m_priceCalc;
     m_priceCalc->CreateIndicatorsValues();
+    m_interval = m_priceCalc->interval();
     m_tsVisual = new TimeScaleVisual(this, parent, view);
     m_psVisual = new PriceScaleVisual(this, parent, view);
     m_tsVisual->recalculatePositions();

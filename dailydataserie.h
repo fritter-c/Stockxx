@@ -13,6 +13,7 @@ protected:
     virtual void loadSerieFromStream() override;
     virtual void serieToStream() override;
     virtual void loadSerieFromCSV(QString path, QChar delimiter) override;
+    virtual void createId() override;
 
 public:
     virtual void loadSerieFromJsonAV(QString json) override;

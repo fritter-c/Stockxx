@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     AssetId id {"IBM"};
-    m_forms.append(new CustomChart(id,this, ui->mdiArea));
+    m_forms.append(new CustomChart(id,siDaily, this, ui->mdiArea));
     ui->mdiArea->addSubWindow(m_forms[0]);
     ui->mdiArea->currentSubWindow()->resize(QSize(500,500));
     connect(m_forms[0], SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
@@ -120,6 +120,12 @@ void MainWindow::on_actionSearch_Ticker_triggered()
         }
         else{
            DataSerieManager::Instance().requestMinuteSerie(symbolSearcher.getTicker(), symbolSearcher.getInterval());
+           connect(&DataSerieManager::Instance(), &DataSerieManager::graphReady,
+                   this, &MainWindow::onDataManagerGraphReady);
+           connect(&DataSerieManager::Instance(), &DataSerieManager::notifyMain,
+                   this, &MainWindow::onSerieLoadStep);
+           m_progressBar.setVisible(true);
+           m_progressBar.setValue(0);
         }
     }
 }
@@ -140,12 +146,12 @@ void MainWindow::on_actionNew_Chart_triggered()
         id.name = symbolSearcher.getTicker();
         CustomChart *chart;
         if(!symbolSearcher.getFreeWindow()){
-            chart = new CustomChart(id,this, ui->mdiArea);
+            chart = new CustomChart(id,siDaily, this, ui->mdiArea);
             connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
             ui->mdiArea->addSubWindow(chart);
         }
         else{
-            chart = new CustomChart(id,this, parentWidget());
+            chart = new CustomChart(id,siDaily, this, parentWidget());
         }
         m_forms.append(chart);
         chart->show();
@@ -160,7 +166,7 @@ void MainWindow::on_actionOpen_100_Charts_triggered()
         AssetId id;
         id.name = "IBM";
         CustomChart *chart;
-        chart = new CustomChart(id,this, ui->mdiArea);
+        chart = new CustomChart(id,siDaily,this, ui->mdiArea);
         m_forms.append(chart);
         ui->mdiArea->addSubWindow(chart);
         chart->show();
@@ -187,10 +193,10 @@ void MainWindow::onCustomChartDestroy(QObject * sender)
     }
 }
 
-void MainWindow::onDataManagerGraphReady(AssetId id)
+void MainWindow::onDataManagerGraphReady(DataSerieIdentifier id)
 {
     m_progressBar.setValue(100);
-    CustomChart *chart = new CustomChart(id,this, ui->mdiArea);
+    CustomChart *chart = new CustomChart(id.id,id.si,this, ui->mdiArea);
     connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
     ui->mdiArea->addSubWindow(chart);
     m_forms.append(chart);

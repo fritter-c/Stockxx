@@ -42,8 +42,6 @@ set(PROJECT_SOURCES
         customprice.cpp
         customprice.h
         stockxxdatatypes.h
-        dailyprice.cpp
-        dailyprice.h
         indicatorvisual.cpp
         indicatorvisual.h
         indicatorcalc.cpp

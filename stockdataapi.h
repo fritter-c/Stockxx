@@ -18,11 +18,12 @@ private:
     const QString m_output{"&outputsize=full"};
     const QString m_requestKey{"&apikey=" + m_apiKey};
     QString m_jsonString;
+    QString m_fullJson;
     QString m_lastTicker;
 
 public:
     explicit StockDataApi(QObject *parent = nullptr);
-    const QString &getJsonString() const;
+    const QString getJsonString();
     void requestDailySerie(const QString ticker);
     void requestMinuteSerie(const QString ticker, int offset);
 

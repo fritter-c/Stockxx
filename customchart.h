@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include "gotview.h"
 #include "graphicmanager.h"
+#include "StockxxDataTypes.h"
 
 namespace Ui {
 class CustomChart;
@@ -18,7 +19,7 @@ private:
     GraphicManager* m_gManager;
     AssetId m_assetId;
 public:
-    CustomChart(AssetId assetid, QWidget *parent_main, QWidget *parent = nullptr);
+    CustomChart(AssetId assetid,SerieInterval si, QWidget *parent_main, QWidget *parent = nullptr);
     ~CustomChart();
     GoTView* GetGraphicsView();
 

@@ -9,15 +9,15 @@ class MinuteDataSerieCalc : public CustomDataSerieCalc
     Q_OBJECT
 private:
     const QString strPathSufix = "_M.dat";
-    const QString strFolder = "\\minute\\";
+    const QString strFolder = "minute\\";
     int m_nOffset{5};
-    QString strOffset = "_" + QString::number(m_nOffset);
 
     // CustomDataSerie interface
 protected:
     virtual void loadSerieFromCSV(QString path, QChar delimiter) override;
     virtual void loadSerieFromStream() override;
     virtual void serieToStream() override;
+    virtual void createId() override;
 
 public:
     MinuteDataSerieCalc(AssetId assetId,int offset, bool bLoad = true);

@@ -34,6 +34,16 @@ void CustomDataSerie::serieToStream()
     file.close();
 }
 
+void CustomDataSerie::createId()
+{
+
+}
+
+const DataSerieIdentifier &CustomDataSerie::ID() const
+{
+    return m_ID;
+}
+
 void CustomDataSerie::loadSerieFromJsonAV(QString json)
 {
 
@@ -57,4 +67,5 @@ size_t CustomDataSerie::Size()
 {
     return ar_values.size();
 }
+
 

@@ -12,6 +12,7 @@ protected:
     CustomDataSerie* m_dataSerie;
     AssetId m_assetId;
     size_t m_nIndex;
+    SerieInterval m_interval;
 public:
     explicit CustomPrice(CustomDataSerie* dataSerie, QObject *parent = nullptr);
     virtual bool Next();
@@ -29,6 +30,8 @@ public:
     virtual double Volume();
     virtual DataSerieValue *Data();
     virtual QuoteIdentifier Quote();
+
+    SerieInterval interval() const;
 
 signals:
 

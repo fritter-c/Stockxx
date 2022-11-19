@@ -6,9 +6,9 @@
 #include <QFile>
 
 
-const QString &StockDataApi::getJsonString() const
+const QString StockDataApi::getJsonString()
 {
-    return m_jsonString;
+    return m_fullJson;
 }
 
 void StockDataApi::requestDailySerie(const QString ticker)
@@ -39,10 +39,12 @@ StockDataApi::StockDataApi(QObject *parent)
 }
 
 void StockDataApi::finished(QNetworkReply* reply)
-{
-    emit dataReady(m_lastTicker);
+{  
     disconnect(m_manager, &QNetworkAccessManager::finished, this, &StockDataApi::finished);
     disconnect(reply, &QNetworkReply::readyRead, this, &StockDataApi::read);
+    m_fullJson = m_jsonString;
+    m_jsonString.clear();
+    emit dataReady(m_lastTicker);
     reply->deleteLater();
 }
 
