@@ -80,7 +80,6 @@ SymbolSearcher::SymbolSearcher(QWidget *parent, bool bLocal) :
         m_tmrSearch = new QTimer(this);
         m_tmrSearch->setInterval(2000);
         connect(m_tmrSearch, &QTimer::timeout, this, &SymbolSearcher::onSearchTimer);
-        m_tmrSearch->start();
         connect(&m_tickerSearcherApi, &symbolseracherapi::dataReady, this, &SymbolSearcher::onDataReady);        
         m_completer = new TickerCompleter(QCompleter::UnfilteredPopupCompletion, this);
         connect(this, &SymbolSearcher::complete,
@@ -109,3 +108,10 @@ SymbolSearcher::~SymbolSearcher()
         delete m_completer;
     }
 }
+
+void SymbolSearcher::on_lineEdit_tickerKeyword_textChanged(const QString &arg1)
+{
+    if ((!m_local) && (m_tmrSearch))
+        m_tmrSearch->start();
+}
+

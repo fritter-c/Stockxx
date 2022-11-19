@@ -185,7 +185,6 @@ void MainWindow::on_actionClose_All_Charts_triggered()
 
 void MainWindow::onCustomChartDestroy(QObject * sender)
 {
-    ui->mdiArea->removeSubWindow((QWidget*)sender);
     for(qsizetype i{m_forms.size() - 1}; 0 <= i; --i){
         if (m_forms[i] == (QWidget*)sender) {
             m_forms.removeAt(i);

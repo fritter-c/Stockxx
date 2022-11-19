@@ -86,7 +86,6 @@ void DataSerieManager::requestMinuteSerie(QString ticker, int offset)
 
 DailyDataSerie* DataSerieManager::getDailyDataSerie(AssetId id, bool bCreate)
 {
-
     if (m_hshDataSeries.contains(getDataID(id, 1))){
         return dynamic_cast<DailyDataSerie*>(m_hshDataSeries[getDataID(id, 1)]);
     }

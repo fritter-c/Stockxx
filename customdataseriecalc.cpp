@@ -30,7 +30,7 @@ void CustomDataSerieCalc::serieToStream()
         out << dt.dClose;
         out << dt.dVolume;
         out << dt.dTrades;
-        out << dt.dtQuoteDate.toString("dd.MM.yyyy hh:mm:ss");
+        out << dt.dtQuoteDate;
         out << dt.qiQuote.id;
     }
     file.close();

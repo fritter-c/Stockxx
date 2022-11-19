@@ -84,9 +84,7 @@ void MinuteDataSerie::loadSerieFromStream()
         in >> dt.dClose;
         in >> dt.dVolume;
         in >> dt.dTrades;
-        QString aux;
-        in >> aux;
-        dt.dtQuoteDate = QDateTime::fromString(aux, "yyyy-MM-dd hh:mm:ss");
+        in >> dt.dtQuoteDate;
         in >> dt.qiQuote.id;
         dt.qiQuote.dtQuoteDate = dt.dtQuoteDate;
         ar_values.append(new DataSerieValue(dt));
@@ -163,7 +161,7 @@ void MinuteDataSerie::loadSerieFromJsonAV(QString json)
 MinuteDataSerie::MinuteDataSerie(AssetId assetId, int offset, bool bLoad) : CustomDataSerie(assetId)
 {
     m_nOffset = offset;
-    m_strDat = strFolder + assetId.name + strOffset + strPathSufix;
+    m_strDat = strFolder + assetId.name + "_" + QString::number(m_nOffset) + strPathSufix;
     m_strPath += m_strDat;
     MinuteDataSerie::createId();
 

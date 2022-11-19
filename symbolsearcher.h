@@ -43,6 +43,8 @@ private:
 private slots:
     void onSearchTimer();
     void onCompleterActivated(const QString&);
+    void on_lineEdit_tickerKeyword_textChanged(const QString &arg1);
+
 public slots:
     void onDataReady();
 signals:
