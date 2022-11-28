@@ -14,6 +14,8 @@ public:
     QuoteIdentifier iq;
     QColor color;
 };
+
+enum DragState {sNone, sDragging};
 class TimeScaleVisual : public QGraphicsItem
 {
 private:
@@ -37,7 +39,14 @@ private:
     uint64_t m_nFirstID{0};
     uint64_t m_nLastID{0};
     QHash<QGraphicsItem*, TimeTag> m_timeTags;
+    DragState m_state{sNone};
     void paintTimeTags(QPainter*, TimeTag);
+
+protected:
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+    virtual void wheelEvent(QGraphicsSceneWheelEvent *event) override;
+
 public:
     TimeScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
     ~TimeScaleVisual();
@@ -46,6 +55,8 @@ public:
     const qreal c_rTimeScaleBottomMargin = 10;
     const qreal c_rTimeScaleBoldMargin = 5;
     const qreal c_rTimeScaleTagMargin = 10;
+    virtual QRectF boundingRect() const override;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     qreal getFirstPos();
     qreal getSpacing();
     int getEntrys();
@@ -59,15 +70,12 @@ public:
     void addPriceTag(qreal x, QColor color, QGraphicsItem* sender);
     void removePriceTag(QGraphicsItem* sender);
     void updatePriceTag(QGraphicsItem* sender, qreal x, QColor color = QColor());
-
-    // QGraphicsItem interface
-    virtual QRectF boundingRect() const override;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     qreal XAtQuote(QuoteIdentifier);
     void recalculatePositions();
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-    virtual void wheelEvent(QGraphicsSceneWheelEvent *event) override;
+
+
 };
+
+
 
 #endif // TIMESCALEVISUAL_H

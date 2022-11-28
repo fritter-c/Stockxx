@@ -30,17 +30,20 @@ void ChannelStudie::setSecondPrice(QPointF pf)
 
 QRectF ChannelStudie::boundingRect() const
 {
-    if (m_dStartPrice > m_dSecondStartPrice){
-        QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
-        QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dSecondEndPrice)};
-        return QRectF{point1, point2}.normalized();
-    }
-    else{
-        QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dSecondStartPrice)};
-        QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
-        return QRectF{point1, point2}.normalized();
-    }
-
+    QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
+    QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
+    QPointF point3{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dSecondStartPrice)};
+    QPointF point4{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dSecondEndPrice)};
+    QPainterPath path;
+    path.moveTo(point1);
+    path.lineTo(point2);
+    path.moveTo(point3);
+    path.lineTo(point4);
+    QPen pen;
+    pen.setWidth(m_nPenWidth);
+    QPainterPathStroker ps{pen};
+    path = ps.createStroke(path);
+    return path.boundingRect();
 }
 
 void ChannelStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

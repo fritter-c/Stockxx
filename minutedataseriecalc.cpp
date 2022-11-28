@@ -103,21 +103,7 @@ void MinuteDataSerieCalc::createId()
 {
     DataSerieIdentifier dsId;
     dsId.id = m_assetId;
-    switch (m_nOffset) {
-    case 1:
-       dsId.si = siOneMin;
-    break;
-    case 5:
-        dsId.si = siFiveMin;
-    case 15:
-        dsId.si = siFifteenMin;
-    case 30:
-        dsId.si = siThirtyMin;
-    case 60:
-        dsId.si = siSixtyMin;
-    default:
-        break;
-    }
+    dsId.si = (SerieInterval)m_nOffset;
     m_ID = dsId;
 }
 

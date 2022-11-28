@@ -5,6 +5,7 @@
 #include <QList>
 #include <QObject>
 #include "StockxxDataTypes.h"
+#include "customdataseriecalc.h"
 
 class CustomDataSerie : public QObject
 {
@@ -18,6 +19,7 @@ protected:
     QString m_strDat;
     AssetId m_assetId;
     DataSerieIdentifier m_ID;
+    CustomDataSerieCalc* m_calcSerie{nullptr};
     void ClearDataSerie();
     int m_nOffset{siDaily};
 public:
@@ -26,7 +28,10 @@ public:
     virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
 
+
     const DataSerieIdentifier &ID() const;
+    void setCalcSerie(CustomDataSerieCalc *newCalcSerie);
+    CustomDataSerieCalc *calcSerie() const;
 };
 
 #endif // CUSTOMDATASERIE_H

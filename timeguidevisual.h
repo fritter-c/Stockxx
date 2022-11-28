@@ -14,6 +14,9 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void geometryChanged();
     void setRX(qreal newRY);
+
 };
+
+
 
 #endif // TIMEGUIDEVISUAL_H

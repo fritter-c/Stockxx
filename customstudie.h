@@ -4,7 +4,6 @@
 #include <QGraphicsItem>
 #include "pricescalevisual.h"
 #include "timescalevisual.h"
-#include "StockxxDateUtils.h"
 
 class CustomStudie : public QGraphicsItem
 {
@@ -12,8 +11,8 @@ protected:
     PriceScaleVisual* m_psVisual;
     TimeScaleVisual* m_tsVisual;
     const qreal m_cPriceScaleMargin = 2;
-    QuoteIdentifier m_qiStartQuote{ZERO_DATE};
-    QuoteIdentifier m_qiEndQuote{ZERO_DATE};
+    QuoteIdentifier m_qiStartQuote{INVALID_QUOTE};
+    QuoteIdentifier m_qiEndQuote{INVALID_QUOTE};
     double m_dStartPrice{0};
     double m_dEndPrice{0};
     double m_nPenWidth{1};
@@ -32,6 +31,9 @@ public:
 protected:
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 };
+
+
 
 #endif // CUSTOMSTUDIE_H

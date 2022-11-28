@@ -1,20 +1,19 @@
-#ifndef CUSTOMPRICE_H
-#define CUSTOMPRICE_H
+#ifndef CUSTOMPRICECALC_H
+#define CUSTOMPRICECALC_H
 
+#include "customdataseriecalc.h"
 #include <QObject>
-#include "customdataserie.h"
-#include "StockxxDataTypes.h"
 #include "customserie.h"
 
-class CustomPrice : public CustomSerie
+class CustomPriceCalc : public CustomSerie
 {
 protected:
-    CustomDataSerie* m_dataSerie;
+    CustomDataSerieCalc* m_dataSerie;
     AssetId m_assetId;
     size_t m_nIndex;
     SerieInterval m_interval;
 public:
-    explicit CustomPrice(CustomDataSerie* dataSerie, QObject *parent = nullptr);
+    explicit CustomPriceCalc(CustomDataSerieCalc* dataSerie);
     virtual bool Next() override;
     virtual bool Prior() override;
     virtual bool PriorAll() override;
@@ -30,11 +29,12 @@ public:
     virtual double Volume() override;
     virtual DataSerieValue *Data();
     virtual QuoteIdentifier Quote() override;
-
+    virtual bool goTo(size_t);
+    inline DataSerieValue operator[](size_t i) const{
+        return *m_dataSerie->ar_values[i];
+    }
     SerieInterval interval() const;
-
-signals:
 
 };
 
-#endif // CUSTOMPRICE_H
+#endif // CUSTOMPRICECALC_H

@@ -16,6 +16,7 @@ private:
     void syncButtons();
     QProgressBar m_progressBar;
     QTimer* m_progressBarHide{nullptr};
+    bool m_bCreateFreeWindow{false};
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

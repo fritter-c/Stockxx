@@ -4,9 +4,9 @@
 GoTView::GoTView(QWidget* parent) : QGraphicsView(parent)
 {
     setMouseTracking(true);
-    setRenderHints(QPainter::Antialiasing);
     setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setFocusPolicy(Qt::StrongFocus);
     setBackgroundBrush(QBrush(QColor::fromRgb(2,42,68)));
 }

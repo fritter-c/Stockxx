@@ -15,12 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    setWindowIcon(QIcon(":/imgs/imgs/Main.png"));
     ui->setupUi(this);
-    AssetId id {"IBM"};
-    m_forms.append(new CustomChart(id,siDaily, this, ui->mdiArea));
-    ui->mdiArea->addSubWindow(m_forms[0]);
-    ui->mdiArea->currentSubWindow()->resize(QSize(500,500));
-    connect(m_forms[0], SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
     QActionGroup* studieActionGroup = new QActionGroup(this);
     studieActionGroup->addAction(ui->actionCursor);
     studieActionGroup->addAction(ui->actionLine_Studie);
@@ -128,6 +124,7 @@ void MainWindow::on_actionSearch_Ticker_triggered()
            m_progressBar.setValue(0);
         }
     }
+    m_bCreateFreeWindow = symbolSearcher.getFreeWindow();
 }
 
 
@@ -195,10 +192,18 @@ void MainWindow::onCustomChartDestroy(QObject * sender)
 void MainWindow::onDataManagerGraphReady(DataSerieIdentifier id)
 {
     m_progressBar.setValue(100);
-    CustomChart *chart = new CustomChart(id.id,id.si,this, ui->mdiArea);
-    connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
-    ui->mdiArea->addSubWindow(chart);
+    CustomChart *chart;
+    if (!m_bCreateFreeWindow){
+       chart = new CustomChart(id.id,id.si,this, ui->mdiArea);
+       ui->mdiArea->addSubWindow(chart);
+
+    }
+    else
+       chart = new CustomChart(id.id,id.si,this, parentWidget());;
+
     m_forms.append(chart);
+    m_bCreateFreeWindow = false;
+    connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
     chart->show();
     disconnect(&DataSerieManager::Instance(), &DataSerieManager::graphReady,
                this, &MainWindow::onDataManagerGraphReady);

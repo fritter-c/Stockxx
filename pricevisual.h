@@ -29,15 +29,11 @@ public:
     Candle* getHoveredCandle();
     virtual void changeGeometry() override;
     void toggleCross();
-
-
-    // QGraphicsItem interface
     SerieInterval interval() const;
 
 protected:
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // PRICEVISUAL_H

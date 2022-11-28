@@ -92,6 +92,26 @@ set(PROJECT_SOURCES
         minutedataserie.h
         minutedataseriecalc.cpp
         minutedataseriecalc.h
+        studieproperties.cpp
+        studieproperties.h
+        custompricecalc.cpp
+        custompricecalc.h
+        customindicatorcalc.cpp
+        customindicatorcalc.h
+        indicatordata.cpp
+        indicatordata.h
+        singlysizedindicator.cpp
+        singlysizedindicator.h
+        movingaveragecalc.cpp
+        movingaveragecalc.h
+        indicatormanager.cpp
+        indicatormanager.h
+        customindicatorvisual.cpp
+        customindicatorvisual.h
+        indicatorparam.cpp
+        indicatorparam.h
+        customserie.cpp
+        customserie.h
         resources.qrc
 )
 

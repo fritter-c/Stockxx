@@ -39,6 +39,16 @@ void CustomDataSerie::createId()
 
 }
 
+CustomDataSerieCalc *CustomDataSerie::calcSerie() const
+{
+    return m_calcSerie;
+}
+
+void CustomDataSerie::setCalcSerie(CustomDataSerieCalc *newCalcSerie)
+{
+    m_calcSerie = newCalcSerie;
+}
+
 const DataSerieIdentifier &CustomDataSerie::ID() const
 {
     return m_ID;

@@ -35,6 +35,7 @@ protected:
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void wheelEvent(QGraphicsSceneWheelEvent *event) override;
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 public:
     PriceScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
     ~PriceScaleVisual();
@@ -54,7 +55,12 @@ public:
     void removePriceTag(QGraphicsItem* sender);
     void updatePriceTag(QGraphicsItem* sender, double price, QColor color = QColor());
     void movePrice(qreal y);
+
+    // QGraphicsItem interface
+protected:
+
 };
+
 
 
 

@@ -30,3 +30,4 @@ void TimeGuideVisual::setRX(qreal newRY)
     prepareGeometryChange();
     m_rX = newRY;
 }
+

@@ -54,9 +54,16 @@
     <addaction name="actionOpen_100_Charts"/>
     <addaction name="actionClose_All_Charts"/>
    </widget>
+   <widget class="QMenu" name="menuIndicators">
+    <property name="title">
+     <string>Indicators</string>
+    </property>
+    <addaction name="actionMoving_Average"/>
+   </widget>
    <addaction name="menuStockxx"/>
    <addaction name="menuTicker"/>
    <addaction name="menuTests"/>
+   <addaction name="menuIndicators"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -112,7 +119,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/LineStudie.png</normaloff>:/imgs/LineStudie.png</iconset>
+     <normaloff>:/imgs/imgs/LineStudie.png</normaloff>:/imgs/imgs/LineStudie.png</iconset>
    </property>
    <property name="text">
     <string>Line Studie</string>
@@ -124,7 +131,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/ResStudie.png</normaloff>:/imgs/ResStudie.png</iconset>
+     <normaloff>:/imgs/imgs/ResStudie.png</normaloff>:/imgs/imgs/ResStudie.png</iconset>
    </property>
    <property name="text">
     <string>Resistance Studie</string>
@@ -136,7 +143,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/Cursor.png</normaloff>:/imgs/Cursor.png</iconset>
+     <normaloff>:/imgs/imgs/Cursor.png</normaloff>:/imgs/imgs/Cursor.png</iconset>
    </property>
    <property name="text">
     <string>Cursor</string>
@@ -148,7 +155,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/Cross.png</normaloff>:/imgs/Cross.png</iconset>
+     <normaloff>:/imgs/imgs/Cross.png</normaloff>:/imgs/imgs/Cross.png</iconset>
    </property>
    <property name="text">
     <string>Cross</string>
@@ -160,7 +167,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/Hand.png</normaloff>:/imgs/Hand.png</iconset>
+     <normaloff>:/imgs/imgs/Hand.png</normaloff>:/imgs/imgs/Hand.png</iconset>
    </property>
    <property name="text">
     <string>Hand Mouse</string>
@@ -169,7 +176,7 @@
   <action name="actionDelete_All">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/TrashBin.png</normaloff>:/imgs/TrashBin.png</iconset>
+     <normaloff>:/imgs/imgs/TrashBin.png</normaloff>:/imgs/imgs/TrashBin.png</iconset>
    </property>
    <property name="text">
     <string>Delete All</string>
@@ -181,7 +188,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/Fibonacci.png</normaloff>:/imgs/Fibonacci.png</iconset>
+     <normaloff>:/imgs/imgs/Fibonacci.png</normaloff>:/imgs/imgs/Fibonacci.png</iconset>
    </property>
    <property name="text">
     <string>Fibonacci Studie</string>
@@ -193,7 +200,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/VertLine.png</normaloff>:/imgs/VertLine.png</iconset>
+     <normaloff>:/imgs/imgs/VertLine.png</normaloff>:/imgs/imgs/VertLine.png</iconset>
    </property>
    <property name="text">
     <string>Vertical Line Studie</string>
@@ -205,7 +212,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/ChannelStudie.png</normaloff>:/imgs/ChannelStudie.png</iconset>
+     <normaloff>:/imgs/imgs/ChannelStudie.png</normaloff>:/imgs/imgs/ChannelStudie.png</iconset>
    </property>
    <property name="text">
     <string>Channel Studie</string>
@@ -217,13 +224,17 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/FreeHandStudie.png</normaloff>:/imgs/FreeHandStudie.png</iconset>
+     <normaloff>:/imgs/imgs/FreeHandStudie.png</normaloff>:/imgs/imgs/FreeHandStudie.png</iconset>
    </property>
    <property name="text">
     <string>FreeHand Studie</string>
    </property>
   </action>
   <action name="actionSearch_Ticker">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/NewChart.png</normaloff>:/imgs/imgs/NewChart.png</iconset>
+   </property>
    <property name="text">
     <string>Search Ticker</string>
    </property>
@@ -236,7 +247,7 @@
   <action name="actionNew_Chart">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/NewChart.png</normaloff>:/imgs/NewChart.png</iconset>
+     <normaloff>:/imgs/imgs/NewChart.png</normaloff>:/imgs/imgs/NewChart.png</iconset>
    </property>
    <property name="text">
     <string>New Chart</string>
@@ -250,6 +261,15 @@
   <action name="actionClose_All_Charts">
    <property name="text">
     <string>Close All Charts...</string>
+   </property>
+  </action>
+  <action name="actionMoving_Average">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/indicators_icons/imgs/MovingAverage.png</normaloff>:/indicators_icons/imgs/MovingAverage.png</iconset>
+   </property>
+   <property name="text">
+    <string>Moving Average</string>
    </property>
   </action>
  </widget>

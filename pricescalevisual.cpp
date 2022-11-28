@@ -207,6 +207,11 @@ void PriceScaleVisual::wheelEvent(QGraphicsSceneWheelEvent *event)
 
 }
 
+void PriceScaleVisual::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+
+}
+
 
 
 

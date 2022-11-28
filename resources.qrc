@@ -1,16 +1,20 @@
 <RCC>
-    <qresource prefix="/imgs"/>
-    <qresource prefix="/">
-        <file>imgs/LineStudie.png</file>
-        <file>imgs/ResStudie.png</file>
-        <file>imgs/Cursor.png</file>
-        <file>imgs/Cross.png</file>
-        <file>imgs/Hand.png</file>
-        <file>imgs/TrashBin.png</file>
-        <file>imgs/Fibonacci.png</file>
-        <file>imgs/VertLine.png</file>
+    <qresource prefix="/imgs">
         <file>imgs/ChannelStudie.png</file>
+        <file>imgs/Cross.png</file>
+        <file>imgs/Cursor.png</file>
+        <file>imgs/Fibonacci.png</file>
         <file>imgs/FreeHandStudie.png</file>
+        <file>imgs/Hand.png</file>
+        <file>imgs/LineStudie.png</file>
+        <file>imgs/Main.png</file>
         <file>imgs/NewChart.png</file>
+        <file>imgs/ResStudie.png</file>
+        <file>imgs/TrashBin.png</file>
+        <file>imgs/VertLine.png</file>
+    </qresource>
+    <qresource prefix="/"/>
+    <qresource prefix="/indicators_icons">
+        <file>imgs/MovingAverage.png</file>
     </qresource>
 </RCC>

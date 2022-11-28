@@ -6,13 +6,14 @@ CustomChart::CustomChart(AssetId assetid, SerieInterval si, QWidget *parent_main
     QWidget(parent),
     ui(new Ui::CustomChart)
 {
+    setWindowIcon(QIcon(":/imgs/NewChart.png"));
     setAttribute(Qt::WA_DeleteOnClose);
     m_assetId = assetid;
     ui->setupUi(this);
     m_view = new GoTView(this);
     QOpenGLWidget *gl = new QOpenGLWidget();
     QSurfaceFormat format;
-    format.setSamples(1);
+    format.setSamples(4);
     gl->setFormat(format);
     m_view->setViewport(gl);
     m_gManager = new GraphicManager(assetid,si, m_view, parent_main, this);

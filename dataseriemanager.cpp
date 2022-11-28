@@ -168,17 +168,19 @@ void DataSerieManager::onCalcSerieReady(AssetId id)
 {
     populateLocalDataseries();
     emit notifyMain();
-    CustomDataSerie* aux;
+    CustomDataSerie* aux{nullptr};
     if (m_bWaitingCalc){
         if (qobject_cast<DailyDataSerieCalc*>(sender())){
             aux = new DailyDataSerie(id);
+            aux->setCalcSerie(qobject_cast<DailyDataSerieCalc*>(sender()));
             m_hshDataSeries.insert(aux->ID(), aux);
             m_dataSeries.append(aux);
             m_bWaitingCalc = false;
         }
-        else if (qobject_cast<MinuteDataSerieCalc*>(sender())){
+        else {
             MinuteDataSerieCalc* calc = qobject_cast<MinuteDataSerieCalc*>(sender());
             aux = new MinuteDataSerie(id, calc->nOffset());
+            aux->setCalcSerie(calc);
             m_hshDataSeries.insert(aux->ID(), aux);
             m_dataSeries.append(aux);
             m_bWaitingCalc = false;
@@ -187,5 +189,6 @@ void DataSerieManager::onCalcSerieReady(AssetId id)
     }
     disconnectCalcSerie(qobject_cast<CustomDataSerieCalc*>(sender()));
     emit notifyMain();
-    emit graphReady(aux->ID());
+    if (aux)
+        emit graphReady(aux->ID());
 }

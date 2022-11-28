@@ -63,3 +63,8 @@ void CustomStudie::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     prepareGeometryChange();
     m_nPenWidth = 1;
 }
+
+void CustomStudie::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+
+}

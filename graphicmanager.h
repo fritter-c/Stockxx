@@ -8,7 +8,6 @@
 #include "gotview.h"
 #include "pricevisual.h"
 #include "timescalevisual.h"
-#include <dailydataserie.h>
 #include "StockxxDataTypes.h"
 
 enum StudieState  {ssSettingSecondPoint,
