@@ -71,6 +71,10 @@ void CustomDataSerie::ClearDataSerie()
 CustomDataSerie::CustomDataSerie(AssetId assetID)
 {
     this->m_assetId = assetID;
+    QDir dir(m_strBasePath);
+    if (!dir.exists()){
+        dir.mkdir(m_strBasePath);
+    }
 }
 
 size_t CustomDataSerie::Size()

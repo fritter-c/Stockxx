@@ -96,6 +96,10 @@ DailyDataSerie::DailyDataSerie(AssetId assetId, bool bLoad) : CustomDataSerie(as
 {
     m_strDat = strFolder + assetId.name + strPathSufix;
     m_strPath += m_strDat;
+    QDir dir{m_strBasePath + strFolder};
+    if (!dir.exists()){
+        dir.mkdir(m_strBasePath + strFolder);
+    }
     DailyDataSerie::createId();
     if (bLoad)
         DailyDataSerie::loadSerieFromStream();

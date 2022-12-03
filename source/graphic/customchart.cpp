@@ -6,9 +6,6 @@ CustomChart::CustomChart(AssetId assetid, SerieInterval si, QWidget *parent_main
     QWidget(parent),
     ui(new Ui::CustomChart)
 {
-    setWindowIcon(QIcon(":/imgs/NewChart.png"));
-    setAttribute(Qt::WA_DeleteOnClose);
-    setWindowTitle(assetid.name);
     m_assetId = assetid;
     ui->setupUi(this);
     m_view = new GoTView(this);

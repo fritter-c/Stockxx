@@ -15,7 +15,8 @@ protected:
     virtual void loadSerieFromStream();
     virtual void serieToStream();
     virtual void createId();
-    QString m_strPath = "D:\\Projects\\ChartOnGraphicsView\\database\\assets\\";
+    QString m_strPath = "D:\\Projects\\ChartOnGraphicsView\\assets\\";
+    const QString m_strBasePath = "D:\\Projects\\ChartOnGraphicsView\\assets\\";
     QString m_strDat;
     AssetId m_assetId;
     DataSerieIdentifier m_ID;

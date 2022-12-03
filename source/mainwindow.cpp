@@ -136,24 +136,7 @@ void MainWindow::on_actionClose_triggered()
 
 void MainWindow::on_actionNew_Chart_triggered()
 {
-    SymbolSearcher symbolSearcher{this, true};
-    symbolSearcher.exec();
-    if (symbolSearcher.result() == QDialog::Accepted){
-        AssetId id;
-        id.name = symbolSearcher.getTicker();
-        CustomChart *chart;
-        if(!symbolSearcher.getFreeWindow()){
-            chart = new CustomChart(id,siDaily, this, ui->mdiArea);
-            connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
-            ui->mdiArea->addSubWindow(chart);
-        }
-        else{
-            chart = new CustomChart(id,siDaily, this, parentWidget());
-        }
-        m_forms.append(chart);
-        chart->show();
-        syncButtons();
-    }
+    emit ui->actionSearch_Ticker->triggered();
 }
 
 
@@ -193,13 +176,23 @@ void MainWindow::onDataManagerGraphReady(DataSerieIdentifier id)
 {
     m_progressBar.setValue(100);
     CustomChart *chart;
+    QMdiSubWindow *mdiWindow;
     if (!m_bCreateFreeWindow){
-       chart = new CustomChart(id.id,id.si,this, ui->mdiArea);
-       ui->mdiArea->addSubWindow(chart);
+       chart = new CustomChart(id.id,id.si,this, this);
+       chart->setAttribute(Qt::WA_DeleteOnClose);
+       chart->setWindowTitle(id.id.name);
+       mdiWindow = ui->mdiArea->addSubWindow(chart);
+       mdiWindow->setWindowIcon(QIcon(":/imgs/imgs/NewChart.png"));
+       mdiWindow->setGeometry(0,0,400,400);
     }
-    else
-       chart = new CustomChart(id.id,id.si,this, parentWidget());;
+    else{
+        chart = new CustomChart(id.id,id.si,this, parentWidget());
+        chart->setWindowIcon(QIcon(":/imgs/imgs/NewChart.png"));
+        chart->setAttribute(Qt::WA_DeleteOnClose);
+        chart->setWindowTitle(id.id.name);
 
+
+    }
     m_forms.append(chart);
     m_bCreateFreeWindow = false;
     connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
@@ -227,5 +220,17 @@ void MainWindow::onHideProgressBar()
     m_progressBar.setVisible(false);
     delete m_progressBarHide;
     m_progressBarHide = nullptr;
+}
+
+
+void MainWindow::on_actionsideAdjust_triggered()
+{
+    ui->mdiArea->tileSubWindows();
+}
+
+
+void MainWindow::on_actionRelease_MDI_Windows_triggered()
+{
+
 }
 

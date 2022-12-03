@@ -5,6 +5,10 @@ CustomDataSerieCalc::CustomDataSerieCalc(AssetId assetID)
 {
     moveToThread(&CalcDaemon::Instance());
     this->m_assetId = assetID;
+    QDir dir(m_strBasePath);
+    if (!dir.exists()){
+        dir.mkdir(m_strBasePath);
+    }
 }
 
 void CustomDataSerieCalc::loadSerieFromCSV(QString path, QChar delimiter)

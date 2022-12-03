@@ -4,7 +4,6 @@
 #include <QNetworkReply>
 #include <QJsonObject>
 #include <QCompleter>
-#include "dataseriemanager.h"
 #include "QPushButton"
 
 void SymbolSearcher::setKeyWord(const QString &newKeyWord)
@@ -89,16 +88,6 @@ SymbolSearcher::SymbolSearcher(QWidget *parent, bool bLocal) :
         ui->lineEdit_tickerKeyword->setCompleter(m_completer);
         ui->groupBox_timeFrame->setVisible(true);
     }
-    else{
-        m_completer = new TickerCompleter(QCompleter::PopupCompletion, this);
-        connect(this, &SymbolSearcher::complete,
-                m_completer, &TickerCompleter::complete);
-        ui->lineEdit_tickerKeyword->setCompleter(m_completer);
-        m_completer->model()->resetItems(DataSerieManager::Instance().avaiableDataSeries);
-        ui->groupBox_timeFrame->setVisible(false);
-    }
-
-
 }
 
 SymbolSearcher::~SymbolSearcher()

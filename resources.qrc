@@ -12,8 +12,8 @@
         <file>imgs/ResStudie.png</file>
         <file>imgs/TrashBin.png</file>
         <file>imgs/VertLine.png</file>
+        <file>imgs/SideAdjust.png</file>
     </qresource>
-    <qresource prefix="/"/>
     <qresource prefix="/indicators_icons">
         <file>imgs/MovingAverage.png</file>
     </qresource>

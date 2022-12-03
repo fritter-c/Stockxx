@@ -17,6 +17,9 @@ private:
     QProgressBar m_progressBar;
     QTimer* m_progressBarHide{nullptr};
     bool m_bCreateFreeWindow{false};
+    Ui::MainWindow *ui;
+    QList<QWidget*> m_forms;
+    QList<GraphicManager*> m_managers;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -41,15 +44,12 @@ private slots:
     void on_actionNew_Chart_triggered();
     void on_actionOpen_100_Charts_triggered();
     void on_actionClose_All_Charts_triggered();
-
     void onCustomChartDestroy(QObject*);
     void onDataManagerGraphReady(DataSerieIdentifier);
     void onSerieLoadStep();
     void onHideProgressBar();
+    void on_actionsideAdjust_triggered();
 
-private:
-    Ui::MainWindow *ui;
-    QList<QWidget*> m_forms;
-    QList<GraphicManager*> m_managers;
+    void on_actionRelease_MDI_Windows_triggered();
 };
 #endif // MAINWINDOW_H

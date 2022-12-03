@@ -150,6 +150,10 @@ MinuteDataSerieCalc::MinuteDataSerieCalc(AssetId assetId, int offset, bool bLoad
     m_nOffset = offset;
     m_strDat = strFolder + assetId.name + "_" + QString::number(m_nOffset) + strPathSufix;
     m_strPath += m_strDat;
+    QDir dir{m_strBasePath + strFolder};
+    if (!dir.exists()){
+        dir.mkdir(m_strBasePath + strFolder);
+    }
     MinuteDataSerieCalc::createId();
 
     if (bLoad)

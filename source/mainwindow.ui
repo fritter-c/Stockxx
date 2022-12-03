@@ -53,6 +53,7 @@
     </property>
     <addaction name="actionOpen_100_Charts"/>
     <addaction name="actionClose_All_Charts"/>
+    <addaction name="actionRelease_MDI_Windows"/>
    </widget>
    <widget class="QMenu" name="menuIndicators">
     <property name="title">
@@ -112,13 +113,14 @@
     <bool>true</bool>
    </attribute>
    <addaction name="actionNew_Chart"/>
+   <addaction name="actionsideAdjust"/>
   </widget>
   <action name="actionLine_Studie">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/LineStudie.png</normaloff>:/imgs/imgs/LineStudie.png</iconset>
    </property>
    <property name="text">
@@ -130,7 +132,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/ResStudie.png</normaloff>:/imgs/imgs/ResStudie.png</iconset>
    </property>
    <property name="text">
@@ -142,7 +144,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/Cursor.png</normaloff>:/imgs/imgs/Cursor.png</iconset>
    </property>
    <property name="text">
@@ -154,7 +156,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/Cross.png</normaloff>:/imgs/imgs/Cross.png</iconset>
    </property>
    <property name="text">
@@ -166,7 +168,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/Hand.png</normaloff>:/imgs/imgs/Hand.png</iconset>
    </property>
    <property name="text">
@@ -175,7 +177,7 @@
   </action>
   <action name="actionDelete_All">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/TrashBin.png</normaloff>:/imgs/imgs/TrashBin.png</iconset>
    </property>
    <property name="text">
@@ -187,7 +189,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/Fibonacci.png</normaloff>:/imgs/imgs/Fibonacci.png</iconset>
    </property>
    <property name="text">
@@ -199,7 +201,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/VertLine.png</normaloff>:/imgs/imgs/VertLine.png</iconset>
    </property>
    <property name="text">
@@ -211,7 +213,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/ChannelStudie.png</normaloff>:/imgs/imgs/ChannelStudie.png</iconset>
    </property>
    <property name="text">
@@ -223,7 +225,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/FreeHandStudie.png</normaloff>:/imgs/imgs/FreeHandStudie.png</iconset>
    </property>
    <property name="text">
@@ -232,7 +234,7 @@
   </action>
   <action name="actionSearch_Ticker">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/NewChart.png</normaloff>:/imgs/imgs/NewChart.png</iconset>
    </property>
    <property name="text">
@@ -246,7 +248,7 @@
   </action>
   <action name="actionNew_Chart">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/imgs/imgs/NewChart.png</normaloff>:/imgs/imgs/NewChart.png</iconset>
    </property>
    <property name="text">
@@ -265,16 +267,30 @@
   </action>
   <action name="actionMoving_Average">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/indicators_icons/imgs/MovingAverage.png</normaloff>:/indicators_icons/imgs/MovingAverage.png</iconset>
    </property>
    <property name="text">
     <string>Moving Average</string>
    </property>
   </action>
+  <action name="actionsideAdjust">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/imgs/imgs/SideAdjust.png</normaloff>:/imgs/imgs/SideAdjust.png</iconset>
+   </property>
+   <property name="text">
+    <string>Tile</string>
+   </property>
+  </action>
+  <action name="actionRelease_MDI_Windows">
+   <property name="text">
+    <string>Release MDI Windows</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>
