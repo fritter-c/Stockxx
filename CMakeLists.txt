@@ -1,13 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(ChartOnGraphicsView VERSION 0.1 LANGUAGES CXX)
+project(Stockxx VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -18,132 +16,150 @@ find_package(Qt6 REQUIRED COMPONENTS Gui)
 find_package(Qt6 REQUIRED COMPONENTS Network)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        customchart.cpp
-        customchart.h
-        customchart.ui
-        graphicmanager.cpp
-        graphicmanager.h
-        pricescalevisual.cpp
-        pricescalevisual.h
-        GoTView.h
-        GoTView.cpp
-        timescalevisual.cpp
-        timescalevisual.h
-        candle.h
-        candle.cpp
-        customdataserie.cpp
-        customdataserie.h
-        dailydataserie.cpp
-        dailydataserie.h
-        customprice.cpp
-        customprice.h
-        stockxxdatatypes.h
-        indicatorvisual.cpp
-        indicatorvisual.h
-        indicatorcalc.cpp
-        indicatorcalc.h
-        pricevisual.cpp
-        pricevisual.h
-        pricecalc.cpp
-        pricecalc.h
-        candlemagnifier.cpp
-        candlemagnifier.h
-        priceguide.h
-        priceguide.cpp
-        timeguidevisual.cpp
-        timeguidevisual.h
-        customstudie.cpp
-        customstudie.h
-        resistancestudie.cpp
-        resistancestudie.h
-        linestudie.cpp
-        linestudie.h
-        stockxxdateutils.h
-        fibonaccistudie.cpp
-        fibonaccistudie.h
-        vertlinestudie.cpp
-        vertlinestudie.h
-        channelstudie.cpp
-        channelstudie.h
-        freehandstudie.cpp
-        freehandstudie.h
-        stockdataapi.cpp
-        stockdataapi.h
-        dataseriemanager.cpp
-        dataseriemanager.h
-        symbolsearcher.cpp
-        symbolsearcher.h
-        symbolsearcher.ui
-        symbolseracherapi.cpp
-        symbolseracherapi.h
-        tickercompleter.cpp
-        tickercompleter.h
-        customdataseriecalc.cpp
-        customdataseriecalc.h
-        dailydataseriecalc.cpp
-        dailydataseriecalc.h
-        calcdaemon.cpp
-        calcdaemon.h
-        minutedataserie.cpp
-        minutedataserie.h
-        minutedataseriecalc.cpp
-        minutedataseriecalc.h
-        studieproperties.cpp
-        studieproperties.h
-        custompricecalc.cpp
-        custompricecalc.h
-        customindicatorcalc.cpp
-        customindicatorcalc.h
-        indicatordata.cpp
-        indicatordata.h
-        singlysizedindicator.cpp
-        singlysizedindicator.h
-        movingaveragecalc.cpp
-        movingaveragecalc.h
-        indicatormanager.cpp
-        indicatormanager.h
-        customindicatorvisual.cpp
-        customindicatorvisual.h
-        indicatorparam.cpp
-        indicatorparam.h
-        customserie.cpp
-        customserie.h
         resources.qrc
+
+        source/main.cpp
+        source/mainwindow.cpp
+        source/mainwindow.h
+        source/mainwindow.ui
+        source/mainwindow.ui
+        source/candle.h
+        source/candle.cpp
+        source/stockxxdatatypes.h
+        source/indicatorvisual.cpp
+        source/indicatorvisual.h
+        source/indicatorcalc.cpp
+        source/indicatorcalc.h
+        source/pricevisual.cpp
+        source/pricevisual.h
+        source/pricecalc.cpp
+        source/pricecalc.h
+        source/stockxxdateutils.h
+        source/IndicatorDataTypes.h
+
+        source/graphic/customchart.cpp
+        source/graphic/customchart.h
+        source/graphic/customchart.ui
+        source/graphic/graphicmanager.cpp
+        source/graphic/graphicmanager.h
+        source/graphic/pricescalevisual.cpp
+        source/graphic/pricescalevisual.h
+        source/graphic/GoTView.h
+        source/graphic/GoTView.cpp
+        source/graphic/timescalevisual.cpp
+        source/graphic/timescalevisual.h    
+        source/graphic/candlemagnifier.cpp
+        source/graphic/candlemagnifier.h
+        source/graphic/priceguide.h
+        source/graphic/priceguide.cpp
+        source/graphic/timeguidevisual.cpp
+        source/graphic/timeguidevisual.h
+
+        source/dataseries/customdataserie.cpp
+        source/dataseries/customdataserie.h
+        source/dataseries/dailydataserie.cpp
+        source/dataseries/dailydataserie.h
+        source/dataseries/minutedataserie.cpp
+        source/dataseries/minutedataserie.h
+        source/dataseries/dataseriemanager.cpp
+        source/dataseries/dataseriemanager.h
+        source/customprice/customprice.cpp
+        source/customprice/customprice.h
+        
+        source/studies/customstudie.cpp
+        source/studies/customstudie.h
+        source/studies/resistancestudie.cpp
+        source/studies/resistancestudie.h
+        source/studies/linestudie.cpp
+        source/studies/linestudie.h      
+        source/studies/fibonaccistudie.cpp
+        source/studies/fibonaccistudie.h
+        source/studies/vertlinestudie.cpp
+        source/studies/vertlinestudie.h
+        source/studies/channelstudie.cpp
+        source/studies/channelstudie.h
+        source/studies/freehandstudie.cpp
+        source/studies/freehandstudie.h
+        source/studies/studieproperties.cpp
+        source/studies/studieproperties.h
+        source/studies/studieproperties.ui
+        
+        source/alphaAPI/stockdataapi.cpp
+        source/alphaAPI/stockdataapi.h
+        source/alphaAPI/symbolsearcher.cpp
+        source/alphaAPI/symbolsearcher.h
+        source/alphaAPI/symbolsearcher.ui
+        source/alphaAPI/symbolseracherapi.cpp
+        source/alphaAPI/symbolseracherapi.h
+        source/alphaAPI/tickercompleter.cpp
+        source/alphaAPI/tickercompleter.h
+
+        source/calc/calcdaemon.cpp
+        source/calc/calcdaemon.h
+
+        source/calc/dataseries/customdataseriecalc.cpp
+        source/calc/dataseries/customdataseriecalc.h
+        source/calc/dataseries/dailydataseriecalc.cpp
+        source/calc/dataseries/dailydataseriecalc.h
+        source/calc/dataseries/minutedataseriecalc.cpp
+        source/calc/dataseries/minutedataseriecalc.h
+        
+        source/calc/customprice/custompricecalc.cpp 
+        source/calc/customprice/custompricecalc.h
+        source/calc/customprice/customseriecalc.cpp
+        source/calc/customprice/customseriecalc.h
+
+        
+        source/calc/indicators/customindicatorcalc.cpp
+        source/calc/indicators/customindicatorcalc.h
+        source/calc/indicators/customarrayindicatorcalc.cpp
+        source/calc/indicators/customarrayindicatorcalc.h
+        source/calc/indicators/priceindicatorcalc.cpp
+        source/calc/indicators/priceindicatorcalc.h      
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(ChartOnGraphicsView
+    qt_add_executable(Stockxx
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET ChartOnGraphicsView APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(ChartOnGraphicsView SHARED
+        add_library(Stockxx SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(ChartOnGraphicsView
+        add_executable(Stockxx
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(ChartOnGraphicsView PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(ChartOnGraphicsView PRIVATE Qt6::OpenGLWidgets)
-target_link_libraries(ChartOnGraphicsView PRIVATE Qt6::Network)
-target_link_libraries(ChartOnGraphicsView PRIVATE Qt6::Gui)
+target_link_libraries(Stockxx PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(Stockxx PRIVATE Qt6::OpenGLWidgets)
+target_link_libraries(Stockxx PRIVATE Qt6::Network)
+target_link_libraries(Stockxx PRIVATE Qt6::Gui)
 
-set_target_properties(ChartOnGraphicsView PROPERTIES
+target_include_directories(Stockxx PRIVATE
+    source/
+
+    source/calc
+    source/calc/customprice
+    source/calc/dataseries
+    source/calc/indicators
+
+    source/studies
+
+    source/graphic
+
+    source/customprice
+
+    source/alphaAPI
+
+    source/dataseries
+
+                                                       )
+set_target_properties(Stockxx PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -151,10 +167,10 @@ set_target_properties(ChartOnGraphicsView PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS ChartOnGraphicsView
+install(TARGETS Stockxx
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(ChartOnGraphicsView)
+    qt_finalize_executable(Stockxx)
 endif()

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1513</width>
+    <height>888</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>40</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Stockxx</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QMdiArea" name="mdiArea"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1513</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuStockxx">
+    <property name="title">
+     <string>Stockxx</string>
+    </property>
+    <addaction name="actionClose"/>
+   </widget>
+   <widget class="QMenu" name="menuTicker">
+    <property name="title">
+     <string>Ticker</string>
+    </property>
+    <addaction name="actionSearch_Ticker"/>
+   </widget>
+   <widget class="QMenu" name="menuTests">
+    <property name="title">
+     <string>Tests</string>
+    </property>
+    <addaction name="actionOpen_100_Charts"/>
+    <addaction name="actionClose_All_Charts"/>
+   </widget>
+   <widget class="QMenu" name="menuIndicators">
+    <property name="title">
+     <string>Indicators</string>
+    </property>
+    <addaction name="actionMoving_Average"/>
+   </widget>
+   <addaction name="menuStockxx"/>
+   <addaction name="menuTicker"/>
+   <addaction name="menuTests"/>
+   <addaction name="menuIndicators"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>40</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionLine_Studie"/>
+   <addaction name="actionResistance_Studie"/>
+   <addaction name="actionVerticalLine_Studie"/>
+   <addaction name="actionChannel_Studie"/>
+   <addaction name="actionFibonacci_Studie"/>
+   <addaction name="separator"/>
+   <addaction name="actionFreeHand_Studie"/>
+   <addaction name="actionCursor"/>
+   <addaction name="actionCross"/>
+   <addaction name="actionHand_Mouse"/>
+   <addaction name="separator"/>
+   <addaction name="actionDelete_All"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarGraphic">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>true</bool>
+   </attribute>
+   <addaction name="actionNew_Chart"/>
+  </widget>
+  <action name="actionLine_Studie">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/LineStudie.png</normaloff>:/imgs/imgs/LineStudie.png</iconset>
+   </property>
+   <property name="text">
+    <string>Line Studie</string>
+   </property>
+  </action>
+  <action name="actionResistance_Studie">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/ResStudie.png</normaloff>:/imgs/imgs/ResStudie.png</iconset>
+   </property>
+   <property name="text">
+    <string>Resistance Studie</string>
+   </property>
+  </action>
+  <action name="actionCursor">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/Cursor.png</normaloff>:/imgs/imgs/Cursor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cursor</string>
+   </property>
+  </action>
+  <action name="actionCross">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/Cross.png</normaloff>:/imgs/imgs/Cross.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cross</string>
+   </property>
+  </action>
+  <action name="actionHand_Mouse">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/Hand.png</normaloff>:/imgs/imgs/Hand.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hand Mouse</string>
+   </property>
+  </action>
+  <action name="actionDelete_All">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/TrashBin.png</normaloff>:/imgs/imgs/TrashBin.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete All</string>
+   </property>
+  </action>
+  <action name="actionFibonacci_Studie">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/Fibonacci.png</normaloff>:/imgs/imgs/Fibonacci.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fibonacci Studie</string>
+   </property>
+  </action>
+  <action name="actionVerticalLine_Studie">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/VertLine.png</normaloff>:/imgs/imgs/VertLine.png</iconset>
+   </property>
+   <property name="text">
+    <string>Vertical Line Studie</string>
+   </property>
+  </action>
+  <action name="actionChannel_Studie">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/ChannelStudie.png</normaloff>:/imgs/imgs/ChannelStudie.png</iconset>
+   </property>
+   <property name="text">
+    <string>Channel Studie</string>
+   </property>
+  </action>
+  <action name="actionFreeHand_Studie">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/FreeHandStudie.png</normaloff>:/imgs/imgs/FreeHandStudie.png</iconset>
+   </property>
+   <property name="text">
+    <string>FreeHand Studie</string>
+   </property>
+  </action>
+  <action name="actionSearch_Ticker">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/NewChart.png</normaloff>:/imgs/imgs/NewChart.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search Ticker</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
+  <action name="actionNew_Chart">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/imgs/imgs/NewChart.png</normaloff>:/imgs/imgs/NewChart.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Chart</string>
+   </property>
+  </action>
+  <action name="actionOpen_100_Charts">
+   <property name="text">
+    <string>Open 100 Charts...</string>
+   </property>
+  </action>
+  <action name="actionClose_All_Charts">
+   <property name="text">
+    <string>Close All Charts...</string>
+   </property>
+  </action>
+  <action name="actionMoving_Average">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/indicators_icons/imgs/MovingAverage.png</normaloff>:/indicators_icons/imgs/MovingAverage.png</iconset>
+   </property>
+   <property name="text">
+    <string>Moving Average</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
