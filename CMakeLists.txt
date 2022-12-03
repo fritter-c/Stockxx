@@ -115,7 +115,9 @@ set(PROJECT_SOURCES
         source/calc/indicators/customarrayindicatorcalc.cpp
         source/calc/indicators/customarrayindicatorcalc.h
         source/calc/indicators/priceindicatorcalc.cpp
-        source/calc/indicators/priceindicatorcalc.h      
+        source/calc/indicators/priceindicatorcalc.h
+        source/calc/indicators/movingaveragecalc.cpp
+        source/calc/indicators/movingaveragecalc.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
