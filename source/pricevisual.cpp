@@ -56,6 +56,7 @@ void PriceVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     int nEntrys {m_tsVisual->getEntrys()};
     qreal nSpace{boundingRect().width()};
     qreal rCandleSize = fmin(100,(nSpace / nEntrys) - qMax(200/nEntrys, 5));
+    bool bBody{rCandleSize >= 2};
     QPen pen {Qt::black, 1};
     painter->setPen(pen);
     m_priceCalc->PriorAll();
@@ -87,7 +88,7 @@ void PriceVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             QLineF shadow{pointHigh, pointLow};
             // Desenha a linha (sombra, pavio) do candle
             painter->drawLine(shadow);
-            if (rCandleSize >= 2){
+            if (bBody){
                 QRectF body;
                 if (candle->ct == ctBull)
                 {

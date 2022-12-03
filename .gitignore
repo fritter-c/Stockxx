@@ -11,3 +11,6 @@ CTestTestfile.cmake
 _deps
 assets/
 bin/
+database/
+.vs
+out/
