@@ -25,7 +25,7 @@ public:
 
 inline uint qHash(const AssetId &key, uint seed)
 {
-    return qHash(key.name, seed);
+    return (uint)qHash(key.name, seed);
 }
 
 // assetID
@@ -83,7 +83,7 @@ inline QuoteIdentifier const INVALID_QUOTE = QuoteIdentifier();
 
 inline uint qHash(const QuoteIdentifier &key, uint seed)
 {
-    return qHash(key.dtQuoteDate, seed) ^ (key.id + 1);
+    return (uint)qHash(key.dtQuoteDate, seed) ^ (key.id + 1);
 }
 
 // QuoteIdentifier
@@ -125,7 +125,7 @@ inline bool operator==(const DataSerieIdentifier &a, const DataSerieIdentifier &
 }
 inline uint qHash(const DataSerieIdentifier &key, uint seed)
 {
-    return qHash(key.id.name, seed) ^ (key.si + 1);
+    return (uint)qHash(key.id.name, seed) ^ (key.si + 1);
 }
 
 inline DataSerieValue const INVALID_DATA = DataSerieValue();

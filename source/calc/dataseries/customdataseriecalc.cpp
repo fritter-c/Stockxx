@@ -30,7 +30,7 @@ void CustomDataSerieCalc::serieToStream()
     out << m_assetId.name;
     out.setVersion(QDataStream::Qt_6_0);
     DataSerieValue dt;
-    for(size_t i{0}; i < ar_values.count(); i++)
+    for(long long i{0}; i < ar_values.count(); i++)
     {
         dt = *ar_values[i];
         out << dt.dOpen;
@@ -63,7 +63,7 @@ void CustomDataSerieCalc::loadSerieFromJsonAV(QString json)
 
 void CustomDataSerieCalc::ClearDataSerie()
 {
-    for(size_t i{0}; i < ar_values.count(); i++)
+    for(long long i{0}; i < ar_values.count(); i++)
     {
         delete ar_values[i];
     }

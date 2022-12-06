@@ -35,7 +35,6 @@ void PriceCalc::onTickTimer()
     }
     visual->update();
 
-
 }
 
 PriceCalc::PriceCalc(CustomPrice *price, QGraphicsItem* visual) : IndicatorCalc(price)

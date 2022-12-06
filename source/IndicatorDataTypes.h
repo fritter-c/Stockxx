@@ -24,7 +24,7 @@ public:
 };
 inline uint qHash(const IndicatorIdentifier &key, uint seed)
 {
-    return qHash(key.type, seed) ^ (key.id + 1);
+    return (uint)qHash(key.type, seed) ^ (key.id + 1);
 }
 enum MovingAverageType {mtArithmetic = 0, mtExponential = 1};
 

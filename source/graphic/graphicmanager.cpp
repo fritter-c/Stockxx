@@ -47,8 +47,8 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_vie
     connect(m_view, &GoTView::MouseMove, this, &GraphicManager::onViewMouseMove);
     connect(m_view, &GoTView::KeyPress, this, &GraphicManager::onViewKeyPress);
     connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::handToggles, this, &GraphicManager::onMainHandToggle);
-    connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies);
-     connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::randomClose, this, &GraphicManager::onMainRandomClose);
+    connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies); 
+    connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::randomClose, this, &GraphicManager::onMainRandomClose);
 
     m_visualItems.append(m_priceVisual);
     m_visualItems.append(m_psVisual);

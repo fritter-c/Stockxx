@@ -182,6 +182,11 @@ set_target_properties(Stockxx PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+if(MSVC)
+    add_compile_options(/W4)
+else()
+    add_compile_options(-Wall -Wextra -pedantic -Werror)
+endif()
 
 install(TARGETS Stockxx
     BUNDLE DESTINATION .
