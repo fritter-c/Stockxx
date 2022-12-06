@@ -54,6 +54,7 @@
     <addaction name="actionOpen_100_Charts"/>
     <addaction name="actionClose_All_Charts"/>
     <addaction name="actionRelease_MDI_Windows"/>
+    <addaction name="actionRandom_Close"/>
    </widget>
    <widget class="QMenu" name="menuIndicators">
     <property name="title">
@@ -286,6 +287,14 @@
   <action name="actionRelease_MDI_Windows">
    <property name="text">
     <string>Release MDI Windows</string>
+   </property>
+  </action>
+  <action name="actionRandom_Close">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Random Close</string>
    </property>
   </action>
  </widget>

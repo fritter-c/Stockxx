@@ -4,8 +4,9 @@
 #include <QObject>
 #include "customdataserie.h"
 #include "StockxxDataTypes.h"
+#include "customserie.h"
 
-class CustomPrice : public QObject
+class CustomPrice : public CustomSerie
 {
 protected:
     CustomDataSerie* m_dataSerie;
@@ -14,19 +15,19 @@ protected:
     SerieInterval m_interval;
 public:
     explicit CustomPrice(CustomDataSerie* dataSerie, QObject *parent = nullptr);
-    virtual bool Next();
-    virtual bool Prior();
-    virtual bool PriorAll();
-    virtual bool NextAll();
-    virtual bool PriorN(size_t N);
-    virtual bool NextN(size_t N);
-    virtual size_t Size();
-    virtual double Open();
-    virtual double Close();
-    virtual QDateTime Date();
-    virtual double High();
-    virtual double Low();
-    virtual double Volume();
+    virtual bool Next() override;
+    virtual bool Prior() override;
+    virtual bool PriorAll() override;
+    virtual bool NextAll() override;
+    virtual bool PriorN(size_t N) override;
+    virtual bool NextN(size_t N) override;
+    virtual size_t Size() override;
+    virtual double Open() override;
+    virtual double Close() override;
+    virtual QDateTime Date() override;
+    virtual double High() override;
+    virtual double Low() override;
+    virtual double Volume() override;
     virtual DataSerieValue *Data();
     virtual QuoteIdentifier Quote();
     SerieInterval interval() const;

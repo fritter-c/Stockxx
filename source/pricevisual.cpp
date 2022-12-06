@@ -9,9 +9,14 @@ SerieInterval PriceVisual::interval() const
     return m_interval;
 }
 
+void PriceVisual::toggleRandomClose(bool b)
+{
+    m_priceCalc->toggleRandomClose(b);
+}
+
 PriceVisual::PriceVisual(CustomPrice *customPrice, QObject *parent, QGraphicsView *view) : IndicatorVisual(customPrice, parent, view)
 {
-    m_priceCalc = new PriceCalc(customPrice);
+    m_priceCalc = new PriceCalc(customPrice, this);
     m_data = m_priceCalc;
     m_priceCalc->CreateIndicatorsValues();
     m_interval = m_priceCalc->interval();

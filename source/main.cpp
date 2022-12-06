@@ -1,5 +1,6 @@
 #include "calcdaemon.h"
 #include "dataseriemanager.h"
+#include "indicatormanager.h"
 #include "mainwindow.h"
 #include <QApplication>
 #include <QFile>
@@ -13,6 +14,10 @@ void createCalcDaemon(){
     new CalcDaemon();
 }
 
+void createIndicatorManager(){
+    new IndicatorManager();
+}
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -20,6 +25,7 @@ int main(int argc, char *argv[])
     QThread::currentThread()->setPriority(QThread::HighestPriority);
     createDataSerieManager();
     createCalcDaemon();
+    createIndicatorManager();
     CalcDaemon::Instance().start();
     MainWindow w;
     w.show();

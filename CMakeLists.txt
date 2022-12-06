@@ -36,6 +36,8 @@ set(PROJECT_SOURCES
         source/pricecalc.h
         source/stockxxdateutils.h
         source/IndicatorDataTypes.h
+        source/indicatormanager.cpp
+        source/indicatormanager.h
 
         source/graphic/customchart.cpp
         source/graphic/customchart.h
@@ -63,8 +65,11 @@ set(PROJECT_SOURCES
         source/dataseries/minutedataserie.h
         source/dataseries/dataseriemanager.cpp
         source/dataseries/dataseriemanager.h
+
         source/customprice/customprice.cpp
         source/customprice/customprice.h
+        source/customprice/customserie.cpp
+        source/customprice/customserie.h
         
         source/studies/customstudie.cpp
         source/studies/customstudie.h
@@ -118,6 +123,15 @@ set(PROJECT_SOURCES
         source/calc/indicators/priceindicatorcalc.h
         source/calc/indicators/movingaveragecalc.cpp
         source/calc/indicators/movingaveragecalc.h
+
+        source/indicators/customindicator.h
+        source/indicators/customindicator.cpp
+        source/indicators/customarrayindicator.cpp
+        source/indicators/customarrayindicator.h
+        source/indicators/movingaverage.cpp
+        source/indicators/movingaverage.h
+        source/indicators/priceindicator.cpp
+        source/indicators/priceindicator.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

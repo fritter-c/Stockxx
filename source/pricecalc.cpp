@@ -1,15 +1,52 @@
 #include "pricecalc.h"
 #include <cstddef>
+#include <QRandomGenerator>
 
 SerieInterval PriceCalc::interval() const
 {
     return m_interval;
 }
 
-PriceCalc::PriceCalc(CustomPrice *price) : IndicatorCalc(price)
+void PriceCalc::toggleRandomClose(bool status)
+{
+    if (status){
+
+        m_randomPriceTick->start();
+    }
+    else{
+        m_randomPriceTick->stop();
+
+    }
+
+}
+
+void PriceCalc::onTickTimer()
+{
+
+    PriorAll();
+    Candle* candle{getCandle()};
+    int a = QRandomGenerator::global()->bounded(-1, 2);
+    candle->dClose = candle->dClose + a * 0.05;
+    if (candle->dClose > candle->dHigh){
+        candle->dHigh = candle->dClose;
+    }
+    if (candle->dClose < candle->dLow){
+       candle->dLow = candle->dClose;
+    }
+    visual->update();
+
+
+}
+
+PriceCalc::PriceCalc(CustomPrice *price, QGraphicsItem* visual) : IndicatorCalc(price)
 {
     m_interval = price->interval();
+    m_randomPriceTick = new QTimer();
+    m_randomPriceTick->setInterval(10);
+    QObject::connect(m_randomPriceTick, &QTimer::timeout, this, &PriceCalc::onTickTimer);
+    this->visual = visual;
 }
+
 
 PriceCalc::~PriceCalc()
 {

@@ -9,6 +9,7 @@
 #include "vertlinestudie.h"
 #include "channelstudie.h"
 #include "dataseriemanager.h"
+#include "indicatormanager.h"
 
 GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_view, QObject *parent_main, QWidget *chart)
     : QObject{chart}
@@ -24,6 +25,10 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_vie
     else
         m_mainDataSerie = DataSerieManager::Instance().getMinuteDataSerie(m_assetId,si, true);
 
+    IndicatorParamList lst;
+    lst.append(new IntegerParam(1));
+    lst.append(new IntegerParam(0));
+    IndicatorManager::Instance().requestIndicator(assetId, si, itPrice,lst);
     m_priceVisual = new PriceVisual(new CustomPrice(m_mainDataSerie, this), this, m_view);
     m_psVisual = m_priceVisual->GetPriceScale();
     m_tsVisual = m_priceVisual->GetTimeScale();
@@ -43,6 +48,7 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_vie
     connect(m_view, &GoTView::KeyPress, this, &GraphicManager::onViewKeyPress);
     connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::handToggles, this, &GraphicManager::onMainHandToggle);
     connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies);
+     connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::randomClose, this, &GraphicManager::onMainRandomClose);
 
     m_visualItems.append(m_priceVisual);
     m_visualItems.append(m_psVisual);
@@ -265,6 +271,11 @@ void GraphicManager::onMainDeleteAllStudies()
         delete m_visualStudies[i];
         m_visualStudies.pop_back();
     }
+}
+
+void GraphicManager::onMainRandomClose(bool b)
+{
+    m_priceVisual->toggleRandomClose(b);
 }
 
 

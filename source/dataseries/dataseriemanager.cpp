@@ -1,7 +1,7 @@
 #include "dataseriemanager.h"
 #include "dailydataseriecalc.h"
 #include "minutedataserie.h"
-#include "minutedataseriecalc.h"
+
 
 DataSerieManager* DataSerieManager::instance = nullptr;
 
@@ -86,8 +86,8 @@ void DataSerieManager::requestMinuteSerie(QString ticker, int offset)
 
 DailyDataSerie* DataSerieManager::getDailyDataSerie(AssetId id, bool bCreate)
 {
-    if (m_hshDataSeries.contains(getDataID(id, 1))){
-        return dynamic_cast<DailyDataSerie*>(m_hshDataSeries[getDataID(id, 1)]);
+    if (m_hshDataSeries.contains(getDataID(id, 0))){
+        return dynamic_cast<DailyDataSerie*>(m_hshDataSeries[getDataID(id, 0)]);
     }
     else if (bCreate){
         DailyDataSerie* aux = new DailyDataSerie(id);
@@ -118,12 +118,30 @@ MinuteDataSerie *DataSerieManager::getMinuteDataSerie(AssetId id, int offset, bo
 
 DailyDataSerieCalc *DataSerieManager::getDailyDataSerieCalc(AssetId id, bool bCreate)
 {
-    if (m_hshDataSeries.contains(getDataID(id, 0))){
+    if (m_hshDataSeriesCalc.contains(getDataID(id, 0))){
         return dynamic_cast<DailyDataSerieCalc*>(m_hshDataSeriesCalc[getDataID(id, 0)]);
     }
     else if (bCreate){
         DailyDataSerieCalc* aux = new DailyDataSerieCalc(id);
         m_dataSeriesCalc.append(aux);
+        m_hshDataSeriesCalc.insert(aux->ID(), aux);
+        connectCalcSerie(aux);
+        return aux;
+    }
+    else{
+        return nullptr;
+    }
+}
+
+MinuteDataSerieCalc *DataSerieManager::getMinuteDataSerieCalc(AssetId id, int offset, bool bCreate)
+{
+    if (m_hshDataSeriesCalc.contains(getDataID(id, offset))){
+        return dynamic_cast<MinuteDataSerieCalc*>(m_hshDataSeriesCalc[getDataID(id, offset)]);
+    }
+    else if (bCreate){
+        MinuteDataSerieCalc* aux = new MinuteDataSerieCalc(id, offset, true);
+        m_dataSeriesCalc.append(aux);
+        m_hshDataSeriesCalc.insert(aux->ID(), aux);
         connectCalcSerie(aux);
         return aux;
     }

@@ -30,6 +30,7 @@ public:
     virtual void changeGeometry() override;
     void toggleCross();
     SerieInterval interval() const;
+    void toggleRandomClose(bool);
 
 protected:
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;

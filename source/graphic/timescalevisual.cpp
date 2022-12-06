@@ -2,6 +2,14 @@
 #include "pricevisual.h"
 #include <QGraphicsSceneHoverEvent>
 
+TimeScaleVisual::TimeScaleVisual(PriceVisual *price, QObject* parent, QGraphicsView* view)
+{
+    m_price = price;
+    m_view = view;
+    m_parent = parent;
+    setAcceptHoverEvents(true);
+    popuplateDateTimes();
+}
 void TimeScaleVisual::popuplateDateTimes()
 {
     QList<Candle*> candles;
@@ -15,6 +23,30 @@ void TimeScaleVisual::popuplateDateTimes()
     m_nFirstIndex = nZoom - nOffset;
 }
 
+void TimeScaleVisual::recalculatePositions()
+{
+    QFont font;
+    font.setPixelSize(12);
+    QFontMetricsF fm{font};
+    int nEntrys = m_dtDateTimes.size() - nZoom;
+    double nText;
+    if (m_price->interval() == siDaily){
+         nText = fm.horizontalAdvance("00.00.0000");
+    }
+    else{
+        nText = fm.horizontalAdvance("00.00 00:00");
+    }
+    double nSpace{boundingRect().width() - nText};
+    double nSpaceNeeded{nEntrys * nText};
+    double nSpacing {(nSpace - nSpaceNeeded) / nEntrys};
+    double nX{boundingRect().width() - nText - c_rTimeScaleBoldMargin};
+    m_rFirst = nX;
+    m_rSpacing = (-nText-nSpacing);
+    m_nFirstIndex = m_dtDateTimes.size() - nOffset - 1;
+    m_nFirstID = m_dtDateTimes[m_nFirstIndex].id;
+    m_rLast = m_rFirst + nEntrys * m_rSpacing;
+    m_nLastID = m_dtDateTimes[nZoom - nOffset].id;
+}
 void TimeScaleVisual::zoom(int delta){
     if (delta > 0){
         if (nZoom + delta/10 < m_dtDateTimes.size() - 1){
@@ -144,31 +176,6 @@ void TimeScaleVisual::updatePriceTag(QGraphicsItem *sender, qreal x, QColor colo
     }
 }
 
-void TimeScaleVisual::recalculatePositions()
-{
-    QFont font;
-    font.setPixelSize(12);
-    QFontMetricsF fm{font};
-    int nEntrys = m_dtDateTimes.size() - nZoom;
-    double nText;
-    if (m_price->interval() == siDaily){
-         nText = fm.horizontalAdvance("00.00.0000");
-    }
-    else{
-        nText = fm.horizontalAdvance("00.00 00:00");
-    }
-    double nSpace{boundingRect().width() - nText};
-    double nSpaceNeeded{nEntrys * nText};
-    double nSpacing {(nSpace - nSpaceNeeded) / nEntrys};
-    double nX{boundingRect().width() - nText - c_rTimeScaleBoldMargin};
-    m_rFirst = nX;
-    m_rSpacing = (-nText-nSpacing);
-    m_nFirstIndex = m_dtDateTimes.size() - nOffset - 1;
-    m_nFirstID = m_dtDateTimes[m_nFirstIndex].id;
-    m_rLast = m_rFirst + nEntrys * m_rSpacing;
-    m_nLastID = m_dtDateTimes[nZoom - nOffset].id;
-}
-
 void TimeScaleVisual::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     m_bHighLight = true;
@@ -187,15 +194,6 @@ void TimeScaleVisual::wheelEvent(QGraphicsSceneWheelEvent *event)
 {
     zoom(event->delta());
     event->accept();
-}
-
-TimeScaleVisual::TimeScaleVisual(PriceVisual *price, QObject* parent, QGraphicsView* view)
-{
-    m_price = price;
-    m_view = view;
-    m_parent = parent;
-    setAcceptHoverEvents(true);
-    popuplateDateTimes();
 }
 
 TimeScaleVisual::~TimeScaleVisual()

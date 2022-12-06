@@ -1,23 +1,17 @@
-#ifndef PRICEINDICATORCALC_H
-#define PRICEINDICATORCALC_H
+#ifndef PRICEINDICATOR_H
+#define PRICEINDICATOR_H
 
-#include "customindicatorcalc.h"
-#include "IndicatorDataTypes.h"
+#include "customindicator.h"
 
-class PriceIndicatorCalc : public CustomIndicatorCalc
+class PriceIndicator : public CustomIndicator
 {
     Q_OBJECT
 protected:
     CandleArray m_arData;
-    int doia;
-    virtual void createIndicatorValues() override;
     virtual void resize(size_t n);
     virtual void grow(size_t n);
-    virtual void loadParams(IndicatorParamList) override{};
 public:
-    PriceIndicatorCalc(CustomSerieCalc* base);
-
-    // CustomSerieCalc interface
+    PriceIndicator(CustomSerie *base);
     virtual bool Next() override;
     virtual bool Prior() override;
     virtual bool PriorAll() override;
@@ -31,11 +25,7 @@ public:
     virtual double High() override;
     virtual double Low() override;
     virtual double Volume() override;
-
-    const CandleArray &getData() const;
+    virtual void addNewPrice(size_t, size_t, CandleArray*);
 };
 
-
-
-
-#endif // PRICEINDICATORCALC_H
+#endif // PRICEINDICATOR_H

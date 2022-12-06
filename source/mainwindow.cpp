@@ -234,3 +234,8 @@ void MainWindow::on_actionRelease_MDI_Windows_triggered()
 
 }
 
+void MainWindow::on_actionRandom_Close_triggered(bool checked)
+{
+    emit randomClose(checked);
+}
+

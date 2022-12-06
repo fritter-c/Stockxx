@@ -62,6 +62,7 @@ public slots:
     void onMainCrossToggled(bool);
     void onMainHandToggle(bool);
     void onMainDeleteAllStudies();
+    void onMainRandomClose(bool);
 
 };
 

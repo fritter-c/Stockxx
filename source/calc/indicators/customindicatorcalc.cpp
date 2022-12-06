@@ -1,26 +1,37 @@
 #include "customindicatorcalc.h"
+#include "indicatormanager.h"
 
 CustomIndicatorCalc::CustomIndicatorCalc(CustomSerieCalc* baseIndicator)
 {
-
+    m_baseIndicator = baseIndicator;
 }
 
-void CustomIndicatorCalc::onCalcSerieFull()
+void CustomIndicatorCalc::onCalcSerieFull(IndicatorIdentifier id)
 {
-    createIndicatorValues();
+    if (id == ID())
+        createIndicatorValues();
+}
+
+IndicatorIdentifier CustomIndicatorCalc::ID() const
+{
+    return m_ID;
+}
+
+void CustomIndicatorCalc::setID(IndicatorIdentifier newNID)
+{
+    m_ID = newNID;
 }
 
 void CustomIndicatorCalc::createIndicatorValues()
 {
-    emit newData(0);
-}
-
-void CustomIndicatorCalc::resize(size_t n)
-{
 
 }
 
-void CustomIndicatorCalc::grow(size_t n)
-{
 
+void CustomIndicatorCalc::disposeParams(IndicatorParamList param)
+{
+    while(param.count() > 0){
+        delete param[param.count() - 1];
+        param.pop_back();
+    }
 }

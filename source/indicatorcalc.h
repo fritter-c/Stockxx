@@ -4,7 +4,7 @@
 #include <QObject>
 #include "customprice.h"
 
-class IndicatorCalc
+class IndicatorCalc : public QObject
 {
 protected:
     CustomPrice* m_price;

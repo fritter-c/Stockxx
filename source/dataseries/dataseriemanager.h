@@ -7,6 +7,7 @@
 #include "dailydataseriecalc.h"
 #include "minutedataserie.h"
 #include "stockdataapi.h"
+#include "minutedataseriecalc.h"
 #include <QObject>
 
 class DataSerieManager : public QObject
@@ -38,6 +39,7 @@ public:
     DailyDataSerie *getDailyDataSerie(AssetId id, bool bCreate = false);
     MinuteDataSerie* getMinuteDataSerie(AssetId id, int offset, bool bCreate = false);
     DailyDataSerieCalc *getDailyDataSerieCalc(AssetId id, bool bCreate = false);
+    MinuteDataSerieCalc* getMinuteDataSerieCalc(AssetId id, int offset, bool bCreate = false);
     QStringList avaiableDataSeries;
 
 public slots:

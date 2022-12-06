@@ -1,9 +1,15 @@
 #include "priceindicatorcalc.h"
 #include "custompricecalc.h"
+#include "indicatormanager.h"
 
 PriceIndicatorCalc::PriceIndicatorCalc(CustomSerieCalc *base) : CustomIndicatorCalc{base}
 {
     
+}
+
+const CandleArray &PriceIndicatorCalc::getData() const
+{
+    return m_arData;
 }
 
 void PriceIndicatorCalc::createIndicatorValues()
@@ -12,16 +18,22 @@ void PriceIndicatorCalc::createIndicatorValues()
     price->PriorAll();
     resize(price->Size());
     size_t i{0};
-    do{
-       m_arData[i] = Candle(price->Data());
-    }while((price->Next()) and (++i));
-
-    CustomIndicatorCalc::createIndicatorValues();
+    if (m_arData.count() > 0){
+        do{
+            m_arData[i] = Candle(price->Data());
+        }while((price->Next()) and (++i));
+    }
+    IndicatorManager::Instance().addNewIndicatorData(ID(), 0, Size());
 }
 
 void PriceIndicatorCalc::resize(size_t n)
 {
     m_arData.resize(n);
+}
+
+void PriceIndicatorCalc::grow(size_t n)
+{
+    m_arData.resize(Size() + n);
 }
 
 bool PriceIndicatorCalc::Next()

@@ -28,6 +28,7 @@ signals:
     void crossToggles(bool);
     void handToggles(bool);
     void deleteAllStudies();
+    void randomClose(bool);
 private slots:
     void on_actionResistance_Studie_toggled(bool arg1);
     void on_actionLine_Studie_toggled(bool arg1);
@@ -49,7 +50,7 @@ private slots:
     void onSerieLoadStep();
     void onHideProgressBar();
     void on_actionsideAdjust_triggered();
-
     void on_actionRelease_MDI_Windows_triggered();
+    void on_actionRandom_Close_triggered(bool checked);
 };
 #endif // MAINWINDOW_H

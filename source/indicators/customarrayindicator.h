@@ -1,10 +1,10 @@
-#ifndef CUSTOMARRAYINDICATORCALC_H
-#define CUSTOMARRAYINDICATORCALC_H
+#ifndef CUSTOMARRAYINDICATOR_H
+#define CUSTOMARRAYINDICATOR_H
 
-#include "customindicatorcalc.h"
 #include "IndicatorDataTypes.h"
+#include "customindicator.h"
 
-class CustomArrayIndicatorCalc : public CustomIndicatorCalc
+class CustomArrayIndicator : public CustomIndicator
 {
     Q_OBJECT
 protected:
@@ -12,11 +12,8 @@ protected:
     virtual void setInnerSize(size_t N);
     virtual void resize(size_t n) = 0;
     virtual void grow(size_t n) = 0;
-    virtual void createIndicatorValues() override;
-
 public:
-    CustomArrayIndicatorCalc(CustomSerieCalc*base);
-
+    CustomArrayIndicator(CustomSerie*base);
     // CustomSerieCalc interface
     virtual bool Next() override;
     virtual bool Prior() override;
@@ -31,8 +28,7 @@ public:
     virtual double High() override;
     virtual double Low() override;
     virtual double Volume() override;
-    const DoublyArray &getData() const;
+    virtual void addNewValue(size_t, size_t, DoublyArray*);
 };
 
-
-#endif // CUSTOMARRAYINDICATORCALC_H
+#endif // CUSTOMARRAYINDICATOR_H

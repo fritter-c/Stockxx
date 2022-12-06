@@ -130,24 +130,6 @@ inline uint qHash(const DataSerieIdentifier &key, uint seed)
 
 inline DataSerieValue const INVALID_DATA = DataSerieValue();
 
-enum IndicatorType {itPrice = 0, itMovingAverage = 1};
-
-struct IndicatorIdentifier{
-    IndicatorType type;
-    int id;
-public:
-    inline bool operator==(const  IndicatorIdentifier &a) const{
-        if((a.type == this->type) &&
-           (a.id == this->id)){
-            return true;
-        }
-        return false;
-    }
-};
-inline uint qHash(const IndicatorIdentifier &key, uint seed)
-{
-    return qHash(key.type, seed) ^ (key.id + 1);
-}
 
 #endif
 
