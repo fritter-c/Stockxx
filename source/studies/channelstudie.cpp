@@ -1,7 +1,7 @@
 #include "channelstudie.h"
 
-ChannelStudie::ChannelStudie(qreal x, double price, TimeScaleVisual *ts_Visual, PriceScaleVisual *ps_Visual, QGraphicsItem *parent)
-    : CustomStudie(ts_Visual, ps_Visual, parent)
+ChannelStudie::ChannelStudie(QObject *manager, qreal x, double price, TimeScaleVisual *ts_Visual, PriceScaleVisual *ps_Visual, QGraphicsItem *parent)
+    : CustomStudie(manager, ts_Visual, ps_Visual, parent)
 {
     m_dStartPrice = price;
     m_dEndPrice = price;
@@ -53,7 +53,7 @@ void ChannelStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
     QPointF point3{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dSecondStartPrice)};
     QPointF point4{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dSecondEndPrice)};
-    QPen pen{Qt::yellow, m_nPenWidth};
+    QPen pen{m_mainColor, m_nPenWidth};
     painter->setPen(pen);
     painter->drawLines({{point1, point2}, {point3, point4}});
 }

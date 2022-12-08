@@ -1,6 +1,6 @@
 #include "fibonaccistudie.h"
 
-FibonacciStudie::FibonacciStudie(qreal x, double price, TimeScaleVisual *ts_Visual, PriceScaleVisual *ps_Visual, QGraphicsItem *parent) : CustomStudie{ts_Visual, ps_Visual, parent}
+FibonacciStudie::FibonacciStudie(QObject* manager, qreal x, double price, TimeScaleVisual *ts_Visual, PriceScaleVisual *ps_Visual, QGraphicsItem *parent) : CustomStudie{manager,ts_Visual, ps_Visual, parent}
 {
     qreal rX;
     m_dStartPrice = price;
@@ -27,7 +27,7 @@ void FibonacciStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         // main line
         QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
         QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
-        QPen blackPen{Qt::cyan, m_nPenWidth};
+        QPen blackPen{m_mainColor, m_nPenWidth};
         blackPen.setStyle(Qt::DashLine);
         painter->setPen(blackPen);
         painter->drawLine(point1, point2);

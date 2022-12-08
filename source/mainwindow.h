@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "graphicmanager.h"
 #include "qprogressbar.h"
+#include "qpushbutton.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,9 +21,13 @@ private:
     Ui::MainWindow *ui;
     QList<QWidget*> m_forms;
     QList<GraphicManager*> m_managers;
+    QPushButton* m_btnStudieColor;
+    QColor m_studieColor;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    const QColor &studieColor() const;
+
 signals:
     void studieSelected(StudieType, bool);
     void crossToggles(bool);
@@ -52,5 +57,6 @@ private slots:
     void on_actionsideAdjust_triggered();
     void on_actionRelease_MDI_Windows_triggered();
     void on_actionRandom_Close_triggered(bool checked);
+    void on_btnStudieColor_clicked(bool);
 };
 #endif // MAINWINDOW_H

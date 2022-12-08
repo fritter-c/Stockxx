@@ -3,6 +3,8 @@
 
 #include "customstudie.h"
 
+
+// for a v2, I expect to implement a "continuos" coordinate so that the drawing is more smooth
 struct CoordinatePair{
     double price;
     QuoteIdentifier qi;
@@ -15,7 +17,7 @@ private:
     QPolygonF m_polygon;
     QPainterPath m_path;
 public:
-    FreeHandStudie(QPointF, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent);
+    FreeHandStudie(QObject* manager, QPointF, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent);
     void addPoint(QPointF) override;
 
     // QGraphicsItem interface

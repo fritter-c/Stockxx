@@ -6,6 +6,29 @@
 #include <QCompleter>
 #include "QPushButton"
 
+SymbolSearcher::SymbolSearcher(QWidget *parent, bool bLocal) :
+    QDialog(parent),
+    ui(new Ui::SymbolSearcher)
+{
+    ui->setupUi(this);
+    setFixedSize(400,300);
+    m_local = bLocal;
+    if (!bLocal){
+        m_tmrSearch = new QTimer(this);
+        m_tmrSearch->setInterval(2000);
+        connect(m_tmrSearch, &QTimer::timeout, this, &SymbolSearcher::onSearchTimer);
+        connect(&m_tickerSearcherApi, &symbolseracherapi::dataReady, this, &SymbolSearcher::onDataReady);
+        m_completer = new TickerCompleter(QCompleter::UnfilteredPopupCompletion, this);
+        connect(this, &SymbolSearcher::complete,
+                m_completer, &TickerCompleter::complete);
+        connect(m_completer, QOverload<const QString &>::of(&QCompleter::activated),this,
+                [this](const QString &index){this->onCompleterActivated(index);});
+        ui->lineEdit_tickerKeyword->setCompleter(m_completer);
+
+        ui->groupBox_timeFrame->setVisible(true);
+    }
+    setWindowIcon(QIcon(":/imgs/imgs/NewChart.png"));
+}
 void SymbolSearcher::setKeyWord(const QString &newKeyWord)
 {
     if ((m_keyWord != newKeyWord) and (!m_local)){
@@ -66,28 +89,6 @@ void SymbolSearcher::onDataReady()
     m_lstResults = m_tickerSearcherApi.results();
     m_completer->model()->resetItems(m_lstResults);
     emit complete(QRect());
-}
-
-SymbolSearcher::SymbolSearcher(QWidget *parent, bool bLocal) :
-    QDialog(parent),
-    ui(new Ui::SymbolSearcher)
-{
-    ui->setupUi(this);
-    setFixedSize(400,300);
-    m_local = bLocal;
-    if (!bLocal){
-        m_tmrSearch = new QTimer(this);
-        m_tmrSearch->setInterval(2000);
-        connect(m_tmrSearch, &QTimer::timeout, this, &SymbolSearcher::onSearchTimer);
-        connect(&m_tickerSearcherApi, &symbolseracherapi::dataReady, this, &SymbolSearcher::onDataReady);        
-        m_completer = new TickerCompleter(QCompleter::UnfilteredPopupCompletion, this);
-        connect(this, &SymbolSearcher::complete,
-                m_completer, &TickerCompleter::complete);
-        connect(m_completer, QOverload<const QString &>::of(&QCompleter::activated),this,
-                [this](const QString &index){this->onCompleterActivated(index);});
-        ui->lineEdit_tickerKeyword->setCompleter(m_completer);
-        ui->groupBox_timeFrame->setVisible(true);
-    }
 }
 
 SymbolSearcher::~SymbolSearcher()

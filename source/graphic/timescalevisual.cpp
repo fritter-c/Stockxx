@@ -121,7 +121,7 @@ QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x, qreal *pos)
 {
     if(x <= boundingRect().width()){
         qreal actualX{m_rFirst - x};
-        int nTime{static_cast<int>(std::ceil((actualX / m_rSpacing)))};
+        int nTime{static_cast<int>(std::floor((actualX / m_rSpacing)))};
         if (nTime + m_nFirstIndex < m_dtDateTimes.size()){
             *pos = m_rFirst + nTime * m_rSpacing;
             return m_dtDateTimes[nTime + m_nFirstIndex];
@@ -137,7 +137,7 @@ QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x)
 {
     if(x <= boundingRect().width()){
         qreal actualX{m_rFirst - x};
-        int nTime{static_cast<int>(std::ceil((actualX / m_rSpacing)))};
+        int nTime{static_cast<int>(std::floor((actualX / m_rSpacing)))};
         if (nTime + m_nFirstIndex < m_dtDateTimes.size()){
             return m_dtDateTimes[nTime + m_nFirstIndex];
         }

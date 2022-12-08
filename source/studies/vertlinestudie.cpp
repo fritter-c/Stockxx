@@ -1,7 +1,7 @@
 #include "vertlinestudie.h"
 
-VertLineStudie::VertLineStudie(qreal x, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent)
-    : CustomStudie(ts_Visual, ps_Visual, parent)
+VertLineStudie::VertLineStudie(QObject* manager, qreal x, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent)
+    : CustomStudie(manager, ts_Visual, ps_Visual, parent)
 {
     qreal pos;
     m_qi = m_tsVisual->findNearestDate(x, &pos);
@@ -23,9 +23,14 @@ QRectF VertLineStudie::boundingRect() const
 void VertLineStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     CustomStudie::paint(painter, option, widget);
-    QPen pen{Qt::yellow, m_nPenWidth};
+    QPen pen{m_mainColor, m_nPenWidth};
     painter->setPen(pen);
     QPointF p1{m_tsVisual->XAtQuote(m_qi), m_tsVisual->boundingRect().top()};
     QPointF p2{m_tsVisual->XAtQuote(m_qi), parentItem()->boundingRect().top()};
     painter->drawLine(p1, p2);
+}
+
+void VertLineStudie::colorChanged()
+{
+    m_tsVisual->updatePriceTag(this, m_tsVisual->XAtQuote(m_qi), m_mainColor);
 }

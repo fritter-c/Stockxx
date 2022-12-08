@@ -1,7 +1,7 @@
 #include "freehandstudie.h"
 
-FreeHandStudie::FreeHandStudie(QPointF point, TimeScaleVisual *ts_Visual, PriceScaleVisual *ps_Visual, QGraphicsItem *parent)
-    : CustomStudie(ts_Visual, ps_Visual, parent)
+FreeHandStudie::FreeHandStudie(QObject* manager, QPointF point, TimeScaleVisual *ts_Visual, PriceScaleVisual *ps_Visual, QGraphicsItem *parent)
+    : CustomStudie(manager, ts_Visual, ps_Visual, parent)
 {
     CoordinatePair cp;
     cp.price = m_psVisual->PriceAtY(point.y());
@@ -53,7 +53,7 @@ void FreeHandStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 {
     m_polygon.clear();
     CustomStudie::paint(painter, option, widget);
-    QPen pen{Qt::yellow, m_nPenWidth};
+    QPen pen{m_mainColor, m_nPenWidth};
     painter->setPen(pen);
     for(int i{0}; i < m_pointList.count() - 1; ++i){
         QPointF point1{m_tsVisual->XAtQuote(m_pointList[i].qi), m_psVisual->YAtPrice(m_pointList[i].price)};

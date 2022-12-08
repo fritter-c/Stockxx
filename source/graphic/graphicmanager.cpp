@@ -11,7 +11,7 @@
 #include "dataseriemanager.h"
 #include "indicatormanager.h"
 
-GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_view, QObject *parent_main, QWidget *chart)
+GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_view, QWidget *parent_main, QWidget *chart)
     : QObject{chart}
 {
     m_chart = chart;
@@ -24,7 +24,7 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_vie
         m_mainDataSerie = DataSerieManager::Instance().getDailyDataSerie(m_assetId, true);
     else
         m_mainDataSerie = DataSerieManager::Instance().getMinuteDataSerie(m_assetId,si, true);
-
+    m_main = parent_main;
     IndicatorParamList lst;
     lst.append(new IntegerParam(1));
     lst.append(new IntegerParam(0));
@@ -71,35 +71,43 @@ QWidget *GraphicManager::GetCustomChart()
 void GraphicManager::addStudie(QMouseEvent *event)
 {
     if(m_mainStudie == stResistance){
-        m_visualStudies.append(new ResistanceStudie(m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
+        m_visualStudies.append(new ResistanceStudie(this, m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
+        m_visualStudies.last()->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
     }
     else if(m_mainStudie == stLine){
-        m_visualStudies.append(new LineStudie(event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
+        m_visualStudies.append(new LineStudie(this, event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
         m_selectedStudie = m_visualStudies.last();
+        m_selectedStudie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
         m_bAddingStudie = true;
         m_studieState = ssSettingSecondPoint;
     }
     else if(m_mainStudie == stFibonacci){
-        m_visualStudies.append(new FibonacciStudie(event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
+        m_visualStudies.append(new FibonacciStudie(this, event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
         m_selectedStudie = m_visualStudies.last();
+        m_selectedStudie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
         m_studieState = ssSettingSecondPoint;
         m_bAddingStudie = true;
     }
     else if(m_mainStudie == stVertLine){
-        m_visualStudies.append(new VertLineStudie(event->pos().x(), m_tsVisual, m_psVisual, m_priceVisual));
+        m_visualStudies.append(new VertLineStudie(this, event->pos().x(), m_tsVisual, m_psVisual, m_priceVisual));
+        m_visualStudies.last()->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
     }
     else if(m_mainStudie == stChannel){
-        m_visualStudies.append(new ChannelStudie(event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
+        m_visualStudies.append(new ChannelStudie(this, event->pos().x(),m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual));
         m_selectedStudie = m_visualStudies.last();
+        m_selectedStudie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
         m_bAddingStudie = true;
         m_studieState = ssSettingSecondPoint;
     }
     else if(m_mainStudie == stFreeHand){
-         m_visualStudies.append(new FreeHandStudie(event->pos(), m_tsVisual, m_psVisual, m_priceVisual));
+         m_visualStudies.append(new FreeHandStudie(this, event->pos(), m_tsVisual, m_psVisual, m_priceVisual));
          m_bAddingStudie = true;
          m_selectedStudie = m_visualStudies.last();
+         m_selectedStudie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
          m_studieState = ssAddingPoint;
+
     }
+
 }
 
 void GraphicManager::fullUpdate()
@@ -163,6 +171,12 @@ void GraphicManager::handleMouseMoveStudie(QMouseEvent *event)
 void GraphicManager::candleHoveredChanged()
 {
     dynamic_cast <CandleMagnifier*>(m_candleMag)->setSelectedCandle(m_priceVisual->getHoveredCandle());
+}
+
+void GraphicManager::deleteStudie(CustomStudie * studie)
+{
+    m_visualStudies.removeOne(studie);
+    delete studie;
 }
 
 void GraphicManager::onViewResize(QResizeEvent *event)

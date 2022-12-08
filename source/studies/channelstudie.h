@@ -9,7 +9,7 @@ private:
     double m_dSecondStartPrice;
     double m_dSecondEndPrice;
 public:
-    ChannelStudie(qreal, double, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent);
+    ChannelStudie(QObject* manager, qreal, double, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent);
     void setThirdPrice(QPointF) override;
 
     // CustomStudie interface

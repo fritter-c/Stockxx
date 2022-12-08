@@ -133,9 +133,11 @@ void IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorT
             PriceIndicator* piMain{new PriceIndicator(price)};
             piMain->setID(indicator);
             m_hshIndicators.insert(indicator, piMain);
+            
             PriceIndicatorCalc* piCalc{new PriceIndicatorCalc(calcPrice)};
             piCalc->setID(indicator);
             m_hshIndicatorsCalc.insert(indicator, piCalc);
+            
             connect(this, &IndicatorManager::requestFull, piCalc, &CustomIndicatorCalc::onCalcSerieFull);
             emit requestFull(indicator);
             break;

@@ -16,5 +16,8 @@
     </qresource>
     <qresource prefix="/indicators_icons">
         <file>imgs/MovingAverage.png</file>
+        <file>imgs/BollingerBands.png</file>
+        <file>imgs/Volume.png</file>
+        <file>imgs/VWAP.png</file>
     </qresource>
 </RCC>

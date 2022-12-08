@@ -49,6 +49,7 @@ void GoTView::mouseMoveEvent(QMouseEvent *event)
 
 void GoTView::keyPressEvent(QKeyEvent *event)
 {
-    emit KeyPress(event);
-    event->accept();
+    QGraphicsView::keyPressEvent(event);
+    //emit KeyPress(event);
+    //event->accept();
 }

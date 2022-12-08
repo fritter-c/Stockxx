@@ -61,6 +61,9 @@
      <string>Indicators</string>
     </property>
     <addaction name="actionMoving_Average"/>
+    <addaction name="actionBollinger_Bands"/>
+    <addaction name="actionVWAP"/>
+    <addaction name="actionFinancial_Volume"/>
    </widget>
    <addaction name="menuStockxx"/>
    <addaction name="menuTicker"/>
@@ -295,6 +298,38 @@
    </property>
    <property name="text">
     <string>Random Close</string>
+   </property>
+  </action>
+  <action name="actionBollinger_Bands">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/indicators_icons/imgs/BollingerBands.png</normaloff>:/indicators_icons/imgs/BollingerBands.png</iconset>
+   </property>
+   <property name="text">
+    <string>Bollinger Bands</string>
+   </property>
+  </action>
+  <action name="actionVWAP">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/indicators_icons/imgs/VWAP.png</normaloff>:/indicators_icons/imgs/VWAP.png</iconset>
+   </property>
+   <property name="text">
+    <string>VWAP</string>
+   </property>
+  </action>
+  <action name="actionFinancial_Volume">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/indicators_icons/imgs/Volume.png</normaloff>:/indicators_icons/imgs/Volume.png</iconset>
+   </property>
+   <property name="text">
+    <string>Financial Volume</string>
+   </property>
+  </action>
+  <action name="actionStudie_Color">
+   <property name="text">
+    <string>Studie Color</string>
    </property>
   </action>
  </widget>

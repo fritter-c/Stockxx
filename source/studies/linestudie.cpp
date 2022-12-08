@@ -1,6 +1,9 @@
 #include "linestudie.h"
 
-LineStudie::LineStudie(qreal x, double price, TimeScaleVisual *ts_Visual, PriceScaleVisual *ps_Visual, QGraphicsItem *parent) : CustomStudie{ts_Visual, ps_Visual, parent}
+LineStudie::LineStudie(QObject* manager,
+                       qreal x, double price, TimeScaleVisual
+                       *ts_Visual, PriceScaleVisual *ps_Visual, QGraphicsItem *parent) : CustomStudie{manager,
+                                                                                                      ts_Visual, ps_Visual, parent}
 {
     qreal rX;
     m_dStartPrice = price;
@@ -16,7 +19,7 @@ void LineStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         CustomStudie::paint(painter, option, widget); // clips
         QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
         QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
-        QPen blackPen{Qt::yellow, m_nPenWidth};
+        QPen blackPen{m_mainColor, m_nPenWidth};
         painter->setPen(blackPen);
         m_line = {point1, point2};
         painter->drawLine(m_line);

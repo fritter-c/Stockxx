@@ -5,10 +5,16 @@
 #include "customchart.h"
 #include "dataseriemanager.h"
 #include "symbolsearcher.h"
+#include <QColorDialog>
 
 void MainWindow::syncButtons()
 {
 
+}
+
+const QColor &MainWindow::studieColor() const
+{
+    return m_studieColor;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,6 +37,22 @@ MainWindow::MainWindow(QWidget *parent)
     m_progressBar.setMinimum(0);
     ui->statusbar->addPermanentWidget(&m_progressBar);
     m_progressBar.setVisible(false);
+    m_btnStudieColor = new QPushButton();
+    m_btnStudieColor->setMinimumSize(20, 20);
+    m_btnStudieColor->setMaximumSize(30, 30);
+    m_studieColor = Qt::yellow;
+    m_btnStudieColor->setAutoFillBackground(true);
+    m_btnStudieColor->setStyleSheet("background-color: yellow;");
+    m_btnStudieColor->update();
+    m_btnStudieColor->setGeometry(0,0, 30,30);
+    connect(m_btnStudieColor, &QPushButton::clicked, this,  &MainWindow::on_btnStudieColor_clicked);
+    ui->toolBar->addWidget(m_btnStudieColor);
+
+#ifdef QT_DEBUG
+    ui->menuTests->menuAction()->setVisible(true);
+#else
+    ui->menuTests->menuAction()->setVisible(false);
+#endif
 }
 
 MainWindow::~MainWindow()
@@ -40,6 +62,7 @@ MainWindow::~MainWindow()
         delete form;
     }
     m_forms.clear();
+    delete m_btnStudieColor;
 }
 
 void MainWindow::on_actionResistance_Studie_toggled(bool arg1)
@@ -237,5 +260,19 @@ void MainWindow::on_actionRelease_MDI_Windows_triggered()
 void MainWindow::on_actionRandom_Close_triggered(bool checked)
 {
     emit randomClose(checked);
+}
+
+void MainWindow::on_btnStudieColor_clicked(bool)
+{
+    QColorDialog colordial;
+
+    colordial.exec();
+    if (colordial.result() == QDialog::Accepted){
+        QColor col{ colordial.selectedColor() };
+        m_studieColor = col;
+        QString qss = QString("background-color: %1").arg(col.name());
+        m_btnStudieColor->setStyleSheet(qss);
+        m_btnStudieColor->update();
+    }
 }
 

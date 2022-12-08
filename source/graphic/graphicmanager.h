@@ -37,6 +37,7 @@ private:
     StudieState m_studieState{ssNone};
     QPointF m_lastChartPos{0,0};
     SerieInterval m_sInterval;
+    QWidget* m_main;
     bool m_bHandMode{false};
     bool m_draggingChart{false};
     bool m_bAddingStudie{false};
@@ -47,10 +48,11 @@ private:
     void handleMousePressStudie();
     void handleMouseMoveStudie(QMouseEvent *event);
 public:
-    explicit GraphicManager(AssetId assetId,SerieInterval si, GoTView *m_view, QObject *parent_main = nullptr, QWidget *chart = nullptr);
+    explicit GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_view, QWidget *parent_main = nullptr, QWidget *chart = nullptr);
     ~GraphicManager();
     QWidget* GetCustomChart();
     void candleHoveredChanged();
+    void deleteStudie(CustomStudie*);
 
 public slots:
     void onViewResize(QResizeEvent *event);
