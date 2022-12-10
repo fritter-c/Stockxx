@@ -17,7 +17,5 @@ public:
     virtual void setSecondPrice(QPointF) override;
     virtual QPainterPath shape() const override;
     virtual QRectF boundingRect() const override;
-
 };
-
 #endif // LINESTUDIE_H

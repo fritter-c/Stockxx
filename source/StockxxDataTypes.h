@@ -1,5 +1,6 @@
 #ifndef STOCKXXDATATYPES_H
 #define STOCKXXDATATYPES_H
+#include "qcolor.h"
 #include <QtCore>
 #include <limits.h>
 
@@ -130,6 +131,11 @@ inline uint qHash(const DataSerieIdentifier &key, uint seed)
 
 inline DataSerieValue const INVALID_DATA = DataSerieValue();
 
+struct BasicStudieStyle{
+    Qt::PenStyle penStyle;
+    int width;
+    QColor color;
+};
 
 #endif
 

@@ -58,5 +58,6 @@ private slots:
     void on_actionRelease_MDI_Windows_triggered();
     void on_actionRandom_Close_triggered(bool checked);
     void on_btnStudieColor_clicked(bool);
+    void on_actionOpen_LinePicker_triggered();
 };
 #endif // MAINWINDOW_H

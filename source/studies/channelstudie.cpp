@@ -54,6 +54,7 @@ void ChannelStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     QPointF point3{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dSecondStartPrice)};
     QPointF point4{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dSecondEndPrice)};
     QPen pen{m_mainColor, m_nPenWidth};
+    pen.setStyle(m_penStyle);
     painter->setPen(pen);
     painter->drawLines({{point1, point2}, {point3, point4}});
 }

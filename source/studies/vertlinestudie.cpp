@@ -24,6 +24,7 @@ void VertLineStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 {
     CustomStudie::paint(painter, option, widget);
     QPen pen{m_mainColor,m_nPenWidth};
+    pen.setStyle(m_penStyle);
     painter->setPen(pen);
     QPointF p1{m_tsVisual->XAtQuote(m_qi), m_tsVisual->boundingRect().top()};
     QPointF p2{m_tsVisual->XAtQuote(m_qi), parentItem()->boundingRect().top()};

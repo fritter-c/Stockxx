@@ -32,7 +32,7 @@ void CustomStudie::select()
 void CustomStudie::deselect()
 {
     m_bSelected = false;
-    m_nPenWidth = 1;
+    m_nPenWidth = m_nBasePenWidth;
 
     stop();
     update();
@@ -46,8 +46,27 @@ bool CustomStudie::isOverMouse()
 void CustomStudie::onGlow(int intensity)
 {
     prepareGeometryChange();
-    m_nPenWidth = 1 + (double)intensity/50;
+    m_nPenWidth = m_nBasePenWidth + (double)intensity/50;
     update();
+}
+
+void CustomStudie::setStyle(BasicStudieStyle style)
+{
+    m_nBasePenWidth = style.width;
+    m_penStyle = style.penStyle;
+    m_mainColor = style.color;
+    m_nPenWidth = m_nBasePenWidth;
+    colorChanged();
+    update();
+}
+
+BasicStudieStyle CustomStudie::getStyle() const
+{
+    BasicStudieStyle style;
+    style.width = m_nBasePenWidth;
+    style.penStyle = m_penStyle;
+    style.color = m_mainColor;
+    return style;
 }
 
 void CustomStudie::setThirdPrice(QPointF)
@@ -95,7 +114,7 @@ void CustomStudie::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     prepareGeometryChange();
     if(m_bSelected)
         stop();
-    m_nPenWidth = 3;
+    m_nPenWidth = fmin(m_nBasePenWidth + 3, 6);
 }
 
 void CustomStudie::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
@@ -103,5 +122,5 @@ void CustomStudie::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     prepareGeometryChange();  
     if(m_bSelected)
         start();
-    m_nPenWidth = 1;
+    m_nPenWidth = m_nBasePenWidth;
 }

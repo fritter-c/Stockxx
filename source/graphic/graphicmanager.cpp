@@ -10,6 +10,7 @@
 #include "channelstudie.h"
 #include "dataseriemanager.h"
 #include "indicatormanager.h"
+#include <QGraphicsProxyWidget>
 
 GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_view, QWidget* parent_main, QWidget* chart)
 	: QObject{ chart }
@@ -36,6 +37,10 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 	m_scene->addItem(m_priceVisual);
 	m_scene->addItem(m_candleMag);
 	m_baseIndicator = m_priceVisual;
+
+    m_studieProperties = new StudieProperties();
+    m_studieProperties->setVisible(false);
+    connect(m_studieProperties, &StudieProperties::styleChanged,this, &GraphicManager::onStudiePropertiesStyleChanged);
 
 	connect(m_view, &GoTView::Resize, this, &GraphicManager::onViewResize);
 	connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::studieSelected, this, &GraphicManager::onMainStudieSelected);
@@ -227,7 +232,10 @@ void GraphicManager::onViewMouseClick(QMouseEvent* event)
 		handleMousePressStudie();
 	}
     else if (!IsOverVisualItem(&item)) {
-		if ((event->button() == Qt::LeftButton) and (not m_candleMag->isUnderMouse()) and (!m_bHandMode)) {
+        if ((event->button() == Qt::LeftButton) &&
+                (not m_candleMag->isUnderMouse()) &&
+                (!m_bHandMode) and (m_mainStudie))
+        {
 			addStudie(event);
 		}
 		else {
@@ -237,15 +245,20 @@ void GraphicManager::onViewMouseClick(QMouseEvent* event)
 			}
 			else {
 				m_draggingChart = false;
+                if (m_viSelected) {
+                    m_viSelected->deselect();
+                }
 			}
 		}
 	}
 	else {
 		item->select();
+        m_studieProperties->show();
 		if (m_viSelected) {
 			m_viSelected->deselect();		
 		}
 		m_viSelected = item;
+        m_studieProperties->setStyle(dynamic_cast<CustomStudie*>(m_viSelected)->getStyle());
 	}
 }
 
@@ -319,7 +332,16 @@ void GraphicManager::onMainDeleteAllStudies()
 
 void GraphicManager::onMainRandomClose(bool b)
 {
-	m_priceVisual->toggleRandomClose(b);
+    m_priceVisual->toggleRandomClose(b);
+}
+
+void GraphicManager::onStudiePropertiesStyleChanged()
+{
+    if (m_viSelected){
+        if (dynamic_cast<CustomStudie*>(m_viSelected)){
+            dynamic_cast<CustomStudie*>(m_viSelected)->setStyle(m_studieProperties->getStyle());
+        }
+    }
 }
 
 

@@ -7,6 +7,7 @@
 #include <QObject>
 #include "gotview.h"
 #include "pricevisual.h"
+#include "studieproperties.h"
 #include "timescalevisual.h"
 #include "StockxxDataTypes.h"
 
@@ -33,6 +34,7 @@ private:
     QVector<IVisualItem*> m_visualStudies;
     QGraphicsItem* m_candleMag;
     StudieType m_mainStudie;
+    StudieProperties* m_studieProperties{nullptr};
     CustomStudie* m_selectedStudie{nullptr};
     StudieState m_studieState{ssNone};
     IVisualItem* m_viSelected{nullptr};
@@ -65,5 +67,6 @@ public slots:
     void onMainHandToggle(bool);
     void onMainDeleteAllStudies();
     void onMainRandomClose(bool);
+    void onStudiePropertiesStyleChanged();
 };
 #endif // GRAPHICMANAGER_H

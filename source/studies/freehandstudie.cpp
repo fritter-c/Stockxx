@@ -54,7 +54,8 @@ void FreeHandStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     m_polygon.clear();
     CustomStudie::paint(painter, option, widget);
     QPen pen{m_mainColor, m_nPenWidth};
-    painter->setPen(pen);
+    pen.setStyle(m_penStyle);
+    painter->setPen(pen);   
     for(int i{0}; i < m_pointList.count() - 1; ++i){
         QPointF point1{m_tsVisual->XAtQuote(m_pointList[i].qi), m_psVisual->YAtPrice(m_pointList[i].price)};
         QPointF point2{m_tsVisual->XAtQuote(m_pointList[i + 1].qi), m_psVisual->YAtPrice(m_pointList[i + 1].price)};

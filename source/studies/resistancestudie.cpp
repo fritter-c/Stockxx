@@ -39,6 +39,7 @@ void ResistanceStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QPointF point1{m_tsVisual->boundingRect().left(), m_psVisual->YAtPrice(m_price)};
     QPointF point2{m_tsVisual->boundingRect().right() - m_cPriceScaleMargin, m_psVisual->YAtPrice(m_price)};
     QPen blackPen{m_mainColor, m_nPenWidth};
+    blackPen.setStyle(m_penStyle);
     painter->setPen(blackPen);
     m_line = {point1, point2};
     painter->drawLine(m_line);

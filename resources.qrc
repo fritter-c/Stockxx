@@ -13,6 +13,13 @@
         <file>imgs/TrashBin.png</file>
         <file>imgs/VertLine.png</file>
         <file>imgs/SideAdjust.png</file>
+        <file>imgs/ArrowDown.png</file>
+        <file>imgs/ArrowUp.png</file>
+        <file>imgs/LineStyles/DashDotDotLine.png</file>
+        <file>imgs/LineStyles/DashDotLine.png</file>
+        <file>imgs/LineStyles/DashLine.png</file>
+        <file>imgs/LineStyles/DotLine.png</file>
+        <file>imgs/LineStyles/SolidLine.png</file>
     </qresource>
     <qresource prefix="/indicators_icons">
         <file>imgs/MovingAverage.png</file>
@@ -20,4 +27,5 @@
         <file>imgs/Volume.png</file>
         <file>imgs/VWAP.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

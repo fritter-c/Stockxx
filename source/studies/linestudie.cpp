@@ -21,6 +21,7 @@ void LineStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
         QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
         QPen blackPen{m_mainColor, m_nPenWidth };
+        blackPen.setStyle(m_penStyle);
         painter->setPen(blackPen);
         m_line = {point1, point2};
         painter->drawLine(m_line);

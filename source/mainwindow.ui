@@ -55,6 +55,7 @@
     <addaction name="actionClose_All_Charts"/>
     <addaction name="actionRelease_MDI_Windows"/>
     <addaction name="actionRandom_Close"/>
+    <addaction name="actionOpen_LinePicker"/>
    </widget>
    <widget class="QMenu" name="menuIndicators">
     <property name="title">
@@ -330,6 +331,11 @@
   <action name="actionStudie_Color">
    <property name="text">
     <string>Studie Color</string>
+   </property>
+  </action>
+  <action name="actionOpen_LinePicker">
+   <property name="text">
+    <string>Open LinePicker</string>
    </property>
   </action>
  </widget>

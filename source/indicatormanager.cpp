@@ -50,7 +50,6 @@ void IndicatorManager::addNewIndicatorData(IndicatorIdentifier id, size_t start,
         }
 
     }
-
     mutex.unlock();
     emit newIndicatorData(id);
 

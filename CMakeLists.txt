@@ -38,6 +38,9 @@ set(PROJECT_SOURCES
         source/IndicatorDataTypes.h
         source/indicatormanager.cpp
         source/indicatormanager.h
+        source/stockxxlinecombobox.h
+        source/stockxxlinecombobox.cpp
+        source/stockxxlinecombobox.ui
 
         source/graphic/customchart.cpp
         source/graphic/customchart.h

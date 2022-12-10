@@ -9,7 +9,7 @@ typedef QVector<QVector<double>> DoublyArray;
 typedef QVector<QColor> ColorArray;
 typedef QVector<Candle> CandleArray;
 
-enum IndicatorType {itPrice = 0, itMovingAverage = 1};
+enum IndicatorType {itPrice = 0, itMovingAverage = 1, itVolume = 2, itVwap = 3};
 struct IndicatorIdentifier{
     IndicatorType type;
     int id;

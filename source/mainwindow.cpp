@@ -4,6 +4,7 @@
 #include "QActionGroup"
 #include "customchart.h"
 #include "dataseriemanager.h"
+#include "studieproperties.h"
 #include "symbolsearcher.h"
 #include <QColorDialog>
 
@@ -265,7 +266,6 @@ void MainWindow::on_actionRandom_Close_triggered(bool checked)
 void MainWindow::on_btnStudieColor_clicked(bool)
 {
     QColorDialog colordial;
-
     colordial.exec();
     if (colordial.result() == QDialog::Accepted){
         QColor col{ colordial.selectedColor() };
@@ -274,5 +274,12 @@ void MainWindow::on_btnStudieColor_clicked(bool)
         m_btnStudieColor->setStyleSheet(qss);
         m_btnStudieColor->update();
     }
+}
+
+
+void MainWindow::on_actionOpen_LinePicker_triggered()
+{
+    StudieProperties picker;
+    picker.exec();
 }
 
