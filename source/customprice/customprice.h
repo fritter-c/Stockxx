@@ -35,5 +35,4 @@ public:
 signals:
 
 };
-
 #endif // CUSTOMPRICE_H

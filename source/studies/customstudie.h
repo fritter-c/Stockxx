@@ -5,8 +5,9 @@
 #include "pricescalevisual.h"
 #include "timescalevisual.h"
 #include "ivisualitem.h"
+#include "iglower.h"
 
-class CustomStudie : public QGraphicsItem, public IVisualItem
+class CustomStudie : public QGraphicsItem, public IVisualItem, public IGlower
 {
 protected:
     PriceScaleVisual* m_psVisual;
@@ -19,14 +20,13 @@ protected:
     double m_nPenWidth{1};
     QColor m_mainColor{Qt::yellow};
     QObject* m_manager;
+    bool m_bSelected{false};
 
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void keyPressEvent(QKeyEvent *event) override;
 public:
     CustomStudie(QObject* manager, TimeScaleVisual* ts_Visual, PriceScaleVisual* ps_Visual, QGraphicsItem* parent);
-    virtual void changeGeometry();
+    virtual void changeGeometry() override;
     virtual void setSecondPrice(QPointF);
     virtual void setThirdPrice(QPointF);
     virtual void addPoint(QPointF);
@@ -35,11 +35,10 @@ public:
     virtual QPainterPath shape() const override;
     void setMainColor(const QColor &newMainColor);
     virtual void colorChanged() override;
-
+    virtual void select() override;
+    virtual void deselect() override;
+    virtual bool isOverMouse() override;
+    virtual void onGlow(int intensity) override;
 };
-
-
-
-
 
 #endif // CUSTOMSTUDIE_H

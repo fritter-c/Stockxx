@@ -4,12 +4,11 @@
 MovingAverageCalc::MovingAverageCalc(CustomSerieCalc* base, IndicatorParamList params) : CustomArrayIndicatorCalc{base}
 {
     MovingAverageCalc::loadParams(params);
-    disposeParams(params);
 }
 void MovingAverageCalc::loadParams(IndicatorParamList params)
 {
-    m_interval = (*params[0]).getIntegerParam();
-    m_type = (MovingAverageType)(*params[1]).getIntegerParam();
+    m_interval = params[0].integer;
+    m_type = (MovingAverageType)params[1].integer;
 }
 
 void MovingAverageCalc::createIndicatorValues()
@@ -31,7 +30,6 @@ void MovingAverageCalc::grow(size_t n)
 {
     m_arData[0].resize(Size() + n);
 }
-
 
 double MovingAverageCalc::Value()
 {

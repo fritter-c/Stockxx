@@ -13,5 +13,4 @@ public:
         return *instance;
     }
 };
-
 #endif // CALCDAEMON_H

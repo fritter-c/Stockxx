@@ -211,7 +211,3 @@ void PriceScaleVisual::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 
 }
-
-
-
-

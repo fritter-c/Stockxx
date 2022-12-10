@@ -19,11 +19,5 @@ public:
     virtual void loadSerieFromJsonAV(QString json) override;
     DailyDataSerieCalc(AssetId assetId, bool bLoad = true);
     ~DailyDataSerieCalc();
-
-
-
 };
-
-
-
 #endif // DAILYDATASERIECALC_H

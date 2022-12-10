@@ -30,18 +30,19 @@ private:
     IndicatorVisual *m_baseIndicator;
     PriceVisual *m_priceVisual;
     QVector<QGraphicsItem*> m_visualItems;
-    QVector<CustomStudie*> m_visualStudies;
+    QVector<IVisualItem*> m_visualStudies;
     QGraphicsItem* m_candleMag;
     StudieType m_mainStudie;
     CustomStudie* m_selectedStudie{nullptr};
     StudieState m_studieState{ssNone};
+    IVisualItem* m_viSelected{nullptr};
     QPointF m_lastChartPos{0,0};
     SerieInterval m_sInterval;
     QWidget* m_main;
     bool m_bHandMode{false};
     bool m_draggingChart{false};
     bool m_bAddingStudie{false};
-
+    bool IsOverVisualItem(IVisualItem **);
     void addStudie(QMouseEvent* event);
     void fullUpdate();
     void handleMouseReleaseStudie();
@@ -52,8 +53,7 @@ public:
     ~GraphicManager();
     QWidget* GetCustomChart();
     void candleHoveredChanged();
-    void deleteStudie(CustomStudie*);
-
+    void deleteStudie(IVisualItem*);
 public slots:
     void onViewResize(QResizeEvent *event);
     void onMainStudieSelected(StudieType, bool);
@@ -65,7 +65,5 @@ public slots:
     void onMainHandToggle(bool);
     void onMainDeleteAllStudies();
     void onMainRandomClose(bool);
-
 };
-
 #endif // GRAPHICMANAGER_H

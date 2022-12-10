@@ -25,11 +25,5 @@ signals:
     void MouseRelease(QMouseEvent *event);
     void MouseMove(QMouseEvent *event);
     void KeyPress(QKeyEvent *);
-
-
-
-
-
 };
-
 #endif // GOTVIEW_H

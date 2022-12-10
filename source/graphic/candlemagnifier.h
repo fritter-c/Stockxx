@@ -17,12 +17,7 @@ public:
     void bringBack();
     void changeSize(QSizeF);
     void setSelectedCandle(Candle*);
-
-
-    // QGraphicsItem interface
-public:
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
-
 #endif // CANDLEMAGNIFIER_H

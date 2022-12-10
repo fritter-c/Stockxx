@@ -9,7 +9,6 @@ class PriceIndicatorCalc : public CustomIndicatorCalc
     Q_OBJECT
 protected:
     CandleArray m_arData;
-    int doia;
     virtual void createIndicatorValues() override;
     virtual void resize(size_t n);
     virtual void grow(size_t n);
@@ -31,11 +30,6 @@ public:
     virtual double High() override;
     virtual double Low() override;
     virtual double Volume() override;
-
     const CandleArray &getData() const;
 };
-
-
-
-
 #endif // PRICEINDICATORCALC_H

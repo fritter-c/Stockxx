@@ -23,7 +23,7 @@ QRectF VertLineStudie::boundingRect() const
 void VertLineStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     CustomStudie::paint(painter, option, widget);
-    QPen pen{m_mainColor, m_nPenWidth};
+    QPen pen{m_mainColor,m_nPenWidth};
     painter->setPen(pen);
     QPointF p1{m_tsVisual->XAtQuote(m_qi), m_tsVisual->boundingRect().top()};
     QPointF p2{m_tsVisual->XAtQuote(m_qi), parentItem()->boundingRect().top()};

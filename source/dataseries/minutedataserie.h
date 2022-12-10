@@ -6,8 +6,8 @@
 class MinuteDataSerie : public CustomDataSerie
 {
 private:
-    const QString strPathSufix = "_M.dat";
-    const QString strFolder = "minute\\";
+    const QString m_strPathSufix = "_M.dat";
+    const QString m_strFolder = "minute\\";
     int m_nOffset{5};
 
     // CustomDataSerie interface
@@ -23,8 +23,4 @@ public:
 
     int nOffset() const;
 };
-
-
-
-
 #endif // MINUTEDATASERIE_H

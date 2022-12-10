@@ -22,20 +22,20 @@ private:
     double m_dTopPrice;
     double m_dBottomPrice;
     double m_dSpan;
-    int m_nTags{15};
-    int m_nSpacing{24};
-    bool m_bHighLight { false };
+    int m_nTags{ 15 };
+    int m_nSpacing{ 24 };
+    bool m_bHighLight{ false };
     void zoom(int);
     QHash<QGraphicsItem*, PriceTag> m_priceTags;
     void paintPriceTags(QPainter* painter, PriceTag);
 
     // QGraphicsItem interface
 protected:
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-    virtual void wheelEvent(QGraphicsSceneWheelEvent *event) override;
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
+    virtual void wheelEvent(QGraphicsSceneWheelEvent* event) override;
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
 public:
     PriceScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
     ~PriceScaleVisual();
@@ -43,7 +43,7 @@ public:
     const qreal c_dTimeScaleHeight = 30;
     const qreal c_rPriceScaleTagOffset = 5;
     virtual QRectF boundingRect() const override;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     void UpdateExtremePrices();
     void UpdateSpan();
     void UpdateSpacing();
@@ -55,15 +55,5 @@ public:
     void removePriceTag(QGraphicsItem* sender);
     void updatePriceTag(QGraphicsItem* sender, double price, QColor color = QColor());
     void movePrice(qreal y);
-
-    // QGraphicsItem interface
-protected:
-
 };
-
-
-
-
-
-
 #endif // PRICESCALEVISUAL_H

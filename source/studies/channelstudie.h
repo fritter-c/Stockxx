@@ -19,8 +19,4 @@ public:
     virtual QPainterPath shape() const override;
 };
 
-
-
-
-
 #endif // CHANNELSTUDIE_H

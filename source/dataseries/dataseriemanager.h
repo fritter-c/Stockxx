@@ -35,13 +35,11 @@ public:
     static DataSerieManager& Instance(){
         return *instance;
     }
-    void addNewJsonDataSerie(AssetId id);
     DailyDataSerie *getDailyDataSerie(AssetId id, bool bCreate = false);
     MinuteDataSerie* getMinuteDataSerie(AssetId id, int offset, bool bCreate = false);
     DailyDataSerieCalc *getDailyDataSerieCalc(AssetId id, bool bCreate = false);
     MinuteDataSerieCalc* getMinuteDataSerieCalc(AssetId id, int offset, bool bCreate = false);
     QStringList avaiableDataSeries;
-
 public slots:
     void onAlphaVantageJsonLoadedDaily(QString ticker);
     void onAlphaVantageJsonLoadedMinute(QString ticker);
@@ -53,6 +51,4 @@ signals:
     void notifyMain();
 
 };
-
-
 #endif // DATASERIEMANAGER_H

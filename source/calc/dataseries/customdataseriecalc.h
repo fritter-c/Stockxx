@@ -25,12 +25,10 @@ public:
     virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
     const DataSerieIdentifier &ID() const;
-
 public slots:
     void onLoadSerieFromJsonAV(QString json);
 signals:
     void serieReady(AssetId);
 
 };
-
 #endif // CUSTOMDATASERIECALC_H

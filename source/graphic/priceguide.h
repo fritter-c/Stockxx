@@ -3,7 +3,6 @@
 
 #include <QGraphicsItem>
 
-
 class PriceGuide : public QGraphicsItem
 {
 private:
@@ -19,5 +18,4 @@ public:
     void geometryChanged();
     void setRY(qreal newRY);
 };
-
 #endif // PRICEGUIDE_H

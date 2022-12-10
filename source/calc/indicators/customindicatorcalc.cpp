@@ -26,12 +26,3 @@ void CustomIndicatorCalc::createIndicatorValues()
 {
 
 }
-
-
-void CustomIndicatorCalc::disposeParams(IndicatorParamList param)
-{
-    while(param.count() > 0){
-        delete param[param.count() - 1];
-        param.pop_back();
-    }
-}

@@ -24,5 +24,4 @@ public:
     ~CustomChart();
     GoTView* GetGraphicsView();
 };
-
 #endif // CUSTOMCHART_H

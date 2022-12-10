@@ -57,6 +57,7 @@ set(PROJECT_SOURCES
         source/graphic/timeguidevisual.cpp
         source/graphic/timeguidevisual.h
         source/graphic/ivisualitem.h
+        source/graphic/iglower.h
 
         source/dataseries/customdataserie.cpp
         source/dataseries/customdataserie.h

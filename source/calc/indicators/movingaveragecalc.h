@@ -14,14 +14,8 @@ protected:
     virtual void resize(size_t n) override;
     virtual void grow(size_t n) override;
     virtual void loadParams(IndicatorParamList) override;
-
 public:
     MovingAverageCalc(CustomSerieCalc* base, IndicatorParamList);
     double Value();
-
 };
-
-
-
-
 #endif // MOVINGAVERAGECALC_H

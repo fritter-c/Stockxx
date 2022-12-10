@@ -139,7 +139,6 @@ void DailyDataSerieCalc::loadSerieFromStream()
     DataSerieValue dt;
     while(not in.atEnd())
     {
-
         in >> dt.dOpen;
         in >> dt.dHigh;
         in >> dt.dLow;

@@ -24,5 +24,4 @@ public:
     virtual void loadSerieFromJsonAV(QString json) override;
     int nOffset() const;
 };
-
 #endif // MINUTEDATASERIECALC_H

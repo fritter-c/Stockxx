@@ -9,7 +9,6 @@ class CustomSerie : public QObject
 protected:
     size_t m_nIndex{0};
 public:
-    CustomSerie();
     virtual bool Next() = 0;
     virtual bool Prior() = 0;
     virtual bool PriorAll() = 0;
@@ -23,11 +22,5 @@ public:
     virtual double High() = 0;
     virtual double Low() = 0;
     virtual double Volume() = 0;
-
-signals:
-
-
-
 };
-
 #endif // CUSTOMSERIE_H

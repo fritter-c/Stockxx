@@ -28,47 +28,13 @@ inline uint qHash(const IndicatorIdentifier &key, uint seed)
 }
 enum MovingAverageType {mtArithmetic = 0, mtExponential = 1};
 
-
-struct IndicatorParam{
-public:
-    virtual int getIntegerParam() = 0;
-    virtual double getDoubleParam() = 0;
-    virtual ~IndicatorParam()=default;
+struct IndicatorParam {
+    int integer;
+    double real;
+    QString string;
 };
 
-class IntegerParam : public IndicatorParam{
-    int param;
-public:
-    IntegerParam(int i){
-        param = i;
-    }
-    virtual int getIntegerParam() override{
-        return param;
-    }
-    virtual double getDoubleParam() override{
-        return 0;
-    }
-    ~IntegerParam(){};
-};
-
-
-class DoubleParam : public IndicatorParam{
-    double param;
-public:
-    DoubleParam(double d){
-        param = d;
-    }
-    virtual int getIntegerParam() override{
-        return 0;
-    }
-    virtual double getDoubleParam() override{
-        return param;
-    }
-    ~DoubleParam(){};
-
-};
-
-typedef QVector<IndicatorParam*> IndicatorParamList;
+typedef QVector<IndicatorParam> IndicatorParamList;
 
 
 #endif // INDICATORDATATYPES_H

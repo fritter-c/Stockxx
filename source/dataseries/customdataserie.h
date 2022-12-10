@@ -32,5 +32,4 @@ public:
     void setCalcSerie(CustomDataSerieCalc *newCalcSerie);
     CustomDataSerieCalc *calcSerie() const;
 };
-
 #endif // CUSTOMDATASERIE_H

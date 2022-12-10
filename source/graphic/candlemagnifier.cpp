@@ -5,12 +5,10 @@
 
 CandleMagnifier::CandleMagnifier(QGraphicsItem* parent) : QGraphicsItem{parent}
 {
-
     setOpacity(0.85);
     setAcceptHoverEvents(true);
     setFlags(ItemIsMovable | ItemIsPanel | ItemIgnoresParentOpacity);
     setParentItem(parent);
-
 }
 
 void

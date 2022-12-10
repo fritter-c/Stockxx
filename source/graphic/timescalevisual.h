@@ -72,10 +72,5 @@ public:
     void updatePriceTag(QGraphicsItem* sender, qreal x, QColor color = QColor());
     qreal XAtQuote(QuoteIdentifier);
     void recalculatePositions();
-
-
 };
-
-
-
 #endif // TIMESCALEVISUAL_H

@@ -12,7 +12,6 @@ private:
 protected:
     CustomSerieCalc* m_baseIndicator;
     virtual void createIndicatorValues();
-    virtual void disposeParams(IndicatorParamList);
     virtual void loadParams(IndicatorParamList) = 0;
 public:
     CustomIndicatorCalc(CustomSerieCalc* baseIndicator);  
@@ -22,5 +21,4 @@ public:
 public slots:
     void onCalcSerieFull(IndicatorIdentifier);
 };
-
 #endif // CUSTOMINDICATORCALC_H

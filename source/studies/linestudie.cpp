@@ -15,11 +15,12 @@ LineStudie::LineStudie(QObject* manager,
 
 void LineStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+
     if ((m_dStartPrice != m_dEndPrice) or (m_qiStartQuote != m_qiEndQuote)){
         CustomStudie::paint(painter, option, widget); // clips
         QPointF point1{m_tsVisual->XAtQuote(m_qiStartQuote), m_psVisual->YAtPrice(m_dStartPrice)};
         QPointF point2{m_tsVisual->XAtQuote(m_qiEndQuote), m_psVisual->YAtPrice(m_dEndPrice)};
-        QPen blackPen{m_mainColor, m_nPenWidth};
+        QPen blackPen{m_mainColor, m_nPenWidth };
         painter->setPen(blackPen);
         m_line = {point1, point2};
         painter->drawLine(m_line);

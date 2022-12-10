@@ -147,11 +147,11 @@ void MinuteDataSerie::loadSerieFromJsonAV(QString json)
 MinuteDataSerie::MinuteDataSerie(AssetId assetId, int offset, bool bLoad) : CustomDataSerie(assetId)
 {
     m_nOffset = offset;
-    m_strDat = strFolder + assetId.name + "_" + QString::number(m_nOffset) + strPathSufix;
+    m_strDat = m_strFolder + assetId.name + "_" + QString::number(m_nOffset) + m_strPathSufix;
     m_strPath += m_strDat;
-    QDir dir{m_strBasePath + strFolder};
+    QDir dir{m_strBasePath + m_strFolder};
     if (!dir.exists()){
-        dir.mkdir(m_strBasePath + strFolder);
+        dir.mkdir(m_strBasePath + m_strFolder);
     }
     MinuteDataSerie::createId();
 

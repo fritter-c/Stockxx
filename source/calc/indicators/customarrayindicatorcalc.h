@@ -13,10 +13,8 @@ protected:
     virtual void resize(size_t n) = 0;
     virtual void grow(size_t n) = 0;
     virtual void createIndicatorValues() override;
-
 public:
     CustomArrayIndicatorCalc(CustomSerieCalc*base);
-
     // CustomSerieCalc interface
     virtual bool Next() override;
     virtual bool Prior() override;
@@ -33,6 +31,4 @@ public:
     virtual double Volume() override;
     const DoublyArray &getData() const;
 };
-
-
 #endif // CUSTOMARRAYINDICATORCALC_H

@@ -2,7 +2,6 @@
 #include "qpainter.h"
 #include "pricevisual.h"
 
-
 void PriceGuide::setRY(qreal newRY)
 {
     geometryChanged();
@@ -45,4 +44,3 @@ void PriceGuide::geometryChanged()
     PriceScaleVisual* pr = dynamic_cast<PriceVisual*>(m_parent)->GetPriceScale();
     pr->updatePriceTag(this, pr->PriceAtY(m_rY));
 }
-
