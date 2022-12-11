@@ -21,16 +21,19 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 	m_sInterval = si;
 	m_scene = new QGraphicsScene(0, 0, m_view->width(), m_view->height(), m_view);
 	m_view->setScene(m_scene);
+	
 	if (m_sInterval == siDaily)
 		m_mainDataSerie = DataSerieManager::Instance().getDailyDataSerie(m_assetId, true);
 	else
 		m_mainDataSerie = DataSerieManager::Instance().getMinuteDataSerie(m_assetId, si, true);
+	
 	m_main = parent_main;
+	
 	IndicatorParamList lst;
-	IndicatorManager::Instance().requestIndicator(assetId, si, itPrice, lst);
-	m_priceVisual = new PriceVisual(new CustomPrice(m_mainDataSerie, this), this, m_view);
-	m_psVisual = m_priceVisual->GetPriceScale();
-	m_tsVisual = m_priceVisual->GetTimeScale();
+	CustomIndicator *indicator = IndicatorManager::Instance().requestIndicator(assetId, si, itPrice, lst);
+	m_psVisual = new PriceScaleVisual(indicator, this, m_view);
+	m_tsVisual = new TimeScaleVisual(indicator, this, m_view);
+    m_priceVisual = new PriceVisualIndicator(m_tsVisual, m_psVisual, qobject_cast<PriceIndicator*>(indicator), m_view, this);
 	m_candleMag = new CandleMagnifier();
 	m_scene->addItem(m_tsVisual);
 	m_scene->addItem(m_psVisual);
@@ -332,7 +335,7 @@ void GraphicManager::onMainDeleteAllStudies()
 
 void GraphicManager::onMainRandomClose(bool b)
 {
-    m_priceVisual->toggleRandomClose(b);
+    //m_priceVisual->toggleRandomClose(b);
 }
 
 void GraphicManager::onStudiePropertiesStyleChanged()

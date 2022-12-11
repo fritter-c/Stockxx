@@ -26,6 +26,16 @@ public:
     virtual double Low() override;
     virtual double Volume() override;
     virtual void addNewPrice(size_t, size_t, CandleArray*);
+    virtual Candle Candle();
+    virtual bool GoToQuote(QuoteIdentifier) override;
+    virtual bool GoToQuote(size_t) override;
+    virtual QuoteIdentifier Quote() override;
+    virtual CandleArray GetCandles() override;
+    virtual SerieInterval Interval() override;
+
+    // Herdado por meio de CustomIndicator
+    virtual double Max() override;
+    virtual double Min() override;
 };
 
 #endif // PRICEINDICATOR_H

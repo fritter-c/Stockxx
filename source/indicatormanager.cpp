@@ -32,7 +32,6 @@ void IndicatorManager::addNewIndicatorData(IndicatorIdentifier id, size_t start,
         series->size = size;
         DoublyArray array = ((CustomArrayIndicatorCalc*)calcIndicator)->getData();
         series->arr = new DoublyArray();
-        series->arr->resize(array.count());
         for(size_t i{start}; i < size; i++){
             for(long long j{0}; j < series->arr->count(); ++j){
                 (*series->arr)[j].append(array[j][i]);
@@ -44,8 +43,7 @@ void IndicatorManager::addNewIndicatorData(IndicatorIdentifier id, size_t start,
         series->size = size;
         CandleArray array = ((PriceIndicatorCalc*)calcIndicator)->getData();
         series->candleArr = new CandleArray();
-        series->candleArr->resize(array.count());
-        for(size_t i{start}; i < size; i++){
+        for(size_t i{start}; i < array.size(); i++){
              (*series->candleArr).append(array[i]);
         }
 
@@ -94,10 +92,11 @@ IndicatorManager::IndicatorManager(QObject *parent)
     connect(this, &IndicatorManager::newIndicatorData, this, &IndicatorManager::onNewIndicatorData);
 }
 
-void IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorType type, IndicatorParamList params)
+CustomIndicator* IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorType type, IndicatorParamList params)
 {
     CustomPriceCalc* calcPrice{nullptr};
     CustomPrice* price{nullptr};
+    CustomIndicator* Result{nullptr};
 
     if (si == siDaily){
         DailyDataSerieCalc* serieCalc = DataSerieManager::Instance().getDailyDataSerieCalc(id, false);
@@ -117,6 +116,7 @@ void IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorT
     switch (type) {
         case itMovingAverage:{
             MovingAverage* maMain{new MovingAverage(price)};
+            Result = maMain;
             maMain->setID(indicator);
             m_hshIndicators.insert(indicator, maMain);
 
@@ -130,6 +130,7 @@ void IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorT
         }
         case itPrice:{
             PriceIndicator* piMain{new PriceIndicator(price)};
+            Result = piMain;
             piMain->setID(indicator);
             m_hshIndicators.insert(indicator, piMain);
             
@@ -146,5 +147,5 @@ void IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorT
             delete price;
             break;
     }
-
+    return Result;
 }

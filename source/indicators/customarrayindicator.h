@@ -28,7 +28,20 @@ public:
     virtual double High() override;
     virtual double Low() override;
     virtual double Volume() override;
+    virtual bool GoToQuote(QuoteIdentifier qi) override;
+    virtual QuoteIdentifier Quote() override;
     virtual void addNewValue(size_t, size_t, DoublyArray*);
+    virtual bool GoToQuote(size_t) override;
+    virtual CandleArray GetCandles() override;
+
+
+    // Herdado por meio de CustomIndicator
+    virtual SerieInterval Interval() override;
+
+    virtual double Max() override;
+
+    virtual double Min() override;
+
 };
 
 #endif // CUSTOMARRAYINDICATOR_H

@@ -33,7 +33,7 @@ public:
     static IndicatorManager& Instance(){
         return *instance;
     }
-    void requestIndicator(AssetId, SerieInterval, IndicatorType, IndicatorParamList);
+    CustomIndicator* requestIndicator(AssetId, SerieInterval, IndicatorType, IndicatorParamList);
     void addNewIndicatorData(IndicatorIdentifier, size_t, size_t);
     void addNewPriceIndicatorData(IndicatorIdentifier, size_t, size_t);
 

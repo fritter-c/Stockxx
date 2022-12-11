@@ -26,14 +26,6 @@ set(PROJECT_SOURCES
         source/candle.h
         source/candle.cpp
         source/stockxxdatatypes.h
-        source/indicatorvisual.cpp
-        source/indicatorvisual.h
-        source/indicatorcalc.cpp
-        source/indicatorcalc.h
-        source/pricevisual.cpp
-        source/pricevisual.h
-        source/pricecalc.cpp
-        source/pricecalc.h
         source/stockxxdateutils.h
         source/IndicatorDataTypes.h
         source/indicatormanager.cpp
@@ -75,6 +67,7 @@ set(PROJECT_SOURCES
         source/customprice/customprice.h
         source/customprice/customserie.cpp
         source/customprice/customserie.h
+        source/customprice/icustomserienotifiable.h
         
         source/studies/customstudie.cpp
         source/studies/customstudie.h
@@ -137,6 +130,11 @@ set(PROJECT_SOURCES
         source/indicators/movingaverage.h
         source/indicators/priceindicator.cpp
         source/indicators/priceindicator.h
+
+        source/indicators/visuals/customvisualindicator.cpp
+        source/indicators/visuals/customvisualindicator.h
+        source/indicators/visuals/pricevisualindicator.h
+        source/indicators/visuals/pricevisualindicator.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

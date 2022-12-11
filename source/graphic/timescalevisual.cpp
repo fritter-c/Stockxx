@@ -1,25 +1,28 @@
 #include "timescalevisual.h"
-#include "pricevisual.h"
 #include <QGraphicsSceneHoverEvent>
 
-TimeScaleVisual::TimeScaleVisual(PriceVisual *price, QObject* parent, QGraphicsView* view)
+TimeScaleVisual::TimeScaleVisual(CustomIndicator* price, QObject* parent, QGraphicsView* view)
 {
     m_price = price;
     m_view = view;
     m_parent = parent;
     setAcceptHoverEvents(true);
     popuplateDateTimes();
+    m_price->addSubscriber(this);
 }
 void TimeScaleVisual::popuplateDateTimes()
 {
-    QList<Candle*> candles;
-    candles = m_price->getCandles();
+    CandleArray candles;
+    candles = m_price->GetCandles();
     m_mapCandles.clear();
 
     for (long long i {candles.size() - 1}; i >= 0; --i){
-        m_dtDateTimes.append(candles[i]->qi);
+        m_dtDateTimes.append(candles[i].qi);
     }
-    nZoom = m_dtDateTimes.size() - 30;
+    if(m_dtDateTimes.size() > 30)
+        nZoom = m_dtDateTimes.size() - 30;
+    else
+        nZoom = 0;
     m_nFirstIndex = nZoom - nOffset;
 }
 
@@ -30,7 +33,7 @@ void TimeScaleVisual::recalculatePositions()
     QFontMetricsF fm{font};
     int nEntrys = m_dtDateTimes.size() - nZoom;
     double nText;
-    if (m_price->interval() == siDaily){
+    if (m_price->Interval() == siDaily){
          nText = fm.horizontalAdvance("00.00.0000");
     }
     else{
@@ -43,23 +46,40 @@ void TimeScaleVisual::recalculatePositions()
     m_rFirst = nX;
     m_rSpacing = (-nText-nSpacing);
     m_nFirstIndex = m_dtDateTimes.size() - nOffset - 1;
-    m_nFirstID = m_dtDateTimes[m_nFirstIndex].id;
-    m_rLast = m_rFirst + nEntrys * m_rSpacing;
-    m_nLastID = m_dtDateTimes[nZoom - nOffset].id;
+    if((m_nFirstIndex < m_dtDateTimes.size()) &&
+        (m_nFirstIndex > 0) && (m_dtDateTimes.size())){
+
+        m_nFirstID = m_dtDateTimes[m_nFirstIndex].id;
+        m_rLast = m_rFirst + nEntrys * m_rSpacing;
+        m_nLastID = m_dtDateTimes[nZoom - nOffset].id;
+    }
+}
+
+void TimeScaleVisual::OnNewData(size_t start)
+{
+    if(start == 0){
+        popuplateDateTimes();
+        recalculatePositions();
+        if(m_price->visualParent())
+            m_price->visualParent()->update();
+        update();
+    }
 }
 void TimeScaleVisual::zoom(int delta){
     if (delta > 0){
         if (nZoom + delta/10 < m_dtDateTimes.size() - 1){
             nZoom += delta/10;
             recalculatePositions();
-            m_price->update();
+            if(m_price->visualParent())
+                m_price->visualParent()->update();
             update();
 
         }
         else if (nZoom < m_dtDateTimes.size() - 1){
             nZoom++;
             recalculatePositions();
-            m_price->update();
+            if(m_price->visualParent())
+                m_price->visualParent()->update();
             update();
 
         }
@@ -68,13 +88,15 @@ void TimeScaleVisual::zoom(int delta){
         if ((nZoom - nOffset + delta/10) > 0){
             nZoom += delta/10;
             recalculatePositions();
-            m_price->update();
+            if(m_price->visualParent())
+                m_price->visualParent()->update();
             update();         
         }
         else if(nZoom - nOffset > 0){
             nZoom--;
             recalculatePositions();
-            m_price->update();
+            if(m_price->visualParent())
+                m_price->visualParent()->update();
             update();          
         }
     }
@@ -203,6 +225,7 @@ TimeScaleVisual::~TimeScaleVisual()
     m_dtDateTimes.clear();
     m_mapCandles.clear();
     m_timeTags.clear();
+    m_price->removeSubscriber(this);
 }
 
 qreal TimeScaleVisual::getFirstPos()
@@ -240,7 +263,7 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     font.setPixelSize(12);
     QFontMetricsF fm(font);
     double nText;
-    bool bIntraday{!(m_price->interval() == siDaily)};
+    bool bIntraday{!(m_price->Interval() == siDaily)};
     if (!bIntraday){
          nText = fm.horizontalAdvance("00.00.0000");
     }

@@ -1,6 +1,6 @@
 #include "priceguide.h"
 #include "qpainter.h"
-#include "pricevisual.h"
+#include "indicators/visuals/pricevisualindicator.h"
 
 void PriceGuide::setRY(qreal newRY)
 {
@@ -14,13 +14,13 @@ PriceGuide::PriceGuide(QGraphicsItem *parent) : QGraphicsItem{parent}
     m_parent = parent;
     m_rGuideLenght = topLevelItem()->boundingRect().width();
 
-    PriceScaleVisual* pr = dynamic_cast<PriceVisual*>(m_parent)->GetPriceScale();
+    PriceScaleVisual* pr = dynamic_cast<PriceVisualIndicator*>(m_parent)->GetPriceScale();
     pr->addPriceTag(pr->PriceAtY(m_rY),Qt::gray, this);
 }
 
 PriceGuide::~PriceGuide()
 {
-    PriceScaleVisual* pr = dynamic_cast<PriceVisual*>(m_parent)->GetPriceScale();
+    PriceScaleVisual* pr = dynamic_cast<PriceVisualIndicator*>(m_parent)->GetPriceScale();
     pr->removePriceTag(this);
 }
 
@@ -41,6 +41,6 @@ void PriceGuide::geometryChanged()
 {
     prepareGeometryChange();
     m_rGuideLenght = topLevelItem()->boundingRect().width();
-    PriceScaleVisual* pr = dynamic_cast<PriceVisual*>(m_parent)->GetPriceScale();
+    PriceScaleVisual* pr = dynamic_cast<PriceVisualIndicator*>(m_parent)->GetPriceScale();
     pr->updatePriceTag(this, pr->PriceAtY(m_rY));
 }

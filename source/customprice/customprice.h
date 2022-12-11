@@ -8,11 +8,15 @@
 
 class CustomPrice : public CustomSerie
 {
+    Q_OBJECT
 protected:
     CustomDataSerie* m_dataSerie;
+    CandleArray m_candles;
     AssetId m_assetId;
     size_t m_nIndex;
     SerieInterval m_interval;
+    double m_dMax{std::numeric_limits<double>::lowest()};
+    double m_dMin{std::numeric_limits<double>::max()};
 public:
     explicit CustomPrice(CustomDataSerie* dataSerie, QObject *parent = nullptr);
     virtual bool Next() override;
@@ -29,8 +33,13 @@ public:
     virtual double Low() override;
     virtual double Volume() override;
     virtual DataSerieValue *Data();
-    virtual QuoteIdentifier Quote();
-    SerieInterval interval() const;
+    virtual QuoteIdentifier Quote() override;
+    virtual SerieInterval Interval() override;
+    virtual bool GoToQuote(QuoteIdentifier) override;
+    virtual bool GoToQuote(size_t) override;
+    virtual CandleArray GetCandles() override;
+    virtual double Max() override;
+    virtual double Min() override;
 
 signals:
 

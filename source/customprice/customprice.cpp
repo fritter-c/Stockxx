@@ -1,15 +1,58 @@
 #include "customprice.h"
 
-SerieInterval CustomPrice::interval() const
-{
-    return m_interval;
-}
-
 CustomPrice::CustomPrice(CustomDataSerie *dataSerie, QObject *parent)
 {
     m_dataSerie = dataSerie;
     m_interval = dataSerie->ID().si;
+    for(long long i{0}; i < m_dataSerie->Size(); i++){
+        m_candles.append(Candle(m_dataSerie->ar_values[i]));
+        if (m_dataSerie->ar_values[i]->dHigh > m_dMax)
+            m_dMax = m_dataSerie->ar_values[i]->dHigh;
+        if (m_dataSerie->ar_values[i]->dLow < m_dMin)
+            m_dMin = m_dataSerie->ar_values[i]->dLow;
+    }
     m_nIndex = 0;
+}
+SerieInterval CustomPrice::Interval() 
+{
+    return m_interval;
+}
+
+bool CustomPrice::GoToQuote(QuoteIdentifier qi)
+{
+    long long i{ static_cast<long long>(Quote().id - qi.id) };
+    if (i > 0) {
+        return PriorN(i);
+    }
+    else {
+        return NextN(abs(i));
+    }
+}
+
+bool CustomPrice::GoToQuote(size_t n)
+{
+    long long i{ static_cast<long long>(m_nIndex - n) };
+    if (i > 0) {
+        return PriorN(i);
+    }
+    else {
+        return NextN(abs(i));
+    }
+}
+
+CandleArray CustomPrice::GetCandles()
+{
+    return m_candles;
+}
+
+double CustomPrice::Max()
+{
+    return m_dMax;
+}
+
+double CustomPrice::Min()
+{
+    return m_dMin;
 }
 
 bool CustomPrice::Next()

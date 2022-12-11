@@ -99,9 +99,69 @@ double PriceIndicator::Volume()
 
 void PriceIndicator::addNewPrice(size_t start, size_t count, CandleArray* values)
 {
-    if (start == 0) resize(count);
-    else if (count > Size()) grow(Size() - count);
-    for(size_t i{start}; i < count; ++i){
+    if (start == 0)
+        resize(count);
+    else if (count > Size())
+        grow(Size() - count);
+
+    if(values->size() != m_arData.size()) return;
+
+    for(size_t i{start}; i < m_arData.size(); ++i){
         m_arData[i] = (*values)[i - start];
     }
+    emit NewData(start);
+}
+
+Candle PriceIndicator::Candle()
+{
+    return m_arData[m_nIndex];
+}
+
+bool PriceIndicator::GoToQuote(QuoteIdentifier qi)
+{
+    long long i{ static_cast<long long>(Quote().id - qi.id) };
+    if (i > 0) {
+        return PriorN(i);
+    }
+    else {
+        return NextN(abs(i));
+    }
+};
+
+bool PriceIndicator::GoToQuote(size_t q)
+{
+    long long i{ static_cast<long long>(m_nIndex - q) };
+    if (i > 0) {
+        return PriorN(i);
+    }
+    else {
+        return NextN(abs(i));
+    }
+}
+
+QuoteIdentifier PriceIndicator::Quote()
+{
+    return m_arData[m_nIndex].qi;
+}
+
+CandleArray PriceIndicator::GetCandles()
+{
+    return m_arData;
+}
+
+SerieInterval PriceIndicator::Interval()
+{
+    return m_baseIndicator->Interval();
+}
+
+double PriceIndicator::Max()
+{
+    // the maximum value will be the same of the base indicator which is a customprice
+    return m_baseIndicator->Max();
+}
+
+double PriceIndicator::Min()
+{
+    // the minimun value will be the same of the base indicator which is a customprice
+    return m_baseIndicator->Min();
 }

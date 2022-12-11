@@ -2,14 +2,14 @@
 #define GRAPHICMANAGER_H
 
 #include "customstudie.h"
-#include "indicatorvisual.h"
+#include "customdataserie.h"
 #include "pricescalevisual.h"
 #include <QObject>
 #include "gotview.h"
-#include "pricevisual.h"
 #include "studieproperties.h"
 #include "timescalevisual.h"
 #include "StockxxDataTypes.h"
+#include "indicators/visuals/pricevisualindicator.h"
 
 enum StudieState  {ssSettingSecondPoint,
                   ssSettingThirdPoint,
@@ -28,8 +28,8 @@ private:
     TimeScaleVisual  *m_tsVisual;
     AssetId m_assetId;
     CustomDataSerie *m_mainDataSerie;
-    IndicatorVisual *m_baseIndicator;
-    PriceVisual *m_priceVisual;
+    CustomVisualIndicator *m_baseIndicator;
+    PriceVisualIndicator *m_priceVisual;
     QVector<QGraphicsItem*> m_visualItems;
     QVector<IVisualItem*> m_visualStudies;
     QGraphicsItem* m_candleMag;

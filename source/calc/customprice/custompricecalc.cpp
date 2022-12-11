@@ -8,7 +8,10 @@ SerieInterval CustomPriceCalc::interval() const
 CustomPriceCalc::CustomPriceCalc(CustomDataSerieCalc *dataSerie)
 {
     m_dataSerie = dataSerie;
-    m_interval = dataSerie->ID().si;
+    if (dataSerie)
+        m_interval = dataSerie->ID().si;
+    else
+       m_interval = siUnknown;
     m_nIndex = 0;
 }
 

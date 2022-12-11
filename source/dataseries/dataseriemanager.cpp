@@ -49,14 +49,19 @@ DataSerieIdentifier DataSerieManager::getDataID(AssetId id, int offset)
         break;
         case 5:
             dsid.si = siFiveMin;
+        break;
         case 15:
             dsid.si = siFifteenMin;
+        break;
         case 30:
             dsid.si = siThirtyMin;
+        break;
         case 60:
             dsid.si = siSixtyMin;
+        break;
         default:
             dsid.si = siDaily;
+        break;
     }
     return dsid;
 }

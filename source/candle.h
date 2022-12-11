@@ -27,4 +27,7 @@ public:
 inline bool operator==(const Candle &a, const Candle &b) {
     return a.qi == b.qi;
 }
+inline bool operator!=(const Candle& a, const Candle& b) {
+    return (!(a.qi == b.qi));
+}
 #endif // CANDLE_H

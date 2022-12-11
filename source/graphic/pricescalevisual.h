@@ -1,9 +1,11 @@
 #ifndef PRICESCALEVISUAL_H
 #define PRICESCALEVISUAL_H
 
+#include "indicators/customindicator.h"
 #include "qpainter.h"
 #include <QGraphicsItem>
 #include <QGraphicsView>
+#include "icustomserienotifiable.h"
 
 class PriceVisual;
 
@@ -13,12 +15,12 @@ public:
     QColor color;
 };
 
-class PriceScaleVisual : public QGraphicsItem
+class PriceScaleVisual : public QGraphicsItem, public ICustomSerieNotifiable
 {
 private:
     QObject* m_parent;
     QGraphicsView* m_view;
-    PriceVisual* m_price;
+    CustomIndicator* m_price;
     double m_dTopPrice;
     double m_dBottomPrice;
     double m_dSpan;
@@ -37,7 +39,7 @@ protected:
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
 public:
-    PriceScaleVisual(PriceVisual* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
+    PriceScaleVisual(CustomIndicator* price, QObject* parent = nullptr, QGraphicsView* view = nullptr);
     ~PriceScaleVisual();
     const qreal c_PriceScaleFWidth = 70;
     const qreal c_dTimeScaleHeight = 30;
@@ -55,5 +57,6 @@ public:
     void removePriceTag(QGraphicsItem* sender);
     void updatePriceTag(QGraphicsItem* sender, double price, QColor color = QColor());
     void movePrice(qreal y);
+    virtual void OnNewData(size_t start) override;
 };
 #endif // PRICESCALEVISUAL_H

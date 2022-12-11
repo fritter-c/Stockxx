@@ -16,6 +16,7 @@ void MovingAverage::addNewValue(size_t start, size_t count, DoublyArray* values)
             m_arData[j][i] = (*values)[j][i - start];
         }
     }
+    emit NewData(start);
 }
 
 double MovingAverage::Value()

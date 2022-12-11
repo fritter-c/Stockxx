@@ -1,5 +1,4 @@
 #include "pricescalevisual.h"
-#include "pricevisual.h"
 #include "qgraphicsscene.h"
 #include "qgraphicssceneevent.h"
 #include "qgraphicsview.h"
@@ -35,19 +34,22 @@ void PriceScaleVisual::paintPriceTags(QPainter *painter, PriceTag tag)
     painter->drawText(pointText,QString::number(PriceAtY(pointVertice1.y()), 'f', 2));
 }
 
-PriceScaleVisual::PriceScaleVisual(PriceVisual *price, QObject* parent, QGraphicsView* view)
+PriceScaleVisual::PriceScaleVisual(CustomIndicator *price, QObject* parent, QGraphicsView* view)
 {
     m_price = price;
     m_parent = parent;
     m_view = view;
     setAcceptHoverEvents(true);
+    m_price->addSubscriber(this);
     UpdateExtremePrices();
+
 }
 
 PriceScaleVisual::~PriceScaleVisual()
 {
     m_priceTags.clear();
     priceTagPositions.clear();
+    m_price->removeSubscriber(this);
 }
 
 QRectF PriceScaleVisual::boundingRect() const
@@ -101,7 +103,9 @@ void PriceScaleVisual::UpdateExtremePrices()
 void PriceScaleVisual::UpdateSpan()
 {
     m_dSpan = m_dTopPrice - m_dBottomPrice;
-    m_price->update();
+    if (m_price->visualParent())
+        m_price->visualParent()->update();
+    update();
 }
 
 void PriceScaleVisual::UpdateSpacing()
@@ -178,6 +182,12 @@ void PriceScaleVisual::movePrice(qreal y)
     m_dTopPrice += y * 0.1 * aux;
     m_dBottomPrice += y * 0.1 * aux;
     UpdateSpan();
+}
+
+void PriceScaleVisual::OnNewData(size_t start)
+{
+    if (start == 0)
+        UpdateExtremePrices();
 }
 
 void PriceScaleVisual::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
