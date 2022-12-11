@@ -14,7 +14,8 @@ protected:
     virtual void createIndicatorValues();
     virtual void loadParams(IndicatorParamList) = 0;
 public:
-    CustomIndicatorCalc(CustomSerieCalc* baseIndicator);  
+    CustomIndicatorCalc(CustomSerieCalc* baseIndicator);
+    ~CustomIndicatorCalc();
     IndicatorIdentifier ID() const;
     void setID(IndicatorIdentifier newNID);
 

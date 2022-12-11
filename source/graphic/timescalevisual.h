@@ -31,7 +31,6 @@ private:
     QMap<QString, int> m_hashDates;
     QVector<int> m_drawnPositions;
     QVector<QuoteIdentifier> m_dtDateTimes;
-    QHash<QuoteIdentifier, Candle*> m_mapCandles;
     void popuplateDateTimes();
     bool m_bHighLight{false};
     void zoom(int);

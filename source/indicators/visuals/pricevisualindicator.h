@@ -4,12 +4,14 @@
 #include "customvisualindicator.h"
 #include "indicators/priceindicator.h"
 #include <QGraphicsSceneHoverEvent>
+#include "ivisualitem.h"
 
 class PriceVisualIndicator : public CustomVisualIndicator
 {
 private:
     PriceIndicator* m_data;
     Candle m_hoveredCandle;
+    qreal m_dCandleSize{0};
 protected:
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
@@ -31,5 +33,9 @@ public:
     void toggleCross();
     SerieInterval interval() const;
     void toggleRandomClose(bool);
+    virtual bool contains(const QPointF &point) const override;
 };
+
+
+
 #endif

@@ -36,6 +36,11 @@ CustomIndicator::CustomIndicator(CustomSerie* base)
     connect(this, &CustomIndicator::NewData, this, &CustomIndicator::NotifyNewData);
 }
 
+CustomIndicator::~CustomIndicator()
+{
+    delete m_baseIndicator;
+}
+
 IndicatorIdentifier CustomIndicator::ID() const
 {
     return m_ID;

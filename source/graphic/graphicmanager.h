@@ -30,8 +30,8 @@ private:
     CustomDataSerie *m_mainDataSerie;
     CustomVisualIndicator *m_baseIndicator;
     PriceVisualIndicator *m_priceVisual;
-    QVector<QGraphicsItem*> m_visualItems;
-    QVector<IVisualItem*> m_visualStudies;
+    QVector<QGraphicsItem*> m_visualGraphicItems;
+    QVector<IVisualItem*> m_visualItems;
     QGraphicsItem* m_candleMag;
     StudieType m_mainStudie;
     StudieProperties* m_studieProperties{nullptr};

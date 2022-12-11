@@ -4,7 +4,7 @@ CustomPrice::CustomPrice(CustomDataSerie *dataSerie, QObject *parent)
 {
     m_dataSerie = dataSerie;
     m_interval = dataSerie->ID().si;
-    for(long long i{0}; i < m_dataSerie->Size(); i++){
+    for(size_t i{0}; i < m_dataSerie->Size(); i++){
         m_candles.append(Candle(m_dataSerie->ar_values[i]));
         if (m_dataSerie->ar_values[i]->dHigh > m_dMax)
             m_dMax = m_dataSerie->ar_values[i]->dHigh;

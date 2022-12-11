@@ -14,7 +14,6 @@ protected:
     virtual void grow(size_t n) = 0;
 public:
     CustomArrayIndicator(CustomSerie*base);
-    // CustomSerieCalc interface
     virtual bool Next() override;
     virtual bool Prior() override;
     virtual bool PriorAll() override;
@@ -33,15 +32,9 @@ public:
     virtual void addNewValue(size_t, size_t, DoublyArray*);
     virtual bool GoToQuote(size_t) override;
     virtual CandleArray GetCandles() override;
-
-
-    // Herdado por meio de CustomIndicator
     virtual SerieInterval Interval() override;
-
     virtual double Max() override;
-
     virtual double Min() override;
-
 };
 
 #endif // CUSTOMARRAYINDICATOR_H

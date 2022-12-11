@@ -1,9 +1,13 @@
 #include "customindicatorcalc.h"
-#include "indicatormanager.h"
 
 CustomIndicatorCalc::CustomIndicatorCalc(CustomSerieCalc* baseIndicator)
 {
     m_baseIndicator = baseIndicator;
+}
+
+CustomIndicatorCalc::~CustomIndicatorCalc()
+{
+    delete m_baseIndicator;
 }
 
 void CustomIndicatorCalc::onCalcSerieFull(IndicatorIdentifier id)

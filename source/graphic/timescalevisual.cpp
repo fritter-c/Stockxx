@@ -14,7 +14,6 @@ void TimeScaleVisual::popuplateDateTimes()
 {
     CandleArray candles;
     candles = m_price->GetCandles();
-    m_mapCandles.clear();
 
     for (long long i {candles.size() - 1}; i >= 0; --i){
         m_dtDateTimes.append(candles[i].qi);
@@ -223,7 +222,6 @@ TimeScaleVisual::~TimeScaleVisual()
     m_hashDates.clear();
     m_drawnPositions.clear();
     m_dtDateTimes.clear();
-    m_mapCandles.clear();
     m_timeTags.clear();
     m_price->removeSubscriber(this);
 }

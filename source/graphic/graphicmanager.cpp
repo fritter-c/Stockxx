@@ -29,8 +29,7 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 	
 	m_main = parent_main;
 	
-	IndicatorParamList lst;
-	CustomIndicator *indicator = IndicatorManager::Instance().requestIndicator(assetId, si, itPrice, lst);
+    CustomIndicator *indicator = IndicatorManager::Instance().requestIndicator(assetId, si, itPrice, IndicatorParamList());
 	m_psVisual = new PriceScaleVisual(indicator, this, m_view);
 	m_tsVisual = new TimeScaleVisual(indicator, this, m_view);
     m_priceVisual = new PriceVisualIndicator(m_tsVisual, m_psVisual, qobject_cast<PriceIndicator*>(indicator), m_view, this);
@@ -56,16 +55,17 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 	connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies);
 	connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::randomClose, this, &GraphicManager::onMainRandomClose);
 
-	m_visualItems.append(m_priceVisual);
-	m_visualItems.append(m_psVisual);
-	m_visualItems.append(m_tsVisual);
+    m_visualGraphicItems.append(m_priceVisual);
+    m_visualGraphicItems.append(m_psVisual);
+    m_visualGraphicItems.append(m_tsVisual);
 }
 
 GraphicManager::~GraphicManager()
 {
 	delete m_candleMag;
 	delete m_priceVisual;
-	m_visualStudies.clear();
+    delete m_studieProperties;
+    m_visualGraphicItems.clear();
 	m_scene->clear();
 }
 
@@ -76,7 +76,7 @@ QWidget* GraphicManager::GetCustomChart()
 
 bool GraphicManager::IsOverVisualItem(IVisualItem** item)
 {
-	for (auto studie : m_visualStudies) {
+    for (auto studie : m_visualItems) {
 		if (studie->isOverMouse()) {
             *item = studie;
 			return true;
@@ -90,13 +90,13 @@ void GraphicManager::addStudie(QMouseEvent* event)
 	if (m_mainStudie == stResistance) {
 		CustomStudie* studie{ new ResistanceStudie(this, m_psVisual->PriceAtY(event->pos().y()),
 												   m_tsVisual, m_psVisual, m_priceVisual)};
-		m_visualStudies.append(studie);
+        m_visualItems.append(studie);
 		studie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
 	}
 	else if (m_mainStudie == stLine) {
 		CustomStudie* studie{ new LineStudie(this, event->pos().x(), m_psVisual->PriceAtY(event->pos().y()), 
 							                 m_tsVisual, m_psVisual, m_priceVisual)};
-		m_visualStudies.append(studie);
+        m_visualItems.append(studie);
 		m_selectedStudie = studie;
 		studie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
 		m_bAddingStudie = true;
@@ -105,7 +105,7 @@ void GraphicManager::addStudie(QMouseEvent* event)
 	else if (m_mainStudie == stFibonacci) {
 		CustomStudie* studie{ new FibonacciStudie(this, event->pos().x(), 
 												  m_psVisual->PriceAtY(event->pos().y()), m_tsVisual, m_psVisual, m_priceVisual) };
-		m_visualStudies.append(studie);
+        m_visualItems.append(studie);
 		m_selectedStudie = studie;
 		studie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
 		m_studieState = ssSettingSecondPoint;
@@ -113,13 +113,13 @@ void GraphicManager::addStudie(QMouseEvent* event)
 	}
 	else if (m_mainStudie == stVertLine) {
 		CustomStudie* studie{ new VertLineStudie(this, event->pos().x(), m_tsVisual, m_psVisual, m_priceVisual) };
-		m_visualStudies.append(studie);
+        m_visualItems.append(studie);
 		studie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
 	}
 	else if (m_mainStudie == stChannel) {
 		CustomStudie* studie{ new ChannelStudie(this, event->pos().x(), m_psVisual->PriceAtY(event->pos().y()), 
 			                                    m_tsVisual, m_psVisual, m_priceVisual) };
-		m_visualStudies.append(studie);
+        m_visualItems.append(studie);
 		m_selectedStudie = studie;
 		studie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
 		m_bAddingStudie = true;
@@ -127,7 +127,7 @@ void GraphicManager::addStudie(QMouseEvent* event)
 	}
 	else if (m_mainStudie == stFreeHand) {
 		CustomStudie* studie{ new FreeHandStudie(this, event->pos(), m_tsVisual, m_psVisual, m_priceVisual) };
-		m_visualStudies.append(studie);
+        m_visualItems.append(studie);
 		m_bAddingStudie = true;
 		m_selectedStudie = studie;
 		studie->setMainColor(qobject_cast<MainWindow*>(m_main)->studieColor());
@@ -137,8 +137,8 @@ void GraphicManager::addStudie(QMouseEvent* event)
 
 void GraphicManager::fullUpdate()
 {
-	for (int i{ 0 }; i < m_visualStudies.size(); ++i) {
-		m_visualStudies[i]->changeGeometry();
+    for (int i{ 0 }; i < m_visualItems.size(); ++i) {
+        m_visualItems[i]->changeGeometry();
 	}
 	m_baseIndicator->update();
 }
@@ -200,7 +200,7 @@ void GraphicManager::candleHoveredChanged()
 
 void GraphicManager::deleteStudie(IVisualItem* studie)
 {
-	m_visualStudies.removeOne(studie);
+    m_visualItems.removeOne(studie);
 	delete studie;
 }
 
@@ -214,8 +214,8 @@ void GraphicManager::onViewResize(QResizeEvent* event)
 	if (m_tsVisual)
 		m_tsVisual->recalculatePositions();
 	m_priceVisual->changeGeometry();
-	for (int i{ 0 }; i < m_visualStudies.size(); ++i) {
-		m_visualStudies[i]->changeGeometry();
+    for (int i{ 0 }; i < m_visualItems.size(); ++i) {
+        m_visualItems[i]->changeGeometry();
 	}
 }
 
@@ -256,12 +256,15 @@ void GraphicManager::onViewMouseClick(QMouseEvent* event)
 	}
 	else {
 		item->select();
-        m_studieProperties->show();
+
 		if (m_viSelected) {
 			m_viSelected->deselect();		
 		}
 		m_viSelected = item;
-        m_studieProperties->setStyle(dynamic_cast<CustomStudie*>(m_viSelected)->getStyle());
+        if(dynamic_cast<CustomStudie*>(m_viSelected)){
+            m_studieProperties->show();
+            m_studieProperties->setStyle(dynamic_cast<CustomStudie*>(m_viSelected)->getStyle());
+        }
 	}
 }
 
@@ -289,6 +292,7 @@ void GraphicManager::onViewMouseMove(QMouseEvent* event)
 
 	}
 	m_lastChartPos = event->pos();
+    m_baseIndicator->setBHighlight(m_baseIndicator->isUnderMouse());
 }
 
 void GraphicManager::onViewKeyPress(QKeyEvent* event)
@@ -326,9 +330,9 @@ void GraphicManager::onMainDeleteAllStudies()
 {
 	if (dynamic_cast<CustomStudie*>(m_viSelected)) m_viSelected = nullptr;
 
-	for (long long i{ m_visualStudies.size() - 1 }; i >= 0; --i) {
-        delete dynamic_cast<CustomStudie*>(m_visualStudies[i]);
-		m_visualStudies.pop_back();
+    for (long long i{ m_visualItems.size() - 1 }; i >= 0; --i) {
+        delete dynamic_cast<CustomStudie*>(m_visualItems[i]);
+        m_visualItems.pop_back();
 	}
 
 }

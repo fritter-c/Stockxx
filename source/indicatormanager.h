@@ -25,6 +25,8 @@ private:
     QHash<IndicatorIdentifier, CustomIndicatorCalc*> m_hshIndicatorsCalc;
     QHash<IndicatorIdentifier, IndicatorSeries*> m_hshIndicatorSeries;
     QHash<IndicatorType, int> m_hshIDs;
+    QQueue<IndicatorIdentifier> m_deleteQueue;
+    QTimer m_deleteTimer;
 
 
     IndicatorIdentifier getNewID(IndicatorType);
@@ -36,9 +38,11 @@ public:
     CustomIndicator* requestIndicator(AssetId, SerieInterval, IndicatorType, IndicatorParamList);
     void addNewIndicatorData(IndicatorIdentifier, size_t, size_t);
     void addNewPriceIndicatorData(IndicatorIdentifier, size_t, size_t);
+    bool scheduleDeletion(IndicatorIdentifier);
 
 private slots:
     void onNewIndicatorData(IndicatorIdentifier);
+    void onDeletionTimer();
 signals:
     void requestFull(IndicatorIdentifier);
     void newIndicatorData(IndicatorIdentifier);

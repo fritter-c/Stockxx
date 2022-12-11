@@ -1,5 +1,20 @@
 #include "pricevisualindicator.h"
 #include "graphicmanager.h"
+#include "indicatormanager.h"
+
+PriceVisualIndicator::PriceVisualIndicator(TimeScaleVisual* timescale, PriceScaleVisual* pricescale,
+    PriceIndicator* data, QGraphicsView *view, QObject* manager, QGraphicsItem* parent)
+    : CustomVisualIndicator(timescale, pricescale,data, view, manager, parent)
+{
+    m_data = data;
+    setAcceptHoverEvents(true);
+    m_pgVisual = new PriceGuide(this);
+    m_tgVisual = new TimeGuideVisual(this);
+    m_pgVisual->setZValue(1);
+    m_tgVisual->setZValue(1);
+    m_pgVisual->setVisible(false);
+    m_tgVisual->setVisible(false);
+}
 
 void PriceVisualIndicator::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 {
@@ -17,11 +32,11 @@ void PriceVisualIndicator::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
     }
     if (event->pos().y() < boundingRect().bottom())
     {
-        //m_pgVisual->setRY(event->pos().y());
+        m_pgVisual->setRY(event->pos().y());
     }
     if (event->pos().x() < boundingRect().right())
     {
-        // m_tgVisual->setRX(event->pos().x());
+        m_tgVisual->setRX(event->pos().x());
     }
     QGraphicsItem::hoverMoveEvent(event);
 }
@@ -30,24 +45,18 @@ void PriceVisualIndicator::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     if (event->pos().y() < boundingRect().bottom())
     {
-        //m_pgVisual->setRY(event->pos().y());
+        m_pgVisual->setRY(event->pos().y());
     }
     if (event->pos().x() < boundingRect().right())
     {
-        //m_tgVisual->setRX(event->pos().x());
+        m_tgVisual->setRX(event->pos().x());
     }
-}
-
-PriceVisualIndicator::PriceVisualIndicator(TimeScaleVisual* timescale, PriceScaleVisual* pricescale,
-    PriceIndicator* data, QGraphicsView *view, QObject* manager, QGraphicsItem* parent)
-    : CustomVisualIndicator(timescale, pricescale,data, view, manager, parent)
-{
-    m_data = data;
-    setAcceptHoverEvents(true);
 }
 
 PriceVisualIndicator::~PriceVisualIndicator()
 {
+    delete m_pgVisual; //necessário remover antes para deletar a tag
+    IndicatorManager::Instance().scheduleDeletion(m_data->ID());
 }
 
 QRectF PriceVisualIndicator::boundingRect() const
@@ -62,10 +71,7 @@ void PriceVisualIndicator::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->setClipRect(boundingRect());
     QPointF pointHigh, pointLow, pointOpen, pointClose;
     QBrush brush {Qt::SolidPattern};
-
-    bool bFirst{true};
     bool bPainted{false};
-
     int nEntrys {m_tsVisual->getEntrys()};
 
     if(!(nEntrys > 0)) return;
@@ -73,14 +79,17 @@ void PriceVisualIndicator::paint(QPainter *painter, const QStyleOptionGraphicsIt
     qreal nSpace{boundingRect().width()};
     qreal rCandleSize = fmin(100,(nSpace / nEntrys) - qMax(200/nEntrys, 5));
     bool bBody{rCandleSize >= 2};
-    QPen pen {Qt::black, 1};
+    QPen pen {Qt::black,  m_dPenWidth};
     painter->setPen(pen);
+    if (m_bHighlight)
+        painter->setOpacity(0.5);
     m_data ->PriorAll();
 
     qreal rFirstPos{m_tsVisual->getFirstPos()};
     qreal rSpacing{m_tsVisual->getSpacing()};
     QuoteIdentifier qiFirstQuote{m_tsVisual->getFirstQuote()};
     m_data->GoToQuote(qiFirstQuote);
+    m_dCandleSize = rCandleSize;
     do{
         Candle candle{m_data->Candle()};
         pointHigh.ry() = m_psVisual->YAtPrice(m_data->High());
@@ -170,16 +179,19 @@ Candle PriceVisualIndicator::getHoveredCandle()
 void PriceVisualIndicator::changeGeometry()
 {
     prepareGeometryChange();
-    //if (m_pgVisual != nullptr) {
-    //    m_pgVisual->geometryChanged();
-    //}
-    //if (m_tgVisual != nullptr) {
-    //    m_tgVisual->geometryChanged();
-    //}
+    if (m_pgVisual != nullptr) {
+        m_pgVisual->geometryChanged();
+    }
+    if (m_tgVisual != nullptr) {
+       m_tgVisual->geometryChanged();
+    }
 }
 
 void PriceVisualIndicator::toggleCross()
 {
+    m_pgVisual->setVisible(not m_pgVisual->isVisible());
+    m_tgVisual->setVisible(not m_tgVisual->isVisible());
+    m_psVisual->update(); //atuliza a tag do cross
 }
 
 SerieInterval PriceVisualIndicator::interval() const
@@ -189,4 +201,71 @@ SerieInterval PriceVisualIndicator::interval() const
 
 void PriceVisualIndicator::toggleRandomClose(bool)
 {
+}
+
+bool PriceVisualIndicator::contains(const QPointF &point) const
+{
+
+    qreal pos;
+    bool bTryNext{true};
+    bool bBreak{false};
+    QPointF localpoint{point};
+    // já que não sei como melhorar a função ffindNearestDate faço essa gambia por enquanto
+    while (true){
+        QuoteIdentifier qi = m_tsVisual->findNearestDate(localpoint.x(), &pos);
+        m_data->GoToQuote(qi);
+        Candle candle{m_data->Candle()};
+        QPointF pointHigh, pointLow, pointOpen, pointClose;
+        qreal x{m_tsVisual->XAtQuote(qi)};
+
+        pointHigh.ry() = m_psVisual->YAtPrice(candle.dHigh);
+        pointHigh.rx() = x;
+
+        pointLow.ry() = m_psVisual->YAtPrice(candle.dLow);
+        pointLow.rx() = x;
+
+        pointOpen.ry() = m_psVisual->YAtPrice(candle.dOpen);
+        pointOpen.rx() = x;
+
+        pointClose.ry() = m_psVisual->YAtPrice(candle.dClose);
+        pointClose.rx() = x;
+
+        if (m_dCandleSize >= 2){
+            QRectF body;
+            if (candle.ct == ctBull)
+            {
+                body.setRect(pointClose.x() - m_dCandleSize/2 , pointClose.y(), m_dCandleSize, pointOpen.y() - pointClose.y());
+            }
+            else if (candle.ct == ctBear)
+            {
+                body.setRect(pointClose.x() - m_dCandleSize/2, pointOpen.y(), m_dCandleSize, pointClose.y() - pointOpen.y());
+            }
+            else
+            {
+                body.setRect(pointClose.x() - m_dCandleSize/2, pointOpen.y(), m_dCandleSize, 0);
+            }
+            if (body.contains(point)){
+                return true;
+            }
+            if ((abs((point.x() - x))< m_dPenWidth) and ((point.y() > pointHigh.ry()) and (point.y() < pointLow.ry())))
+                return true;
+        }
+        else{
+            if ((abs((point.x() - x)) < m_dPenWidth) and ((point.y() > pointHigh.ry()) and (point.y() < pointLow.ry())))
+                return true;
+        }
+
+        if (bBreak) break;
+        // try next
+        if (bTryNext){
+            bTryNext = false;
+            localpoint.rx() = point.x() + m_tsVisual->getSpacing();
+        }
+        // try prior
+        else {
+            localpoint.rx() = point.x() - m_tsVisual->getSpacing();
+            bBreak = true;
+        }
+   }
+   return false;
 }

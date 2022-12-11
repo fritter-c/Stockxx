@@ -17,6 +17,7 @@ protected:
     QVector<ICustomSerieNotifiable*> m_subscribers;
 public:
     CustomIndicator(CustomSerie *base);
+    ~CustomIndicator();
     IndicatorIdentifier ID() const;
     void setID(IndicatorIdentifier newNID);
     void setVisualParent(QGraphicsItem*);

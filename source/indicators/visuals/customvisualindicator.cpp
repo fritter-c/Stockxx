@@ -1,5 +1,6 @@
 #include "customvisualindicator.h"
 
+
 CustomVisualIndicator::CustomVisualIndicator(TimeScaleVisual* timescale, PriceScaleVisual* pricescale,
     CustomIndicator* data, QGraphicsView *view, QObject* manager, QGraphicsItem* parent) : QGraphicsItem(parent)
 {	
@@ -13,5 +14,13 @@ CustomVisualIndicator::CustomVisualIndicator(TimeScaleVisual* timescale, PriceSc
 
 CustomVisualIndicator::~CustomVisualIndicator()
 {
+
 }
 
+void CustomVisualIndicator::setBHighlight(bool newBHighlight)
+{
+    if (m_bHighlight != newBHighlight){
+        m_bHighlight = newBHighlight;
+        update();
+    }
+}

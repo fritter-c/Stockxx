@@ -12,6 +12,16 @@
 
 IndicatorManager* IndicatorManager::instance = nullptr;
 
+IndicatorManager::IndicatorManager(QObject *parent)
+    : QObject{parent}
+{
+    assert(instance == nullptr);
+    instance = this;
+    connect(this, &IndicatorManager::newIndicatorData, this, &IndicatorManager::onNewIndicatorData);
+    m_deleteTimer.setInterval(10000);
+    connect(&m_deleteTimer, &QTimer::timeout, this, &IndicatorManager::onDeletionTimer);
+}
+
 void IndicatorManager::addNewIndicatorData(IndicatorIdentifier id, size_t start, size_t size)
 {
     QMutex mutex;
@@ -53,6 +63,16 @@ void IndicatorManager::addNewIndicatorData(IndicatorIdentifier id, size_t start,
 
 }
 
+bool IndicatorManager::scheduleDeletion(IndicatorIdentifier id)
+{
+    if  (m_hshIndicators.contains(id)) {
+        m_deleteQueue.enqueue(id);
+        m_deleteTimer.start();
+        return true;
+    }
+    return false;
+}
+
 void IndicatorManager::onNewIndicatorData(IndicatorIdentifier id)
 {
     IndicatorSeries* series{m_hshIndicatorSeries[id]};
@@ -68,12 +88,32 @@ void IndicatorManager::onNewIndicatorData(IndicatorIdentifier id)
     delete series;
 }
 
+void IndicatorManager::onDeletionTimer()
+{
+    if (m_deleteQueue.size() > 0){
+        IndicatorIdentifier id = m_deleteQueue.dequeue();
+        delete m_hshIndicators[id];
+        delete m_hshIndicatorsCalc[id];
+        m_hshIndicators.remove(id);
+        m_hshIndicatorsCalc.remove(id);
+        if(m_deleteQueue.size() > 0){
+            m_deleteTimer.stop();
+            m_deleteTimer.start();
+        }
+        else{
+          m_deleteTimer.stop();
+        }
+    }
+}
+
 IndicatorIdentifier IndicatorManager::getNewID(IndicatorType type)
 {
     IndicatorIdentifier id;
+    int newId;
     if (m_hshIDs.contains(type)){
         id.type = type;
-        id.id = m_hshIDs[type]++;
+        newId = m_hshIDs[type]++;
+        id.id = newId + 1;
         m_hshIDs[type] = id.id;
     }
     else{
@@ -82,14 +122,6 @@ IndicatorIdentifier IndicatorManager::getNewID(IndicatorType type)
         id.id = 0;
     }
     return id;
-}
-
-IndicatorManager::IndicatorManager(QObject *parent)
-    : QObject{parent}
-{
-    assert(instance == nullptr);
-    instance = this;
-    connect(this, &IndicatorManager::newIndicatorData, this, &IndicatorManager::onNewIndicatorData);
 }
 
 CustomIndicator* IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorType type, IndicatorParamList params)
