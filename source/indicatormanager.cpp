@@ -124,7 +124,7 @@ IndicatorIdentifier IndicatorManager::getNewID(IndicatorType type)
     return id;
 }
 
-CustomIndicator* IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorType type, IndicatorParamList params)
+CustomIndicator* IndicatorManager::requestIndicator(AssetId id, SerieInterval si, IndicatorType type, IndicatorCalcParams params)
 {
     CustomPriceCalc* calcPrice{nullptr};
     CustomPrice* price{nullptr};

@@ -137,5 +137,7 @@ struct BasicStudieStyle{
     QColor color;
 };
 
+
+
 #endif
 

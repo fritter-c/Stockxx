@@ -4,6 +4,7 @@
 #include "QActionGroup"
 #include "customchart.h"
 #include "dataseriemanager.h"
+#include "indicators/properties/customindicatorproperties.h"
 #include "studieproperties.h"
 #include "symbolsearcher.h"
 #include <QColorDialog>
@@ -221,10 +222,12 @@ void MainWindow::onDataManagerGraphReady(DataSerieIdentifier id)
     m_bCreateFreeWindow = false;
     connect(chart, SIGNAL(destroyed(QObject*)), this, SLOT(onCustomChartDestroy(QObject*)));
     chart->show();
+
     disconnect(&DataSerieManager::Instance(), &DataSerieManager::graphReady,
                this, &MainWindow::onDataManagerGraphReady);
     disconnect(&DataSerieManager::Instance(), &DataSerieManager::notifyMain,
             this, &MainWindow::onSerieLoadStep);
+
     if (!m_progressBarHide){
         m_progressBarHide = new QTimer(this);
         m_progressBarHide->setInterval(2000);
@@ -281,5 +284,13 @@ void MainWindow::on_actionOpen_LinePicker_triggered()
 {
     StudieProperties picker;
     picker.exec();
+}
+
+
+void MainWindow::on_actionOpen_CustomProperties_triggered()
+{
+   CustomIndicatorProperties properties;
+   properties.exec();
+   BasicIndicatorStyle style{properties.getBasicStyle()};
 }
 

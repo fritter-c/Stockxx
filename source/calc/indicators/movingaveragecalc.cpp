@@ -1,11 +1,11 @@
 #include "movingaveragecalc.h"
 #include "indicatormanager.h"
 
-MovingAverageCalc::MovingAverageCalc(CustomSerieCalc* base, IndicatorParamList params) : CustomArrayIndicatorCalc{base}
+MovingAverageCalc::MovingAverageCalc(CustomSerieCalc* base, IndicatorCalcParams params) : CustomArrayIndicatorCalc{base}
 {
     MovingAverageCalc::loadParams(params);
 }
-void MovingAverageCalc::loadParams(IndicatorParamList params)
+void MovingAverageCalc::loadParams(IndicatorCalcParams params)
 {
     m_interval = params[0].integer;
     m_type = (MovingAverageType)params[1].integer;

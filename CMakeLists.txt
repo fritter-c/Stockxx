@@ -33,6 +33,8 @@ set(PROJECT_SOURCES
         source/stockxxlinecombobox.h
         source/stockxxlinecombobox.cpp
         source/stockxxlinecombobox.ui
+        source/linesampleframe.h
+        source/linesampleframe.cpp
 
         source/graphic/customchart.cpp
         source/graphic/customchart.h
@@ -111,7 +113,6 @@ set(PROJECT_SOURCES
         source/calc/customprice/custompricecalc.h
         source/calc/customprice/customseriecalc.cpp
         source/calc/customprice/customseriecalc.h
-
         
         source/calc/indicators/customindicatorcalc.cpp
         source/calc/indicators/customindicatorcalc.h
@@ -135,6 +136,16 @@ set(PROJECT_SOURCES
         source/indicators/visuals/customvisualindicator.h
         source/indicators/visuals/pricevisualindicator.h
         source/indicators/visuals/pricevisualindicator.cpp
+
+        source/indicators/properties/customindicatorproperties.cpp
+        source/indicators/properties/customindicatorproperties.h
+        source/indicators/properties/customindicatorproperties.ui
+        source/indicators/properties/customindicatorstyleform.cpp
+        source/indicators/properties/customindicatorstyleform.ui
+        source/indicators/properties/customindicatorstyleform.h
+        source/indicators/properties/movingaverageproperties.cpp
+        source/indicators/properties/movingaverageproperties.ui
+        source/indicators/properties/movingaverageproperties.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

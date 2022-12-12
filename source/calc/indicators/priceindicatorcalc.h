@@ -12,7 +12,7 @@ protected:
     virtual void createIndicatorValues() override;
     virtual void resize(size_t n);
     virtual void grow(size_t n);
-    virtual void loadParams(IndicatorParamList) override{};
+    virtual void loadParams(IndicatorCalcParams) override{};
 public:
     PriceIndicatorCalc(CustomSerieCalc* base);
 

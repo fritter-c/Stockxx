@@ -59,5 +59,6 @@ private slots:
     void on_actionRandom_Close_triggered(bool checked);
     void on_btnStudieColor_clicked(bool);
     void on_actionOpen_LinePicker_triggered();
+    void on_actionOpen_CustomProperties_triggered();
 };
 #endif // MAINWINDOW_H

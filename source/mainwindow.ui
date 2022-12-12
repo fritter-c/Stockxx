@@ -56,6 +56,7 @@
     <addaction name="actionRelease_MDI_Windows"/>
     <addaction name="actionRandom_Close"/>
     <addaction name="actionOpen_LinePicker"/>
+    <addaction name="actionOpen_CustomProperties"/>
    </widget>
    <widget class="QMenu" name="menuIndicators">
     <property name="title">
@@ -336,6 +337,11 @@
   <action name="actionOpen_LinePicker">
    <property name="text">
     <string>Open LinePicker</string>
+   </property>
+  </action>
+  <action name="actionOpen_CustomProperties">
+   <property name="text">
+    <string>Open CustomProperties</string>
    </property>
   </action>
  </widget>

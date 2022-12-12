@@ -29,7 +29,7 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 	
 	m_main = parent_main;
 	
-    CustomIndicator *indicator = IndicatorManager::Instance().requestIndicator(assetId, si, itPrice, IndicatorParamList());
+    CustomIndicator *indicator = IndicatorManager::Instance().requestIndicator(assetId, si, itPrice, IndicatorCalcParams());
 	m_psVisual = new PriceScaleVisual(indicator, this, m_view);
 	m_tsVisual = new TimeScaleVisual(indicator, this, m_view);
     m_priceVisual = new PriceVisualIndicator(m_tsVisual, m_psVisual, qobject_cast<PriceIndicator*>(indicator), m_view, this);

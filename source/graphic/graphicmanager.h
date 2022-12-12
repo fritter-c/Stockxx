@@ -56,6 +56,7 @@ public:
     QWidget* GetCustomChart();
     void candleHoveredChanged();
     void deleteStudie(IVisualItem*);
+
 public slots:
     void onViewResize(QResizeEvent *event);
     void onMainStudieSelected(StudieType, bool);

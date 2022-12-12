@@ -12,7 +12,7 @@ private:
 protected:
     CustomSerieCalc* m_baseIndicator;
     virtual void createIndicatorValues();
-    virtual void loadParams(IndicatorParamList) = 0;
+    virtual void loadParams(IndicatorCalcParams) = 0;
 public:
     CustomIndicatorCalc(CustomSerieCalc* baseIndicator);
     ~CustomIndicatorCalc();
