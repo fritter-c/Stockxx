@@ -42,6 +42,7 @@ inline void IGlower::stop()
 {
     m_glowTimer.stop();
     m_intensity = 0;
+    bFading = false;
 }
 
 inline void IGlower::start()

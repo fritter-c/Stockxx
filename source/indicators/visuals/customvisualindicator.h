@@ -17,14 +17,15 @@ protected:
     TimeGuideVisual* m_tgVisual;
     QGraphicsView* m_view;
 	QObject* m_manager;
-	virtual void changeGeometry() = 0;
     bool m_bHighlight{false};
     double m_dPenWidth{1};
-
+    virtual void loadParams(IndicatorVisualParams) = 0;
+    BasicIndicatorStyle m_style;
 public:
     CustomVisualIndicator(TimeScaleVisual* timescale, PriceScaleVisual* pricescale,
                           CustomIndicator* data,QGraphicsView *view, QObject* manager, QGraphicsItem *parent = nullptr);
 	~CustomVisualIndicator();
     void setBHighlight(bool newBHighlight);
+    virtual void changeGeometry() = 0;
 };
 #endif

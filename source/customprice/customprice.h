@@ -13,7 +13,6 @@ protected:
     CustomDataSerie* m_dataSerie;
     CandleArray m_candles;
     AssetId m_assetId;
-    size_t m_nIndex;
     SerieInterval m_interval;
     double m_dMax{std::numeric_limits<double>::lowest()};
     double m_dMin{std::numeric_limits<double>::max()};
@@ -40,6 +39,7 @@ public:
     virtual CandleArray GetCandles() override;
     virtual double Max() override;
     virtual double Min() override;
+    virtual bool GoToIndex(size_t) override;
 
 signals:
 

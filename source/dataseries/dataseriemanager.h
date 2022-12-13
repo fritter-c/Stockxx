@@ -49,6 +49,6 @@ signals:
     void loadCalcSerieFromJsonAV(QString ticker);
     void graphReady(DataSerieIdentifier);
     void notifyMain();
-
 };
+
 #endif // DATASERIEMANAGER_H

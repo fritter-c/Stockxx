@@ -32,6 +32,7 @@ public:
     virtual QuoteIdentifier Quote() override;
     virtual CandleArray GetCandles() override;
     virtual SerieInterval Interval() override;
+    virtual bool GoToIndex(size_t) override;
 
     // Herdado por meio de CustomIndicator
     virtual double Max() override;

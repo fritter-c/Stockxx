@@ -2,8 +2,16 @@
 #include "dailydataseriecalc.h"
 #include "minutedataserie.h"
 
-
 DataSerieManager* DataSerieManager::instance = nullptr;
+
+DataSerieManager::DataSerieManager(QObject* parent)
+    : QObject{ parent }
+{
+    assert(instance == nullptr);
+    instance = this;
+    populateLocalDataseries();
+    m_alphaVantageApi = new StockDataApi(this);
+}
 
 void DataSerieManager::loadStdDataSerie()
 {
@@ -64,15 +72,6 @@ DataSerieIdentifier DataSerieManager::getDataID(AssetId id, int offset)
         break;
     }
     return dsid;
-}
-
-DataSerieManager::DataSerieManager(QObject *parent)
-    : QObject{parent}
-{
-    assert(instance == nullptr);
-    instance = this;
-    populateLocalDataseries();
-    m_alphaVantageApi = new StockDataApi(this);
 }
 
 void DataSerieManager::requestDailySerie(QString ticker)

@@ -11,7 +11,6 @@ class MovingAverageProperties;
 class MovingAverageProperties : public QWidget
 {
     Q_OBJECT
-
 public:
     explicit MovingAverageProperties(QWidget *parent = nullptr);
     ~MovingAverageProperties();

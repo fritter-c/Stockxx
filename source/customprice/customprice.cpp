@@ -22,10 +22,11 @@ bool CustomPrice::GoToQuote(QuoteIdentifier qi)
 {
     long long i{ static_cast<long long>(Quote().id - qi.id) };
     if (i > 0) {
-        return PriorN(i);
+        return NextN(i);
+
     }
     else {
-        return NextN(abs(i));
+        return PriorN(abs(i));
     }
 }
 
@@ -33,10 +34,11 @@ bool CustomPrice::GoToQuote(size_t n)
 {
     long long i{ static_cast<long long>(m_nIndex - n) };
     if (i > 0) {
-        return PriorN(i);
+        return NextN(i);
+
     }
     else {
-        return NextN(abs(i));
+        return PriorN(abs(i));
     }
 }
 
@@ -53,6 +55,15 @@ double CustomPrice::Max()
 double CustomPrice::Min()
 {
     return m_dMin;
+}
+
+bool CustomPrice::GoToIndex(size_t n)
+{
+    if ((n > 0) and (n < Size())) {
+        m_nIndex = n;
+        return true;
+    }
+    return false;
 }
 
 bool CustomPrice::Next()

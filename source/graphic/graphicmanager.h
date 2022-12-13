@@ -3,6 +3,7 @@
 
 #include "customstudie.h"
 #include "customdataserie.h"
+#include "indicators/visuals/movingaveragevisual.h"
 #include "pricescalevisual.h"
 #include <QObject>
 #include "gotview.h"
@@ -16,6 +17,44 @@ enum StudieState  {ssSettingSecondPoint,
                   ssDragging,
                   ssAddingPoint,
                   ssNone};
+class IndicatorVisualGroup{
+private:
+    QVector<CustomVisualIndicator*> m_children;
+    CustomVisualIndicator* m_father;
+    QRect m_groupArea;
+public:
+    IndicatorVisualGroup(CustomVisualIndicator* father, QRect groupArea){
+        m_father = father;
+        m_groupArea = groupArea;
+    }
+    void addChild(CustomVisualIndicator* child){
+        m_children.append(child);
+    }
+    void removeChild(CustomVisualIndicator* child){
+        m_children.removeOne(child);
+    }
+    void changeGeometry(){
+        m_father->changeGeometry();
+        for(auto child : m_children){
+            child->changeGeometry();
+        }
+    }
+    bool isUnderMouse(CustomVisualIndicator** visual){
+        if (m_father->isUnderMouse()){
+            *visual = m_father;
+            return true;
+        }
+        for(auto child : m_children){
+            if (child->isUnderMouse()){
+                *visual = child;
+                return true;
+            }
+        }
+        *visual = nullptr;
+        return false;
+    }
+
+};
 
 class GraphicManager : public QObject
 {
@@ -30,9 +69,9 @@ private:
     CustomDataSerie *m_mainDataSerie;
     CustomVisualIndicator *m_baseIndicator;
     PriceVisualIndicator *m_priceVisual;
+    MovingAverageVisual *m_average;
     QVector<QGraphicsItem*> m_visualGraphicItems;
     QVector<IVisualItem*> m_visualItems;
-    QGraphicsItem* m_candleMag;
     StudieType m_mainStudie;
     StudieProperties* m_studieProperties{nullptr};
     CustomStudie* m_selectedStudie{nullptr};
@@ -41,6 +80,9 @@ private:
     QPointF m_lastChartPos{0,0};
     SerieInterval m_sInterval;
     QWidget* m_main;
+    QVector<QRect> m_boundingAreas;
+    QRect m_timescaleBoundingArea;
+    QRect m_baseIndicatorBoundingArea;
     bool m_bHandMode{false};
     bool m_draggingChart{false};
     bool m_bAddingStudie{false};
@@ -50,11 +92,11 @@ private:
     void handleMouseReleaseStudie();
     void handleMousePressStudie();
     void handleMouseMoveStudie(QMouseEvent *event);
+    void connectMainIndicators();
 public:
     explicit GraphicManager(AssetId assetId, SerieInterval si, GoTView *m_view, QWidget *parent_main = nullptr, QWidget *chart = nullptr);
     ~GraphicManager();
     QWidget* GetCustomChart();
-    void candleHoveredChanged();
     void deleteStudie(IVisualItem*);
 
 public slots:
@@ -69,5 +111,8 @@ public slots:
     void onMainDeleteAllStudies();
     void onMainRandomClose(bool);
     void onStudiePropertiesStyleChanged();
+
+    // indicators
+    void onMainAddMovingAverage(BasicIndicatorStyle, IndicatorCalcOver, int interval, int shift, MovingAverageType);
 };
 #endif // GRAPHICMANAGER_H

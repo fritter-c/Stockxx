@@ -22,7 +22,7 @@ public:
     ~CustomIndicatorProperties();
     void setupForMovingAverage();
     const BasicIndicatorStyle& getBasicStyle();
-    const QWidget& getProperties();
+    QWidget *getProperties();
 
 };
 

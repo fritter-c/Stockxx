@@ -35,6 +35,7 @@ public:
     virtual SerieInterval Interval() override;
     virtual double Max() override;
     virtual double Min() override;
+    virtual bool GoToIndex(size_t) override;
 };
 
 #endif // CUSTOMARRAYINDICATOR_H

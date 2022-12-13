@@ -9,6 +9,7 @@ void DailyDataSerieCalc::loadSerieFromCSV(QString path, QChar delimiter)
     DataSerieValue* pquote;
     DataSerieValue* pquoteaux{nullptr};
     DataSerieValue quote;
+    QVector<DataSerieValue*> temp_values;
     ClearDataSerie();
     m_assetId.name = "DJI";
     try{
@@ -33,9 +34,13 @@ void DailyDataSerieCalc::loadSerieFromCSV(QString path, QChar delimiter)
                 else
                   quote.qiQuote.id = 0;
                 pquote = new DataSerieValue(quote);
-                ar_values.append(pquote);
+                temp_values.append(pquote);
                 pquoteaux = pquote;
             }
+        }
+        ar_values.resize(temp_values.count());
+        for(long long i{temp_values.count() -1}; i >= 0; --i){
+            ar_values[i] = temp_values[temp_values.count() - 1 - i];
         }
         DailyDataSerieCalc::serieToStream();
     }
@@ -62,6 +67,7 @@ void DailyDataSerieCalc::loadSerieFromJsonAV(QString json)
     DataSerieValue* pquote;
     DataSerieValue* pquoteaux{nullptr};
     QList<QString> list = vmap.keys();
+    QVector<DataSerieValue*> temp_values;
     for(long long i{list.count() - 1}; i >= 0; --i){
         QString key = list[i];
         quote.dtQuoteDate = QDateTime::fromString(key, "yyyy-MM-dd");
@@ -86,8 +92,12 @@ void DailyDataSerieCalc::loadSerieFromJsonAV(QString json)
 
 
         pquote = new DataSerieValue(quote);
-        ar_values.append(pquote);
+        temp_values.append(pquote);
         pquoteaux = pquote;
+    }
+    ar_values.resize(temp_values.count());
+    for(long long i{temp_values.count() -1}; i >= 0; --i){
+        ar_values[i] = temp_values[temp_values.count() - 1 - i];
     }
     serieToStream();
     emit serieReady(m_assetId);

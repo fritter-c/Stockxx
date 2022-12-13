@@ -98,16 +98,8 @@ double CustomArrayIndicator::Volume()
 bool CustomArrayIndicator::GoToQuote(QuoteIdentifier qi)
 {
 	if (!qobject_cast<CustomPrice*>(m_baseIndicator)) return false;
-	
 	m_baseIndicator->GoToQuote(qi);
-
-	long long i{ static_cast<long long> (m_nIndex - m_baseIndicator->ActualIndex()) };
-	if (i > 0) {
-		return PriorN(i);
-	}
-	else {
-		return NextN(abs(i));
-	}
+	return GoToIndex(m_baseIndicator->ActualIndex());
 }
 
 QuoteIdentifier CustomArrayIndicator::Quote()
@@ -126,14 +118,7 @@ bool CustomArrayIndicator::GoToQuote(size_t n)
 {
 	if (!qobject_cast<CustomPrice*>(m_baseIndicator)) return false;
 	m_baseIndicator->GoToQuote(n);
-
-	long long i{ static_cast<long long>(m_nIndex - m_baseIndicator->ActualIndex()) };
-	if (i > 0) {
-		return PriorN(i);
-	}
-	else {
-		return NextN(abs(i));
-    }
+	return GoToIndex(m_baseIndicator->ActualIndex());
 }
 
 CandleArray CustomArrayIndicator::GetCandles()
@@ -157,4 +142,13 @@ double CustomArrayIndicator::Max()
 double CustomArrayIndicator::Min()
 {
 	return 0.0;
+}
+
+bool CustomArrayIndicator::GoToIndex(size_t n)
+{
+	if ((n > 0) and (n < Size())) {
+		m_nIndex = n;
+		return true;
+	}
+	return false;
 }

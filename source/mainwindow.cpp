@@ -5,6 +5,7 @@
 #include "customchart.h"
 #include "dataseriemanager.h"
 #include "indicators/properties/customindicatorproperties.h"
+#include "indicators/properties/movingaverageproperties.h"
 #include "studieproperties.h"
 #include "symbolsearcher.h"
 #include <QColorDialog>
@@ -292,5 +293,19 @@ void MainWindow::on_actionOpen_CustomProperties_triggered()
    CustomIndicatorProperties properties;
    properties.exec();
    BasicIndicatorStyle style{properties.getBasicStyle()};
+}
+
+
+void MainWindow::on_actionMoving_Average_triggered()
+{
+    CustomIndicatorProperties properties;
+    properties.setupForMovingAverage();
+    properties.exec();
+    if (properties.result() == QDialog::Accepted){
+        BasicIndicatorStyle style{properties.getBasicStyle()};
+        MovingAverageProperties* settings = qobject_cast<MovingAverageProperties*>(properties.getProperties());
+        emit addMovingAverage(style, settings->getCalcOver(), settings->getInterval(), settings->getShift(), settings->getType());
+    }
+
 }
 

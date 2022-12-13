@@ -1,5 +1,4 @@
 #include "graphicmanager.h"
-#include "candlemagnifier.h"
 #include "fibonaccistudie.h"
 #include "freehandstudie.h"
 #include "linestudie.h"
@@ -28,16 +27,19 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 		m_mainDataSerie = DataSerieManager::Instance().getMinuteDataSerie(m_assetId, si, true);
 	
 	m_main = parent_main;
-	
     CustomIndicator *indicator = IndicatorManager::Instance().requestIndicator(assetId, si, itPrice, IndicatorCalcParams());
-	m_psVisual = new PriceScaleVisual(indicator, this, m_view);
-	m_tsVisual = new TimeScaleVisual(indicator, this, m_view);
+
+    m_psVisual = new PriceScaleVisual(indicator, this, m_view);
+    m_tsVisual = new TimeScaleVisual(indicator, this, m_view);
+
+
     m_priceVisual = new PriceVisualIndicator(m_tsVisual, m_psVisual, qobject_cast<PriceIndicator*>(indicator), m_view, this);
-	m_candleMag = new CandleMagnifier();
+
+
+
 	m_scene->addItem(m_tsVisual);
 	m_scene->addItem(m_psVisual);
 	m_scene->addItem(m_priceVisual);
-	m_scene->addItem(m_candleMag);
 	m_baseIndicator = m_priceVisual;
 
     m_studieProperties = new StudieProperties();
@@ -58,11 +60,11 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
     m_visualGraphicItems.append(m_priceVisual);
     m_visualGraphicItems.append(m_psVisual);
     m_visualGraphicItems.append(m_tsVisual);
+    connectMainIndicators();
 }
 
 GraphicManager::~GraphicManager()
 {
-	delete m_candleMag;
 	delete m_priceVisual;
     delete m_studieProperties;
     m_visualGraphicItems.clear();
@@ -191,11 +193,12 @@ void GraphicManager::handleMouseMoveStudie(QMouseEvent* event)
 			m_selectedStudie->addPoint(event->pos());
 			return;
 		}
-	}
+    }
 }
-void GraphicManager::candleHoveredChanged()
+
+void GraphicManager::connectMainIndicators()
 {
-	dynamic_cast <CandleMagnifier*>(m_candleMag)->setSelectedCandle(m_priceVisual->getHoveredCandle());
+    connect(qobject_cast<MainWindow*>(m_main), &MainWindow::addMovingAverage, this, &GraphicManager::onMainAddMovingAverage);
 }
 
 void GraphicManager::deleteStudie(IVisualItem* studie)
@@ -207,13 +210,16 @@ void GraphicManager::deleteStudie(IVisualItem* studie)
 void GraphicManager::onViewResize(QResizeEvent* event)
 {
 	m_psVisual->changeGeometry();
-	dynamic_cast <CandleMagnifier*>(m_candleMag)->changeSize(QSizeF{ m_view->size() });
 	m_scene->setSceneRect(0, 0, m_view->width(), m_view->height());
-	if (m_psVisual)
+
+    if (m_psVisual)
 		m_psVisual->UpdateSpacing();
-	if (m_tsVisual)
+
+    if (m_tsVisual)
 		m_tsVisual->recalculatePositions();
-	m_priceVisual->changeGeometry();
+
+    m_priceVisual->changeGeometry();
+
     for (int i{ 0 }; i < m_visualItems.size(); ++i) {
         m_visualItems[i]->changeGeometry();
 	}
@@ -236,7 +242,6 @@ void GraphicManager::onViewMouseClick(QMouseEvent* event)
 	}
     else if (!IsOverVisualItem(&item)) {
         if ((event->button() == Qt::LeftButton) &&
-                (not m_candleMag->isUnderMouse()) &&
                 (!m_bHandMode) and (m_mainStudie))
         {
 			addStudie(event);
@@ -250,6 +255,7 @@ void GraphicManager::onViewMouseClick(QMouseEvent* event)
 				m_draggingChart = false;
                 if (m_viSelected) {
                     m_viSelected->deselect();
+                    m_viSelected = nullptr;
                 }
 			}
 		}
@@ -285,7 +291,7 @@ void GraphicManager::onViewMouseMove(QMouseEvent* event)
 	if (m_bAddingStudie) {
 		handleMouseMoveStudie(event);
 	}
-	else if ((m_bHandMode) and (m_draggingChart) and (not m_candleMag->isUnderMouse())) {
+    else if ((m_bHandMode) and (m_draggingChart)) {
 		m_psVisual->movePrice((event->pos().y() - m_lastChartPos.y()) / c_yProportion);
 		m_tsVisual->moveTime((int)(-event->pos().x() + m_lastChartPos.x()));
 		fullUpdate();
@@ -351,5 +357,23 @@ void GraphicManager::onStudiePropertiesStyleChanged()
     }
 }
 
+void GraphicManager::onMainAddMovingAverage(BasicIndicatorStyle style, IndicatorCalcOver calcOver, int interval, int shift, MovingAverageType type)
+{
+    IndicatorCalcParams lst;
+    IndicatorParam a,b,c,d;
+    a.integer = interval;
+    b.integer = static_cast<int>(type);
+    c.integer = static_cast<int>(calcOver);
+    d.integer = shift;
+    lst.append(a);
+    lst.append(b);
+    lst.append(c);
+    lst.append(d);
+    CustomIndicator* indicator = IndicatorManager::Instance().requestIndicator(m_assetId, m_sInterval, itMovingAverage, lst);
 
+    IndicatorVisualParams params;
+    BasicIndicatorStyle* pstyle = new BasicIndicatorStyle(style);
+    params.append(pstyle);
+    new MovingAverageVisual(params, m_tsVisual, m_psVisual, qobject_cast<MovingAverage*>(indicator), m_view, this, m_priceVisual);
 
+}

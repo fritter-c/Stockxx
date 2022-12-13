@@ -136,6 +136,8 @@ set(PROJECT_SOURCES
         source/indicators/visuals/customvisualindicator.h
         source/indicators/visuals/pricevisualindicator.h
         source/indicators/visuals/pricevisualindicator.cpp
+        source/indicators/visuals/movingaveragevisual.h
+        source/indicators/visuals/movingaveragevisual.cpp
 
         source/indicators/properties/customindicatorproperties.cpp
         source/indicators/properties/customindicatorproperties.h

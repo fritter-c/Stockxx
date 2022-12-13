@@ -30,6 +30,7 @@ public:
     virtual size_t ActualIndex();
     virtual CandleArray GetCandles() = 0;
     virtual SerieInterval Interval() = 0;
+    virtual bool GoToIndex(size_t) = 0;
     virtual double Max() = 0;
     virtual double Min() = 0;
 };

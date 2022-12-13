@@ -48,6 +48,7 @@ void MinuteDataSerieCalc::loadSerieFromCSV(QString path, QChar delimiter)
 
        }
        file.close();
+       
 }
 
 void MinuteDataSerieCalc::loadSerieFromStream()
@@ -56,6 +57,7 @@ void MinuteDataSerieCalc::loadSerieFromStream()
     if(!file.open(QIODevice::ReadOnly)) return;
 
     QDataStream in(&file);
+    QVector<DataSerieValue*> temp_values;
     quint32 start;
     AssetId id;
 
@@ -88,10 +90,14 @@ void MinuteDataSerieCalc::loadSerieFromStream()
         in >> dt.dtQuoteDate;
         in >> dt.qiQuote.id;
         dt.qiQuote.dtQuoteDate = dt.dtQuoteDate;
-        ar_values.append(new DataSerieValue(dt));
+        temp_values.append(new DataSerieValue(dt));
 
     }
     file.close();
+    ar_values.resize(temp_values.count());
+    for(long long i{temp_values.count() -1}; i >= 0; --i){
+        ar_values[i] = temp_values[temp_values.count() - 1 - i];
+    }
 }
 
 void MinuteDataSerieCalc::serieToStream()
@@ -115,6 +121,7 @@ void MinuteDataSerieCalc::loadSerieFromJsonAV(QString json)
     DataSerieValue* pquote;
     DataSerieValue* pquoteaux{nullptr};
     QList<QString> list = vmap.keys();
+    QVector<DataSerieValue*> temp_values;
     for(long long i{list.count() - 1}; i >= 0; --i){
         QString key = list[i];
         quote.dtQuoteDate = QDateTime::fromString(key, "yyyy-MM-dd hh:mm:ss");
@@ -139,8 +146,12 @@ void MinuteDataSerieCalc::loadSerieFromJsonAV(QString json)
 
 
         pquote = new DataSerieValue(quote);
-        ar_values.append(pquote);
+        temp_values.append(pquote);
         pquoteaux = pquote;
+    }
+    ar_values.resize(temp_values.count());
+    for(long long i{temp_values.count() -1}; i >= 0; --i){
+        ar_values[i] = temp_values[temp_values.count() - 1 - i];
     }
     serieToStream();
 }

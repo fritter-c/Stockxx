@@ -4,7 +4,6 @@
 #include "customvisualindicator.h"
 #include "indicators/priceindicator.h"
 #include <QGraphicsSceneHoverEvent>
-#include "ivisualitem.h"
 
 class PriceVisualIndicator : public CustomVisualIndicator
 {
@@ -13,8 +12,7 @@ private:
     Candle m_hoveredCandle;
     qreal m_dCandleSize{0};
 protected:
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event) override;
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+    virtual void loadParams(IndicatorVisualParams) override;
 public:
     PriceVisualIndicator(TimeScaleVisual* timescale, PriceScaleVisual* pricescale,
         PriceIndicator* data,QGraphicsView *view, QObject* manager, QGraphicsItem* parent = nullptr);

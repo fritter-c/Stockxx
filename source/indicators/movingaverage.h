@@ -5,6 +5,7 @@
 
 class MovingAverage : public CustomArrayIndicator
 {
+    Q_OBJECT
 protected:
     virtual void resize(size_t n) override;
     virtual void grow(size_t n) override;

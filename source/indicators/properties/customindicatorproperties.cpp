@@ -10,7 +10,6 @@ CustomIndicatorProperties::CustomIndicatorProperties(QWidget *parent) :
     ui(new Ui::CustomIndicatorProperties)
 {
     ui->setupUi(this);
-    setupForMovingAverage();
 
 }
 
@@ -40,9 +39,9 @@ const BasicIndicatorStyle &CustomIndicatorProperties::getBasicStyle()
     return qobject_cast<CustomIndicatorStyleForm*>(style)->getStyle();
 }
 
-const QWidget &CustomIndicatorProperties::getProperties()
+QWidget *CustomIndicatorProperties::getProperties()
 {
-    return *properties;
+    return properties;
 }
 
 

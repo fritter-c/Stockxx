@@ -35,22 +35,22 @@ struct IndicatorParam {
     QString string{};
 };
 
-struct CustomIndicatorStyle{
-
+class CustomIndicatorStyle{
 public:
     ~CustomIndicatorStyle() = default;
+
 };
 
-struct BasicIndicatorStyle : public CustomIndicatorStyle{
-
+class BasicIndicatorStyle : public CustomIndicatorStyle{
 public:
+    BasicIndicatorStyle(){};
     Qt::PenStyle penStyle;
     int width;
     QColor color;
 };
 
 typedef QVector<IndicatorParam> IndicatorCalcParams;
-typedef QVector<CustomIndicatorStyle> IndicatorVisualParams;
+typedef QVector<CustomIndicatorStyle*> IndicatorVisualParams;
 
 
 #endif // INDICATORDATATYPES_H

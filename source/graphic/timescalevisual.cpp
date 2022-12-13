@@ -15,7 +15,7 @@ void TimeScaleVisual::popuplateDateTimes()
     CandleArray candles;
     candles = m_price->GetCandles();
 
-    for (long long i {candles.size() - 1}; i >= 0; --i){
+    for (long long i {0}; i < candles.size(); ++i){
         m_dtDateTimes.append(candles[i].qi);
     }
     if(m_dtDateTimes.size() > 30)
@@ -41,10 +41,10 @@ void TimeScaleVisual::recalculatePositions()
     double nSpace{boundingRect().width() - nText};
     double nSpaceNeeded{nEntrys * nText};
     double nSpacing {(nSpace - nSpaceNeeded) / nEntrys};
-    double nX{boundingRect().width() - nText - c_rTimeScaleBoldMargin};
+    double nX{0};
     m_rFirst = nX;
-    m_rSpacing = (-nText-nSpacing);
-    m_nFirstIndex = m_dtDateTimes.size() - nOffset - 1;
+    m_rSpacing = (nText + nSpacing);
+    m_nFirstIndex = nZoom - nOffset;
     if((m_nFirstIndex < m_dtDateTimes.size()) &&
         (m_nFirstIndex > 0) && (m_dtDateTimes.size())){
 
@@ -141,9 +141,8 @@ void TimeScaleVisual::moveTime(int x)
 QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x, qreal *pos)
 {
     if(x <= boundingRect().width()){
-        qreal actualX{m_rFirst - x};
-        int nTime{static_cast<int>(std::floor((actualX / m_rSpacing)))};
-        if (nTime + m_nFirstIndex < m_dtDateTimes.size()){
+        int nTime = round(x / m_rSpacing);
+        if ((nTime + m_nFirstIndex < m_dtDateTimes.size()) and (nTime < getEntrys())){
             *pos = m_rFirst + nTime * m_rSpacing;
             return m_dtDateTimes[nTime + m_nFirstIndex];
         }
@@ -157,9 +156,8 @@ QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x, qreal *pos)
 QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x)
 {
     if(x <= boundingRect().width()){
-        qreal actualX{m_rFirst - x};
-        int nTime{static_cast<int>(std::floor((actualX / m_rSpacing)))};
-        if (nTime + m_nFirstIndex < m_dtDateTimes.size()){
+        int nTime = round(x / m_rSpacing);
+        if ((nTime + m_nFirstIndex < m_dtDateTimes.size()) and (nTime < getEntrys())){
             return m_dtDateTimes[nTime + m_nFirstIndex];
         }
         else{
@@ -285,7 +283,7 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         nSkip = qMax(qCeil((nText + c_rTimeScaleTagMargin)/ (nText + nSpacing)), 2) + 1;
     }
     nX = m_rFirst;
-    for(long long i {m_nFirstIndex}; i > nZoom - nOffset; i = i - nSkip){
+    for(long long i {m_nFirstIndex}; i < m_nFirstIndex + nEntrys; i = i + nSkip){
         QString strDate{};
         if (bIntraday)
             strDate = m_dtDateTimes[i].dtQuoteDate.toString("dd.MM hh:mm");
@@ -306,6 +304,6 @@ void TimeScaleVisual::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
 qreal TimeScaleVisual::XAtQuote(QuoteIdentifier quote)
 {
-    long long nTimes {static_cast<long long>(quote.id - m_nFirstID)};
+    long long nTimes {static_cast<long long>(m_nFirstID - quote.id )};
     return m_rFirst + nTimes * m_rSpacing;
 }
