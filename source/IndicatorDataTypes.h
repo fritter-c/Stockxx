@@ -30,9 +30,14 @@ enum MovingAverageType {mtArithmetic = 0, mtExponential = 1};
 enum IndicatorCalcOver {icClose = 0, icOpen = 1, icHigh = 2, icLow = 3};
 
 struct IndicatorParam {
-    int integer{0};
-    double real{0.0};
-    QString string{};
+    int integer;
+    double real;
+    QString string;
+    IndicatorParam(int i = 0, double d = 0.0, QString s = {}){
+        integer = i;
+        real = d;
+        string = s;
+    }
 };
 
 class CustomIndicatorStyle{

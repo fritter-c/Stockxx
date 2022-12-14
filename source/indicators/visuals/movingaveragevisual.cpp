@@ -7,10 +7,12 @@ MovingAverageVisual::MovingAverageVisual(IndicatorVisualParams params, TimeScale
 {
 	MovingAverageVisual::loadParams(params);
     m_data = data;
+    m_data->addSubscriber(this);
 }
 
 MovingAverageVisual::~MovingAverageVisual()
 {
+    m_data->removeSubscriber(this);
     IndicatorManager::Instance().scheduleDeletion(m_data->ID());
 }
 

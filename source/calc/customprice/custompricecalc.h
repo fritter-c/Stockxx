@@ -27,10 +27,10 @@ public:
     virtual double High() override;
     virtual double Low() override;
     virtual double Volume() override;
-    virtual DataSerieValue *Data();
+    virtual const DataSerieValue& Data();
     virtual QuoteIdentifier Quote();
     inline DataSerieValue operator[](size_t i) const{
-        return *m_dataSerie->ar_values[i];
+        return m_dataSerie->ar_values[i];
     }
     SerieInterval interval() const;
 

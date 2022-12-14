@@ -2,7 +2,8 @@
 
 PriceIndicator::PriceIndicator(CustomSerie *base) : CustomIndicator{base}
 {
-
+    // para evitar acesso inválido
+    PriceIndicator::resize(1);
 }
 void PriceIndicator::resize(size_t n)
 {
@@ -99,7 +100,7 @@ double PriceIndicator::Volume()
 
 void PriceIndicator::addNewPrice(size_t start, size_t count, CandleArray* values)
 {
-    if (start == 0)
+    if ((start == 0) and (count > 0))
         resize(count);
     else if (count > Size())
         grow(Size() - count);

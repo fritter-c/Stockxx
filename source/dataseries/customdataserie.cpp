@@ -21,7 +21,7 @@ void CustomDataSerie::serieToStream()
     DataSerieValue dt;
     for(long long i{0}; i < ar_values.count(); i++)
     {
-        dt = *ar_values[i];
+        dt = ar_values[i];
         out << dt.dOpen;
         out << dt.dHigh;
         out << dt.dLow;
@@ -61,11 +61,14 @@ void CustomDataSerie::loadSerieFromJsonAV(QString json)
 
 void CustomDataSerie::ClearDataSerie()
 {
-    for(long long i{0}; i < ar_values.count(); i++)
-    {
-        delete ar_values[i];
-    }
     ar_values.clear();
+}
+
+void CustomDataSerie::fixEmptySeries()
+{
+    if (ar_values.isEmpty()){
+        ar_values.resize(1);
+    }
 }
 
 CustomDataSerie::CustomDataSerie(AssetId assetID)

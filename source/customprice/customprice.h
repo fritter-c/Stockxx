@@ -31,7 +31,7 @@ public:
     virtual double High() override;
     virtual double Low() override;
     virtual double Volume() override;
-    virtual DataSerieValue *Data();
+    virtual const DataSerieValue& Data();
     virtual QuoteIdentifier Quote() override;
     virtual SerieInterval Interval() override;
     virtual bool GoToQuote(QuoteIdentifier) override;

@@ -7,7 +7,7 @@
 #include "source/graphic/pricescalevisual.h"
 #include "timeguidevisual.h"
 
-class CustomVisualIndicator : public QGraphicsItem
+class CustomVisualIndicator : public QGraphicsItem,  public ICustomSerieNotifiable
 {
 protected:
 	CustomIndicator* m_data;
@@ -27,5 +27,6 @@ public:
 	~CustomVisualIndicator();
     void setBHighlight(bool newBHighlight);
     virtual void changeGeometry() = 0;
+    virtual void OnNewData(size_t start) override;
 };
 #endif

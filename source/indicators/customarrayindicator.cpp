@@ -3,7 +3,9 @@
 
 CustomArrayIndicator::CustomArrayIndicator(CustomSerie* base) : CustomIndicator{ base }
 {
+    // para evitar acesso inválido
 	m_arData.resize(1);
+    m_arData[0].resize(1);
 }
 
 void CustomArrayIndicator::setInnerSize(size_t N)

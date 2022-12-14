@@ -142,29 +142,36 @@ QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x, qreal *pos)
 {
     if(x <= boundingRect().width()){
         int nTime = round(x / m_rSpacing);
-        if ((nTime + m_nFirstIndex < m_dtDateTimes.size()) and (nTime < getEntrys())){
+        if ((nTime + m_nFirstIndex < m_dtDateTimes.size()) and
+            (nTime < getEntrys()) and
+           ((nTime + m_nFirstIndex) > 0)){
             *pos = m_rFirst + nTime * m_rSpacing;
             return m_dtDateTimes[nTime + m_nFirstIndex];
         }
         else{
             *pos = m_rLast;
-            return m_dtDateTimes.last();
+            if (m_dtDateTimes.size())
+                return m_dtDateTimes.last();
         }
    }
-   else return m_dtDateTimes.last();
+   *pos = INVALID_DOUBLE;
+   return INVALID_QUOTE;
 }
 QuoteIdentifier TimeScaleVisual::findNearestDate(qreal x)
 {
     if(x <= boundingRect().width()){
         int nTime = round(x / m_rSpacing);
-        if ((nTime + m_nFirstIndex < m_dtDateTimes.size()) and (nTime < getEntrys())){
+        if ((nTime + m_nFirstIndex < m_dtDateTimes.size()) and
+            (nTime < getEntrys()) and
+           ((nTime + m_nFirstIndex) > 0)){
             return m_dtDateTimes[nTime + m_nFirstIndex];
         }
         else{
-            return m_dtDateTimes.last();
+            if (m_dtDateTimes.size())
+                return m_dtDateTimes.last();
         }
    }
-   else return m_dtDateTimes.last();
+   return INVALID_QUOTE;
 }
 
 QuoteIdentifier TimeScaleVisual::getFirstQuote()

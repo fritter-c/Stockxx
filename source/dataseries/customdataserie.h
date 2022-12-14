@@ -22,10 +22,11 @@ protected:
     DataSerieIdentifier m_ID;
     CustomDataSerieCalc* m_calcSerie{nullptr};
     void ClearDataSerie();
+    void fixEmptySeries();
     int m_nOffset{siDaily};
 public:
     CustomDataSerie(AssetId assetID);
-    QVector<DataSerieValue*> ar_values;
+    QVector<DataSerieValue> ar_values;
     virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
     const DataSerieIdentifier &ID() const;

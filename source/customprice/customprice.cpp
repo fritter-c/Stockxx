@@ -6,10 +6,10 @@ CustomPrice::CustomPrice(CustomDataSerie *dataSerie, QObject *parent)
     m_interval = dataSerie->ID().si;
     for(size_t i{0}; i < m_dataSerie->Size(); i++){
         m_candles.append(Candle(m_dataSerie->ar_values[i]));
-        if (m_dataSerie->ar_values[i]->dHigh > m_dMax)
-            m_dMax = m_dataSerie->ar_values[i]->dHigh;
-        if (m_dataSerie->ar_values[i]->dLow < m_dMin)
-            m_dMin = m_dataSerie->ar_values[i]->dLow;
+        if (m_dataSerie->ar_values[i].dHigh > m_dMax)
+            m_dMax = m_dataSerie->ar_values[i].dHigh;
+        if (m_dataSerie->ar_values[i].dLow < m_dMin)
+            m_dMin = m_dataSerie->ar_values[i].dLow;
     }
     m_nIndex = 0;
 }
@@ -121,40 +121,40 @@ size_t CustomPrice::Size()
 
 double CustomPrice::Open()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dOpen;
+    return m_dataSerie->ar_values[m_nIndex].dOpen;
 }
 
 double CustomPrice::Close()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dClose;
+    return m_dataSerie->ar_values[m_nIndex].dClose;
 }
 
 QDateTime CustomPrice::Date()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dtQuoteDate;
+    return m_dataSerie->ar_values[m_nIndex].dtQuoteDate;
 }
 
 double CustomPrice::High()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dHigh;
+    return m_dataSerie->ar_values[m_nIndex].dHigh;
 }
 
 double CustomPrice::Low()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dLow;
+    return m_dataSerie->ar_values[m_nIndex].dLow;
 }
 
 double CustomPrice::Volume()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dVolume;
+    return m_dataSerie->ar_values[m_nIndex].dVolume;
 }
 
-DataSerieValue* CustomPrice::Data()
+const DataSerieValue &CustomPrice::Data()
 {
     return m_dataSerie->ar_values[m_nIndex];
 }
 
 QuoteIdentifier CustomPrice::Quote()
 {
-    return m_dataSerie->ar_values[m_nIndex]->qiQuote;
+    return m_dataSerie->ar_values[m_nIndex].qiQuote;
 }

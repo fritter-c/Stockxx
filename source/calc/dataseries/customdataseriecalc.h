@@ -19,9 +19,10 @@ protected:
     DataSerieIdentifier m_ID;
     void ClearDataSerie();
     int m_nOffset = 1;
+    void fixEmptySeries();
 public:
     CustomDataSerieCalc(AssetId assetID);
-    QVector<DataSerieValue*> ar_values;
+    QVector<DataSerieValue> ar_values;
     virtual void loadSerieFromJsonAV(QString json); // Alpha Vantage API
     virtual size_t Size();
     const DataSerieIdentifier &ID() const;

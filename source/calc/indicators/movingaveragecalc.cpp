@@ -20,7 +20,7 @@ void MovingAverageCalc::createIndicatorValues()
 
     size_t nIndex = 0;
     double dSum = 0;
-
+    if (m_interval > m_baseIndicator->Size()) return;
     while (nIndex < m_interval - 1){
         m_arData[0][nIndex] = INVALID_DOUBLE;
         m_baseIndicator->Next();

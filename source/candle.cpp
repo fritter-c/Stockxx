@@ -42,6 +42,18 @@ Candle::Candle(DataSerieValue * value)
 
 }
 
+Candle::Candle(DataSerieValue value)
+{
+    this->dClose = value.dClose;
+    this->dHigh = value.dHigh;
+    this->dLow = value.dLow;
+    this->dOpen = value.dOpen;
+    this->dtDate = value.dtQuoteDate;
+    this->dVolume = value.dVolume;
+    this->qi = value.qiQuote;
+    SetCandleType();
+}
+
 Candle::Candle()
 {
     this->dClose = INVALID_DOUBLE;

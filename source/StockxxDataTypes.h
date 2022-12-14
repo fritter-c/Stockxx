@@ -114,6 +114,7 @@ public:
     }
 };
 
+
 enum StudieType {stNoStudie, stLine, stResistance, stFibonacci, stVertLine, stChannel, stFreeHand};
 enum SerieInterval {siDaily = 0, siOneMin = 1, siFiveMin = 5, siFifteenMin = 15, siThirtyMin = 30, siSixtyMin = 60, siUnknown = -1};
 
@@ -123,6 +124,14 @@ struct DataSerieIdentifier{
 };
 inline bool operator==(const DataSerieIdentifier &a, const DataSerieIdentifier &b){
     return ((a.id == b.id) && (a.si == b.si));
+}
+
+inline bool operator !=(const DataSerieValue &a, const DataSerieValue &b){
+    return (!(a.qiQuote == b.qiQuote));
+}
+
+inline bool operator ==(const DataSerieValue &a, const DataSerieValue &b){
+    return ((a.qiQuote == b.qiQuote));
 }
 inline uint qHash(const DataSerieIdentifier &key, uint seed)
 {

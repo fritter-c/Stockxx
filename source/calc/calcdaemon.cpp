@@ -8,4 +8,5 @@ CalcDaemon::CalcDaemon(QObject *parent)
     assert(instance == nullptr);
     instance = this;
     setObjectName("Calc");
+    setPriority(QThread::HighPriority);
 }

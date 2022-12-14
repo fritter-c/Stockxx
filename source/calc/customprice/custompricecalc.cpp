@@ -70,42 +70,42 @@ size_t CustomPriceCalc::Size()
 
 double CustomPriceCalc::Open()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dOpen;
+    return m_dataSerie->ar_values[m_nIndex].dOpen;
 }
 
 double CustomPriceCalc::Close()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dClose;
+    return m_dataSerie->ar_values[m_nIndex].dClose;
 }
 
 QDateTime CustomPriceCalc::Date()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dtQuoteDate;
+    return m_dataSerie->ar_values[m_nIndex].dtQuoteDate;
 }
 
 double CustomPriceCalc::High()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dHigh;
+    return m_dataSerie->ar_values[m_nIndex].dHigh;
 }
 
 double CustomPriceCalc::Low()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dLow;
+    return m_dataSerie->ar_values[m_nIndex].dLow;
 }
 
 double CustomPriceCalc::Volume()
 {
-    return m_dataSerie->ar_values[m_nIndex]->dVolume;
+    return m_dataSerie->ar_values[m_nIndex].dVolume;
 }
 
-DataSerieValue* CustomPriceCalc::Data()
+const DataSerieValue& CustomPriceCalc::Data()
 {
     return m_dataSerie->ar_values[m_nIndex];
 }
 
 QuoteIdentifier CustomPriceCalc::Quote()
 {
-    return m_dataSerie->ar_values[m_nIndex]->qiQuote;
+    return m_dataSerie->ar_values[m_nIndex].qiQuote;
 }
 
 

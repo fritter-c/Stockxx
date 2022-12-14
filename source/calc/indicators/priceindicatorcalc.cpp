@@ -16,6 +16,7 @@ void PriceIndicatorCalc::createIndicatorValues()
 {
     CustomPriceCalc* price = dynamic_cast<CustomPriceCalc*>(m_baseIndicator);
     price->PriorAll();
+    if (!price->Size()) return;
     resize(price->Size());
     size_t i{0};
     if (m_arData.count() > 0){

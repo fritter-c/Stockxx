@@ -8,7 +8,8 @@ MovingAverage::MovingAverage(CustomSerie *base) : CustomArrayIndicator{base}
 
 void MovingAverage::addNewValue(size_t start, size_t count, DoublyArray* values)
 {
-    if (start == 0) resize(count);
+    if ((start == 0) and (count > 0))
+        resize(count);
     else if (count > Size()) grow(Size() - count);
 
     for(size_t i{start}; i < count; ++i){

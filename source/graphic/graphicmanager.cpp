@@ -27,15 +27,13 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 		m_mainDataSerie = DataSerieManager::Instance().getMinuteDataSerie(m_assetId, si, true);
 	
 	m_main = parent_main;
+
     CustomIndicator *indicator = IndicatorManager::Instance().requestIndicator(assetId, si, itPrice, IndicatorCalcParams());
 
     m_psVisual = new PriceScaleVisual(indicator, this, m_view);
     m_tsVisual = new TimeScaleVisual(indicator, this, m_view);
 
-
     m_priceVisual = new PriceVisualIndicator(m_tsVisual, m_psVisual, qobject_cast<PriceIndicator*>(indicator), m_view, this);
-
-
 
 	m_scene->addItem(m_tsVisual);
 	m_scene->addItem(m_psVisual);
@@ -360,20 +358,14 @@ void GraphicManager::onStudiePropertiesStyleChanged()
 void GraphicManager::onMainAddMovingAverage(BasicIndicatorStyle style, IndicatorCalcOver calcOver, int interval, int shift, MovingAverageType type)
 {
     IndicatorCalcParams lst;
-    IndicatorParam a,b,c,d;
-    a.integer = interval;
-    b.integer = static_cast<int>(type);
-    c.integer = static_cast<int>(calcOver);
-    d.integer = shift;
-    lst.append(a);
-    lst.append(b);
-    lst.append(c);
-    lst.append(d);
+    IndicatorParam a{interval},b{type},c{calcOver},d{shift};
+    lst << a << b << c << d;
+
     CustomIndicator* indicator = IndicatorManager::Instance().requestIndicator(m_assetId, m_sInterval, itMovingAverage, lst);
 
     IndicatorVisualParams params;
     BasicIndicatorStyle* pstyle = new BasicIndicatorStyle(style);
     params.append(pstyle);
-    new MovingAverageVisual(params, m_tsVisual, m_psVisual, qobject_cast<MovingAverage*>(indicator), m_view, this, m_priceVisual);
 
+    new MovingAverageVisual(params, m_tsVisual, m_psVisual, qobject_cast<MovingAverage*>(indicator), m_view, this, m_priceVisual);
 }

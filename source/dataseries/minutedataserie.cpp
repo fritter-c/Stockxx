@@ -42,10 +42,11 @@ void MinuteDataSerie::loadSerieFromCSV(QString path, QChar delimiter)
            in >> dt.dtQuoteDate;
            in >> dt.qiQuote.id;
            dt.qiQuote.dtQuoteDate = dt.dtQuoteDate;
-           ar_values.append(new DataSerieValue(dt));
+           ar_values.append(dt);
 
        }
        file.close();
+       fixEmptySeries();
 }
 
 void MinuteDataSerie::loadSerieFromStream()
@@ -56,7 +57,7 @@ void MinuteDataSerie::loadSerieFromStream()
     QDataStream in(&file);
     quint32 start;
     AssetId id;
-    QVector<DataSerieValue*> temp_values;
+    QVector<DataSerieValue> temp_values;
 
     in >> start;
 
@@ -87,7 +88,7 @@ void MinuteDataSerie::loadSerieFromStream()
         in >> dt.dtQuoteDate;
         in >> dt.qiQuote.id;
         dt.qiQuote.dtQuoteDate = dt.dtQuoteDate;
-        temp_values.append(new DataSerieValue(dt));
+        temp_values.append(dt);
 
     }
     ar_values.resize(temp_values.count());
@@ -95,6 +96,7 @@ void MinuteDataSerie::loadSerieFromStream()
         ar_values[i] = temp_values[temp_values.count() - 1 - i];
     }
     file.close();
+    fixEmptySeries();
 }
 
 void MinuteDataSerie::serieToStream()
@@ -115,16 +117,15 @@ void MinuteDataSerie::loadSerieFromJsonAV(QString json)
     QJsonDocument json_doc = QJsonDocument::fromJson(json.toUtf8());
     QVariantMap vmap = qvariant_cast<QVariantMap>(json_doc["Time Series (" + QString::number(m_nOffset) + "min)"]);
     DataSerieValue quote;
-    DataSerieValue* pquote;
-    DataSerieValue* pquoteaux{nullptr};
+    DataSerieValue quoteaux{};
     QList<QString> list = vmap.keys();
-    QVector<DataSerieValue*> temp_values;
+    QVector<DataSerieValue> temp_values;
     for(long long i{list.count() - 1}; i >= 0; --i){
         QString key = list[i];
         quote.dtQuoteDate = QDateTime::fromString(key, "yyyy-MM-dd hh:mm:ss");
         quote.qiQuote.dtQuoteDate = quote.dtQuoteDate;
-        if (pquoteaux)
-            quote.qiQuote.id = pquoteaux->qiQuote.id + 1;
+        if (quoteaux != INVALID_DATA)
+            quote.qiQuote.id = quoteaux.qiQuote.id + 1;
         else
           quote.qiQuote.id = 0;
         QJsonObject obj = vmap[key].toJsonObject();
@@ -141,15 +142,14 @@ void MinuteDataSerie::loadSerieFromJsonAV(QString json)
         quote.dClose = (close.toString()).toDouble();
         quote.dVolume = (volume.toString()).toDouble();
 
-
-        pquote = new DataSerieValue(quote);
-        temp_values.append(pquote);
-        pquoteaux = pquote;
+        temp_values.append(quote);
+        quoteaux = quote;
     }
     ar_values.resize(temp_values.count());
     for(long long i{temp_values.count() -1}; i >= 0; --i){
         ar_values[i] = temp_values[temp_values.count() - 1 - i];
     }
+    fixEmptySeries();
     serieToStream();
 }
 

@@ -6,6 +6,7 @@ PriceVisualIndicator::PriceVisualIndicator(TimeScaleVisual* timescale, PriceScal
     : CustomVisualIndicator(timescale, pricescale,data, view, manager, parent)
 {
     m_data = data;
+    m_data->addSubscriber(this);
     m_pgVisual = new PriceGuide(this);
     m_tgVisual = new TimeGuideVisual(this);
     m_pgVisual->setZValue(1);
@@ -22,7 +23,9 @@ void PriceVisualIndicator::loadParams(IndicatorVisualParams)
 PriceVisualIndicator::~PriceVisualIndicator()
 {
     delete m_pgVisual; //necessário remover antes para deletar a tag
+    m_data->removeSubscriber(this);
     IndicatorManager::Instance().scheduleDeletion(m_data->ID());
+
 }
 
 QRectF PriceVisualIndicator::boundingRect() const

@@ -11,6 +11,7 @@ private:
     qreal m_rGraphXValue{-1};
 public:
     Candle(DataSerieValue*);
+    Candle(DataSerieValue);
     Candle();
     double dOpen;
     double dClose;

@@ -132,15 +132,15 @@ CustomIndicator* IndicatorManager::requestIndicator(AssetId id, SerieInterval si
     CustomIndicator* Result{nullptr};
 
     if (si == siDaily){
-        DailyDataSerieCalc* serieCalc = DataSerieManager::Instance().getDailyDataSerieCalc(id, false);
-        DailyDataSerie* serie  = DataSerieManager::Instance().getDailyDataSerie(id, false);
+        DailyDataSerieCalc* serieCalc = DataSerieManager::Instance().getDailyDataSerieCalc(id, true);
+        DailyDataSerie* serie  = DataSerieManager::Instance().getDailyDataSerie(id, true);
         calcPrice = new CustomPriceCalc(serieCalc);
         price = new CustomPrice(serie);
 
     }
     else{
-        MinuteDataSerieCalc* serieCalc = DataSerieManager::Instance().getMinuteDataSerieCalc(id, si, false);
-        MinuteDataSerie* serie = DataSerieManager::Instance().getMinuteDataSerie(id, si, false);
+        MinuteDataSerieCalc* serieCalc = DataSerieManager::Instance().getMinuteDataSerieCalc(id, si, true);
+        MinuteDataSerie* serie = DataSerieManager::Instance().getMinuteDataSerie(id, si, true);
         calcPrice = new CustomPriceCalc(serieCalc);
         price = new CustomPrice(serie);
 

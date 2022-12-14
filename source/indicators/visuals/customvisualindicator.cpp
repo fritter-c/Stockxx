@@ -24,3 +24,8 @@ void CustomVisualIndicator::setBHighlight(bool newBHighlight)
         update();
     }
 }
+
+void CustomVisualIndicator::OnNewData(size_t start)
+{
+    update();
+}
