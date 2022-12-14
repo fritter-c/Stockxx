@@ -10,6 +10,7 @@
 #include "dataseriemanager.h"
 #include "indicatormanager.h"
 #include <QGraphicsProxyWidget>
+#include "source/indicators/visuals/movingaveragevisual.h"
 
 GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_view, QWidget* parent_main, QWidget* chart)
 	: QObject{ chart }
@@ -37,8 +38,15 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 
 	m_scene->addItem(m_tsVisual);
 	m_scene->addItem(m_psVisual);
-	m_scene->addItem(m_priceVisual);
+    //m_scene->addItem(m_priceVisual);
 	m_baseIndicator = m_priceVisual;
+
+    GraphicTitlebar* title = new GraphicTitlebar(m_priceVisual);
+    title->setTitle(assetId.name);
+    title->setTimeframe(si);
+    IndicatorVisualGroup* group = new IndicatorVisualGroup(m_priceVisual, m_scene, title,m_tsVisual
+                                                           ,m_psVisual);
+    m_visualGroups.append(group);
 
     m_studieProperties = new StudieProperties();
     m_studieProperties->setVisible(false);
@@ -55,9 +63,6 @@ GraphicManager::GraphicManager(AssetId assetId, SerieInterval si, GoTView* m_vie
 	connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::deleteAllStudies, this, &GraphicManager::onMainDeleteAllStudies);
 	connect(qobject_cast<MainWindow*>(parent_main), &MainWindow::randomClose, this, &GraphicManager::onMainRandomClose);
 
-    m_visualGraphicItems.append(m_priceVisual);
-    m_visualGraphicItems.append(m_psVisual);
-    m_visualGraphicItems.append(m_tsVisual);
     connectMainIndicators();
 }
 
@@ -65,7 +70,6 @@ GraphicManager::~GraphicManager()
 {
 	delete m_priceVisual;
     delete m_studieProperties;
-    m_visualGraphicItems.clear();
 	m_scene->clear();
 }
 
@@ -140,7 +144,6 @@ void GraphicManager::fullUpdate()
     for (int i{ 0 }; i < m_visualItems.size(); ++i) {
         m_visualItems[i]->changeGeometry();
 	}
-	m_baseIndicator->update();
 }
 
 void GraphicManager::handleMouseReleaseStudie()
@@ -216,7 +219,8 @@ void GraphicManager::onViewResize(QResizeEvent* event)
     if (m_tsVisual)
 		m_tsVisual->recalculatePositions();
 
-    m_priceVisual->changeGeometry();
+    for(auto group : m_visualGroups)
+        group->changeGeometry();
 
     for (int i{ 0 }; i < m_visualItems.size(); ++i) {
         m_visualItems[i]->changeGeometry();
@@ -296,15 +300,29 @@ void GraphicManager::onViewMouseMove(QMouseEvent* event)
 
 	}
 	m_lastChartPos = event->pos();
-    m_baseIndicator->setBHighlight(m_baseIndicator->isUnderMouse());
+
+    for(auto group : m_visualGroups)
+       group->mouseMove(event->pos());
+
 }
 
 void GraphicManager::onViewKeyPress(QKeyEvent* event)
 {
 	if ((event->key() == Qt::Key_Delete) && (m_viSelected)) {
+        m_visualItems.removeOne(m_viSelected);
 		deleteStudie(m_viSelected);
 		m_viSelected = nullptr;
 	}
+    else if(event->key() == Qt::Key_Delete){
+        CustomVisualIndicator* indicator;
+        for(auto group : m_visualGroups){
+            if (group->isChildUnderMouse(&indicator)){
+                group->removeChild(indicator);
+                delete indicator;
+                break;
+            }
+        }
+    }
 
 }
 
@@ -367,5 +385,7 @@ void GraphicManager::onMainAddMovingAverage(BasicIndicatorStyle style, Indicator
     BasicIndicatorStyle* pstyle = new BasicIndicatorStyle(style);
     params.append(pstyle);
 
-    new MovingAverageVisual(params, m_tsVisual, m_psVisual, qobject_cast<MovingAverage*>(indicator), m_view, this, m_priceVisual);
+
+    IndicatorVisualGroup* group = m_visualGroups[0];
+    group->addChild(new MovingAverageVisual(params, m_tsVisual, m_psVisual, qobject_cast<MovingAverage*>(indicator), m_view, this));
 }

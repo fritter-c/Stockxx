@@ -27,6 +27,7 @@ public:
     double Min();
     CandleArray getCandles();
     Candle getHoveredCandle();
+    Candle getCandle(QuoteIdentifier);
     virtual void changeGeometry() override;
     void toggleCross();
     SerieInterval interval() const;

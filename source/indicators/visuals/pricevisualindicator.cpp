@@ -61,7 +61,7 @@ void PriceVisualIndicator::paint(QPainter *painter, const QStyleOptionGraphicsIt
     m_data->GoToQuote(qiFirstQuote);
     m_dCandleSize = rCandleSize;
     do{
-        Candle candle{m_data->Candle()};
+        Candle candle{m_data->getCandle()};
         pointHigh.ry() = m_psVisual->YAtPrice(m_data->High());
         pointHigh.rx() = rFirstPos;
 
@@ -146,6 +146,11 @@ Candle PriceVisualIndicator::getHoveredCandle()
     return m_hoveredCandle;
 }
 
+Candle PriceVisualIndicator::getCandle(QuoteIdentifier qi)
+{
+    return m_data->getCandle(qi);
+}
+
 void PriceVisualIndicator::changeGeometry()
 {
     prepareGeometryChange();
@@ -176,13 +181,12 @@ void PriceVisualIndicator::toggleRandomClose(bool)
 bool PriceVisualIndicator::contains(const QPointF &point) const
 {
 
-    qreal pos;
+    qreal x;
     QPointF localpoint{point};
-    QuoteIdentifier qi = m_tsVisual->findNearestDate(localpoint.x(), &pos);
+    QuoteIdentifier qi = m_tsVisual->findNearestDate(localpoint.x(), &x);
     m_data->GoToQuote(qi);
-    Candle candle{m_data->Candle()};
+    Candle candle{m_data->getCandle()};
     QPointF pointHigh, pointLow, pointOpen, pointClose;
-    qreal x{m_tsVisual->XAtQuote(qi)};
 
     pointHigh.ry() = m_psVisual->YAtPrice(candle.dHigh);
     pointHigh.rx() = x;

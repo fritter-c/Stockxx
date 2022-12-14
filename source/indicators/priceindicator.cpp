@@ -113,9 +113,15 @@ void PriceIndicator::addNewPrice(size_t start, size_t count, CandleArray* values
     emit NewData(start);
 }
 
-Candle PriceIndicator::Candle()
+Candle PriceIndicator::getCandle()
 {
     return m_arData[m_nIndex];
+}
+
+Candle PriceIndicator::getCandle(QuoteIdentifier qi)
+{
+    GoToQuote(qi);
+    return getCandle();
 }
 
 bool PriceIndicator::GoToQuote(QuoteIdentifier qi)

@@ -3,7 +3,7 @@
 
 #include "customstudie.h"
 #include "customdataserie.h"
-#include "indicators/visuals/movingaveragevisual.h"
+#include "graphictitlebar.h"
 #include "pricescalevisual.h"
 #include <QObject>
 #include "gotview.h"
@@ -21,25 +21,38 @@ class IndicatorVisualGroup{
 private:
     QVector<CustomVisualIndicator*> m_children;
     CustomVisualIndicator* m_father;
-    QRect m_groupArea;
+    QGraphicsScene* m_scene;
+    GraphicTitlebar* m_titlebar;
+    TimeScaleVisual* m_timeScale;
+    PriceScaleVisual* m_priceScale;
+    QRectF m_groupArea;
 public:
-    IndicatorVisualGroup(CustomVisualIndicator* father, QRect groupArea){
+    IndicatorVisualGroup(CustomVisualIndicator* father, QGraphicsScene* scene,
+                         GraphicTitlebar* titlebar,
+                         TimeScaleVisual* timescale,
+                         PriceScaleVisual* pricescale){
         m_father = father;
-        m_groupArea = groupArea;
+        m_scene = scene;
+        m_titlebar = titlebar;
+        m_timeScale = timescale;
+        m_priceScale = pricescale;
+        m_scene->addItem(father);
     }
-    void addChild(CustomVisualIndicator* child){
+    inline void addChild(CustomVisualIndicator* child){
+        m_scene->addItem(child);
         m_children.append(child);
     }
-    void removeChild(CustomVisualIndicator* child){
+    inline void removeChild(CustomVisualIndicator* child){
+        m_scene->removeItem(child);
         m_children.removeOne(child);
     }
-    void changeGeometry(){
+    inline void changeGeometry(){
         m_father->changeGeometry();
         for(auto child : m_children){
             child->changeGeometry();
         }
     }
-    bool isUnderMouse(CustomVisualIndicator** visual){
+    inline bool isUnderMouse(CustomVisualIndicator** visual){
         if (m_father->isUnderMouse()){
             *visual = m_father;
             return true;
@@ -52,6 +65,39 @@ public:
         }
         *visual = nullptr;
         return false;
+    }
+    inline bool isChildUnderMouse(CustomVisualIndicator** visual){
+        for(auto child : m_children){
+            if (child->isUnderMouse()){
+                *visual = child;
+                return true;
+            }
+        }
+        *visual = nullptr;
+        return false;
+    }
+    inline void mouseMove(const QPointF& p){
+        if (m_father->isUnderMouse()){
+            m_father->setBHighlight(true);
+        }
+        else{
+            m_father->setBHighlight(false);
+        }
+        for(auto child : m_children){
+            if (child->isUnderMouse()){
+                child->setBHighlight(true);
+            }
+            else{
+                child->setBHighlight(false);
+            }
+        }
+        if (dynamic_cast<PriceVisualIndicator*>(m_father)){
+            m_titlebar->setCandle(dynamic_cast<PriceVisualIndicator*>(m_father)->getCandle(m_timeScale->findNearestDate(p.x())));
+        }
+
+    }
+    inline bool isOver(const QPointF& p){
+        return m_groupArea.contains(p);
     }
 
 };
@@ -69,9 +115,8 @@ private:
     CustomDataSerie *m_mainDataSerie;
     CustomVisualIndicator *m_baseIndicator;
     PriceVisualIndicator *m_priceVisual;
-    MovingAverageVisual *m_average;
-    QVector<QGraphicsItem*> m_visualGraphicItems;
     QVector<IVisualItem*> m_visualItems;
+    QVector<IndicatorVisualGroup*> m_visualGroups;
     StudieType m_mainStudie;
     StudieProperties* m_studieProperties{nullptr};
     CustomStudie* m_selectedStudie{nullptr};

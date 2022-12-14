@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
     createCalcDaemon();
     createIndicatorManager();
     CalcDaemon::Instance().start();
+    CalcDaemon::Instance().setPriority(QThread::HighPriority);
     MainWindow w;
     w.show();
     return a.exec();

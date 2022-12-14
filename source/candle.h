@@ -1,9 +1,10 @@
 #ifndef CANDLE_H
 #define CANDLE_H
 
-#include <QDateTime>
 #include "StockxxDataTypes.h"
+#include <QDateTime>
 enum CandleType {ctHarami = 0, ctBull = 1, ctBear = 2};
+
 class Candle
 {
 private:
@@ -31,4 +32,5 @@ inline bool operator==(const Candle &a, const Candle &b) {
 inline bool operator!=(const Candle& a, const Candle& b) {
     return (!(a.qi == b.qi));
 }
+inline Candle const INVALID_CANDLE = Candle();
 #endif // CANDLE_H

@@ -3,6 +3,7 @@
 #include "qcolor.h"
 #include <QtCore>
 #include <limits.h>
+#include <string>
 
 const quint32 c_StreamStart = 0xA0B0C0D0;
 
@@ -116,7 +117,39 @@ public:
 
 
 enum StudieType {stNoStudie, stLine, stResistance, stFibonacci, stVertLine, stChannel, stFreeHand};
-enum SerieInterval {siDaily = 0, siOneMin = 1, siFiveMin = 5, siFifteenMin = 15, siThirtyMin = 30, siSixtyMin = 60, siUnknown = -1};
+enum SerieInterval {siDaily = 0, siOneMin = 1, siFiveMin = 5,
+                    siFifteenMin = 15, siThirtyMin = 30, siSixtyMin = 60, siUnknown = -1};
+
+inline const QString ToString(SerieInterval const & v)
+{
+    QString string;
+    switch (v) {
+    case (siDaily):
+        string = "Daily";
+        break;
+    case (siOneMin):
+        string = "1 Minute";
+        break;
+    case (siFiveMin):
+        string = "5 Minute";
+        break;
+    case (siFifteenMin):
+        string = "15 Minute";
+        break;
+    case (siThirtyMin):
+        string = "30 Minute";
+        break;
+    case (siSixtyMin):
+        string = "60 Minute";
+        break;
+    default:
+        string = "Unknown";
+        break;
+    }
+    return string;
+}
+
+
 
 struct DataSerieIdentifier{
     AssetId id;
