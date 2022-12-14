@@ -35,6 +35,7 @@ set(PROJECT_SOURCES
         source/stockxxlinecombobox.ui
         source/linesampleframe.h
         source/linesampleframe.cpp
+        source/colorutils.h
 
         source/graphic/customchart.cpp
         source/graphic/customchart.h

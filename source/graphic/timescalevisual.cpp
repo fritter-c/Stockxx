@@ -1,4 +1,5 @@
 #include "timescalevisual.h"
+#include "colorutils.h"
 #include <QGraphicsSceneHoverEvent>
 
 TimeScaleVisual::TimeScaleVisual(CustomIndicator* price, QObject* parent, QGraphicsView* view)
@@ -117,6 +118,14 @@ void TimeScaleVisual::paintTimeTags(QPainter * painter, TimeTag tg)
     QPen pen {Qt::black, 1};
     painter->setPen(pen);
     painter->drawRect(rect);
+    if (isDarkColor(tg.color)){
+        QPen penText{Qt::white};
+        painter->setPen(penText);
+    }
+    else{
+        QPen penText{Qt::black};
+        painter->setPen(penText);
+    }
     painter->drawText(p1, date);
 }
 

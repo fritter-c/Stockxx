@@ -1,4 +1,5 @@
 #include "pricescalevisual.h"
+#include "colorutils.h"
 #include "qgraphicsscene.h"
 #include "qgraphicssceneevent.h"
 #include "qgraphicsview.h"
@@ -30,6 +31,14 @@ void PriceScaleVisual::paintPriceTags(QPainter *painter, PriceTag tag)
 
     QList points{pointVertice1, pointAboveVertice1, pointEnd1, pointEnd2, pointAboveVertice2, pointVertice2};
     QPolygonF polygon{points};
+    if (isDarkColor(tag.color)){
+        QPen penText{Qt::white};
+        painter->setPen(penText);
+    }
+    else{
+        QPen penText{Qt::black};
+        painter->setPen(penText);
+    }
     painter->drawPolygon(polygon);
     painter->drawText(pointText,QString::number(PriceAtY(pointVertice1.y()), 'f', 2));
 }
