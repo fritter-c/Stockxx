@@ -42,7 +42,7 @@ void IndicatorManager::addNewIndicatorData(IndicatorIdentifier id, size_t start,
         series->size = size;
         DoublyArray array = ((CustomArrayIndicatorCalc*)calcIndicator)->getData();
         series->arr = new DoublyArray();
-        series->arr->resize(array.size());
+        series->arr->resize(array.size() - start);
         for(size_t i{start}; i < size; i++){
             for(long long j{0}; j < series->arr->count(); ++j){
                 (*series->arr)[j].append(array[j][i]);

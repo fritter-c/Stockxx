@@ -36,6 +36,7 @@ set(PROJECT_SOURCES
         source/linesampleframe.h
         source/linesampleframe.cpp
         source/colorutils.h
+        source/StockxxUtils.h
 
         source/graphic/customchart.cpp
         source/graphic/customchart.h
