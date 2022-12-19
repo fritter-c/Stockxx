@@ -36,6 +36,7 @@ public:
     virtual double Max() override;
     virtual double Min() override;
     virtual bool GoToIndex(size_t) override;
+    virtual bool Valid();
 };
 
 #endif // CUSTOMARRAYINDICATOR_H

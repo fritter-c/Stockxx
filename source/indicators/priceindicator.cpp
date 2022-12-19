@@ -47,7 +47,7 @@ bool PriceIndicator::NextAll()
 
 bool PriceIndicator::PriorN(size_t N)
 {
-    if((m_nIndex - N) >= 0){
+    if(m_nIndex >= N){
         m_nIndex = m_nIndex - N;
         return true;
     }

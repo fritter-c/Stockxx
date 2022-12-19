@@ -46,6 +46,11 @@ void MovingAverageVisual::paint(QPainter* painter, const QStyleOptionGraphicsIte
 	if (m_bHighlight)
 		painter->setOpacity(0.5);
 	m_data->GoToQuote(qiFirstQuote);
+
+    // traversa até o primeiro valor válido
+    while (!m_data->Valid() and m_data->Next()){
+        rFirstPos += rSpacing;
+    };
 	do {
 		QPointF start;
 		QPointF end;
@@ -54,11 +59,12 @@ void MovingAverageVisual::paint(QPainter* painter, const QStyleOptionGraphicsIte
 		start.rx() = rFirstPos;
 
 		bNext = m_data->Next();
+        if (!bNext) break;
 
 		end.ry() = m_psVisual->YAtPrice(m_data->Value());
 		end.rx() = rFirstPos + rSpacing;
 
-		painter->drawLine(start, end);
+        painter->drawLine(start, end);
 
 		rFirstPos += rSpacing;
 		nCandlesPainted++;
@@ -84,7 +90,7 @@ bool MovingAverageVisual::contains(const QPointF& point) const
 	QPainterPath path;
 	int nIndex{ 0 };
 
-    // desenha dois segmentos
+    // desenha virtualmente dois segmentos
 	while (nIndex < 2) {
 		start.ry() = m_psVisual->YAtPrice(m_data->Value());
 		start.rx() = rFirstPos;

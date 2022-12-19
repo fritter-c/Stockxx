@@ -1,6 +1,7 @@
 #ifndef CUSTOMSERIECALC_H
 #define CUSTOMSERIECALC_H
 
+#include "StockxxDataTypes.h"
 #include "qdatetime.h"
 #include <cstddef>
 #include <QObject>
@@ -25,6 +26,7 @@ public:
     virtual double High() = 0;
     virtual double Low() = 0;
     virtual double Volume() = 0;
+    virtual QuoteIdentifier Quote() = 0;
 
 signals:
 

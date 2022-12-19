@@ -4,8 +4,12 @@
 
 #include "candle.h"
 #include "qcolor.h"
-
-typedef QVector<QVector<double>> DoublyArray;
+typedef struct{
+    double value;
+    bool valid;
+    QuoteIdentifier id;
+} IndicatorValue;
+typedef QVector<QVector<IndicatorValue>> DoublyArray;
 typedef QVector<QColor> ColorArray;
 typedef QVector<Candle> CandleArray;
 

@@ -19,5 +19,6 @@ protected:
 public:
     MovingAverageCalc(CustomSerieCalc* base, IndicatorCalcParams);
     double Value();
+    virtual QuoteIdentifier Quote() override;
 };
 #endif // MOVINGAVERAGECALC_H

@@ -29,6 +29,7 @@ public:
     virtual double High() override;
     virtual double Low() override;
     virtual double Volume() override;
+    virtual QuoteIdentifier Quote() override;
     const DoublyArray &getData() const;
 };
 #endif // CUSTOMARRAYINDICATORCALC_H

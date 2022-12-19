@@ -49,7 +49,7 @@ bool CustomArrayIndicatorCalc::NextAll()
 
 bool CustomArrayIndicatorCalc::PriorN(size_t N)
 {
-    if((m_nIndex - N) >= 0){
+    if((m_nIndex) >= N){
         m_nIndex = m_nIndex - N;
         return true;
     }
@@ -98,6 +98,11 @@ double CustomArrayIndicatorCalc::Low()
 double CustomArrayIndicatorCalc::Volume()
 {
     return INVALID_DOUBLE;
+}
+
+QuoteIdentifier CustomArrayIndicatorCalc::Quote()
+{
+    return INVALID_QUOTE;
 }
 
 const DoublyArray &CustomArrayIndicatorCalc::getData() const

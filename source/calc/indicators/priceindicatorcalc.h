@@ -30,6 +30,7 @@ public:
     virtual double High() override;
     virtual double Low() override;
     virtual double Volume() override;
+    virtual QuoteIdentifier Quote() override;
     const CandleArray &getData() const;
 };
 #endif // PRICEINDICATORCALC_H

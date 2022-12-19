@@ -385,7 +385,6 @@ void GraphicManager::onMainAddMovingAverage(BasicIndicatorStyle style, Indicator
     BasicIndicatorStyle* pstyle = new BasicIndicatorStyle(style);
     params.append(pstyle);
 
-
     IndicatorVisualGroup* group = m_visualGroups[0];
     group->addChild(new MovingAverageVisual(params, m_tsVisual, m_psVisual, qobject_cast<MovingAverage*>(indicator), m_view, this));
 }

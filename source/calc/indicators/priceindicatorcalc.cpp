@@ -69,7 +69,7 @@ bool PriceIndicatorCalc::NextAll()
 
 bool PriceIndicatorCalc::PriorN(size_t N)
 {
-    if((m_nIndex - N) >= 0){
+    if(m_nIndex >= N){
         m_nIndex = m_nIndex - N;
         return true;
     }
@@ -118,4 +118,9 @@ double PriceIndicatorCalc::Low()
 double PriceIndicatorCalc::Volume()
 {
     return m_arData[m_nIndex].dVolume;
+}
+
+QuoteIdentifier PriceIndicatorCalc::Quote()
+{
+    return m_arData[m_nIndex].qi;
 }

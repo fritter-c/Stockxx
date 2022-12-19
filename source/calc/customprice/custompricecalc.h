@@ -28,7 +28,7 @@ public:
     virtual double Low() override;
     virtual double Volume() override;
     virtual const DataSerieValue& Data();
-    virtual QuoteIdentifier Quote();
+    virtual QuoteIdentifier Quote() override;
     inline DataSerieValue operator[](size_t i) const{
         return m_dataSerie->ar_values[i];
     }

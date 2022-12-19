@@ -46,7 +46,7 @@ bool CustomArrayIndicator::NextAll()
 
 bool CustomArrayIndicator::PriorN(size_t N)
 {
-	if ((m_nIndex - N) >= 0) {
+    if ((m_nIndex) >= N) {
 		m_nIndex = m_nIndex - N;
 		return true;
 	}
@@ -99,16 +99,18 @@ double CustomArrayIndicator::Volume()
 
 bool CustomArrayIndicator::GoToQuote(QuoteIdentifier qi)
 {
-	if (!qobject_cast<CustomPrice*>(m_baseIndicator)) return false;
-	m_baseIndicator->GoToQuote(qi);
-	return GoToIndex(m_baseIndicator->ActualIndex());
+    long long i{ static_cast<long long>(Quote().id - qi.id) };
+    if (i > 0) {
+        return NextN(i);
+    }
+    else {
+        return PriorN(abs(i));
+    }
 }
 
 QuoteIdentifier CustomArrayIndicator::Quote()
 {
-	if (!qobject_cast<CustomPrice*>(m_baseIndicator)) return INVALID_QUOTE;
-	m_baseIndicator->GoToQuote(m_nIndex);
-	return m_baseIndicator->Quote();
+    return m_arData[0][m_nIndex].id;
 }
 
 void CustomArrayIndicator::addNewValue(size_t start, size_t count, DoublyArray* values)
@@ -118,9 +120,13 @@ void CustomArrayIndicator::addNewValue(size_t start, size_t count, DoublyArray* 
 
 bool CustomArrayIndicator::GoToQuote(size_t n)
 {
-	if (!qobject_cast<CustomPrice*>(m_baseIndicator)) return false;
-	m_baseIndicator->GoToQuote(n);
-	return GoToIndex(m_baseIndicator->ActualIndex());
+    long long i{ static_cast<long long>(m_nIndex - n) };
+    if (i > 0) {
+        return NextN(i);
+    }
+    else {
+        return PriorN(abs(i));
+    }
 }
 
 CandleArray CustomArrayIndicator::GetCandles()
@@ -152,5 +158,10 @@ bool CustomArrayIndicator::GoToIndex(size_t n)
 		m_nIndex = n;
 		return true;
 	}
-	return false;
+    return false;
+}
+
+bool CustomArrayIndicator::Valid()
+{
+    return m_arData[0][m_nIndex].valid;
 }

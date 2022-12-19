@@ -22,7 +22,7 @@ void MovingAverage::addNewValue(size_t start, size_t count, DoublyArray* values)
 
 double MovingAverage::Value()
 {
-    return m_arData[0][m_nIndex];
+    return m_arData[0][m_nIndex].value;
 }
 
 void MovingAverage::resize(size_t n)
