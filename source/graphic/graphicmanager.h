@@ -159,5 +159,6 @@ public slots:
 
     // indicators
     void onMainAddMovingAverage(BasicIndicatorStyle, IndicatorCalcOver, int interval, int shift, MovingAverageType);
+    void onMainAddBollingerBands(BasicIndicatorStyle, IndicatorCalcOver, int interval, int shift, MovingAverageType, double);
 };
 #endif // GRAPHICMANAGER_H

@@ -13,11 +13,10 @@ TimeScaleVisual::TimeScaleVisual(CustomIndicator* price, QObject* parent, QGraph
 }
 void TimeScaleVisual::popuplateDateTimes()
 {
-    CandleArray candles;
-    candles = m_price->GetCandles();
-
-    for (long long i {0}; i < candles.size(); ++i){
-        m_dtDateTimes.append(candles[i].qi);
+    m_price->PriorAll();
+    for (long long i {0}; i < m_price->Size(); ++i){
+        m_dtDateTimes.append(m_price->Quote());
+        m_price->Next();
     }
     if(m_dtDateTimes.size() > 30)
         nZoom = m_dtDateTimes.size() - 30;

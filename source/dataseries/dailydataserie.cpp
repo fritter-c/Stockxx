@@ -34,6 +34,12 @@ void DailyDataSerie::loadSerieFromCSV(QString path, QChar delimiter)
                   quote.qiQuote.id = 0;
 
                 temp_values.append(quote);
+                if(quote.dHigh > m_dMax){
+                    m_dMax = quote.dHigh;
+                }
+                if (quote.dLow < m_dMin){
+                    m_dMin = quote.dLow;
+                }
                 quoteaux = quote;
             }
         }
@@ -88,7 +94,12 @@ void DailyDataSerie::loadSerieFromJsonAV(QString json)
         quote.dLow =  (low.toString()).toDouble();
         quote.dClose = (close.toString()).toDouble();
         quote.dVolume = (volume.toString()).toDouble();
-
+        if(quote.dHigh > m_dMax){
+            m_dMax = quote.dHigh;
+        }
+        if (quote.dLow < m_dMin){
+            m_dMin = quote.dLow;
+        }
 
         temp_values.append(quote);
         quoteaux = quote;
@@ -158,6 +169,12 @@ void DailyDataSerie::loadSerieFromStream()
         in >> dt.qiQuote.id;
         dt.qiQuote.dtQuoteDate = dt.dtQuoteDate;
         ar_values.append(DataSerieValue(dt));
+        if(dt.dHigh > m_dMax){
+            m_dMax = dt.dHigh;
+        }
+        if (dt.dLow < m_dMin){
+            m_dMin = dt.dLow;
+        }
 
     }
     file.close();

@@ -4,14 +4,9 @@ CustomPrice::CustomPrice(CustomDataSerie *dataSerie, QObject *parent)
 {
     m_dataSerie = dataSerie;
     m_interval = dataSerie->ID().si;
-    for(size_t i{0}; i < m_dataSerie->Size(); i++){
-        m_candles.append(Candle(m_dataSerie->ar_values[i]));
-        if (m_dataSerie->ar_values[i].dHigh > m_dMax)
-            m_dMax = m_dataSerie->ar_values[i].dHigh;
-        if (m_dataSerie->ar_values[i].dLow < m_dMin)
-            m_dMin = m_dataSerie->ar_values[i].dLow;
-    }
     m_nIndex = 0;
+    m_dMax = m_dataSerie->dMax();
+    m_dMin = m_dataSerie->dMin();
 }
 SerieInterval CustomPrice::Interval() 
 {
@@ -40,11 +35,6 @@ bool CustomPrice::GoToQuote(size_t n)
     else {
         return PriorN(abs(i));
     }
-}
-
-CandleArray CustomPrice::GetCandles()
-{
-    return m_candles;
 }
 
 double CustomPrice::Max()

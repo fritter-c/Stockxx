@@ -31,12 +31,13 @@ public:
     virtual QuoteIdentifier Quote() override;
     virtual void addNewValue(size_t, size_t, DoublyArray*);
     virtual bool GoToQuote(size_t) override;
-    virtual CandleArray GetCandles() override;
     virtual SerieInterval Interval() override;
     virtual double Max() override;
     virtual double Min() override;
     virtual bool GoToIndex(size_t) override;
     virtual bool Valid();
+    virtual double Value() = 0;
+    virtual QVector<double> Values() = 0;
 };
 
 #endif // CUSTOMARRAYINDICATOR_H

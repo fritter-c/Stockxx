@@ -1,9 +1,11 @@
 #include "indicatormanager.h"
+#include "bollingerbandscalc.h"
 #include "custompricecalc.h"
 #include "customprice.h"
 #include "dailydataseriecalc.h"
 #include "dailydataserie.h"
 #include "dataseriemanager.h"
+#include "indicators/bollingerbands.h"
 #include "indicators/movingaverage.h"
 #include "indicators/priceindicator.h"
 #include "minutedataseriecalc.h"
@@ -23,9 +25,8 @@ IndicatorManager::IndicatorManager(QObject *parent)
 }
 
 void IndicatorManager::addNewIndicatorData(IndicatorIdentifier id, size_t start, size_t size)
-{
-    QMutex mutex;
-    mutex.lock();
+{   
+    m_IndicatorCriticalSection.lock();
     IndicatorSeries* series{nullptr};
     CustomIndicatorCalc* calcIndicator{m_hshIndicatorsCalc[id]};
     bool bPriceIndicator{id.type == itPrice};
@@ -59,7 +60,7 @@ void IndicatorManager::addNewIndicatorData(IndicatorIdentifier id, size_t start,
         }
 
     }
-    mutex.unlock();
+    m_IndicatorCriticalSection.unlock();
     emit newIndicatorData(id);
 
 }
@@ -76,6 +77,7 @@ bool IndicatorManager::scheduleDeletion(IndicatorIdentifier id)
 
 void IndicatorManager::onNewIndicatorData(IndicatorIdentifier id)
 {
+    m_IndicatorCriticalSection.lock();
     IndicatorSeries* series{m_hshIndicatorSeries[id]};
     if (id.type != itPrice){
         CustomArrayIndicator* indicator{qobject_cast<CustomArrayIndicator*>(m_hshIndicators[id])};
@@ -87,6 +89,7 @@ void IndicatorManager::onNewIndicatorData(IndicatorIdentifier id)
     }
     m_hshIndicatorSeries.remove(id);
     delete series;
+    m_IndicatorCriticalSection.unlock();
 }
 
 void IndicatorManager::onDeletionTimer()
@@ -136,14 +139,12 @@ CustomIndicator* IndicatorManager::requestIndicator(AssetId id, SerieInterval si
         DailyDataSerie* serie  = DataSerieManager::Instance().getDailyDataSerie(id, true);
         calcPrice = new CustomPriceCalc(serieCalc);
         price = new CustomPrice(serie);
-
     }
     else{
         MinuteDataSerieCalc* serieCalc = DataSerieManager::Instance().getMinuteDataSerieCalc(id, si, true);
         MinuteDataSerie* serie = DataSerieManager::Instance().getMinuteDataSerie(id, si, true);
         calcPrice = new CustomPriceCalc(serieCalc);
         price = new CustomPrice(serie);
-
     }
     IndicatorIdentifier indicator{getNewID(type)};
     switch (type) {
@@ -159,6 +160,8 @@ CustomIndicator* IndicatorManager::requestIndicator(AssetId id, SerieInterval si
 
             connect(this, &IndicatorManager::requestFull, maCalc, &CustomIndicatorCalc::onCalcSerieFull);
             emit requestFull(indicator);
+            disconnect(this, &IndicatorManager::requestFull, maCalc, &CustomIndicatorCalc::onCalcSerieFull);
+
             break;
         }
         case itPrice:{
@@ -173,8 +176,24 @@ CustomIndicator* IndicatorManager::requestIndicator(AssetId id, SerieInterval si
             
             connect(this, &IndicatorManager::requestFull, piCalc, &CustomIndicatorCalc::onCalcSerieFull);
             emit requestFull(indicator);
+            disconnect(this, &IndicatorManager::requestFull, piCalc, &CustomIndicatorCalc::onCalcSerieFull);
             break;
         }
+    case itBollingerBands:{
+        BollingerBands* maMain{new BollingerBands(price)};
+        Result = maMain;
+        maMain->setID(indicator);
+        m_hshIndicators.insert(indicator, maMain);
+
+        BollingerBandsCalc* maCalc{new BollingerBandsCalc(calcPrice, params)};
+        maCalc->setID(indicator);
+        m_hshIndicatorsCalc.insert(indicator, maCalc);
+
+        connect(this, &IndicatorManager::requestFull, maCalc, &CustomIndicatorCalc::onCalcSerieFull);
+        emit requestFull(indicator);
+        disconnect(this, &IndicatorManager::requestFull, maCalc, &CustomIndicatorCalc::onCalcSerieFull);
+        break;
+    }
         default:
             delete calcPrice;
             delete price;

@@ -18,7 +18,7 @@ void CustomStudie::changeGeometry()
 
 void CustomStudie::colorChanged() 
 {
-
+    
 }
 
 void CustomStudie::select()

@@ -10,6 +10,7 @@ class CustomIndicatorCalc : public CustomSerieCalc
 private:
     IndicatorIdentifier m_ID;
 protected:
+    bool m_bHasVisual{true};
     CustomSerieCalc* m_baseIndicator;
     virtual void createIndicatorValues();
     virtual void loadParams(IndicatorCalcParams) = 0;
@@ -18,6 +19,7 @@ public:
     ~CustomIndicatorCalc();
     IndicatorIdentifier ID() const;
     void setID(IndicatorIdentifier newNID);
+    void setHasVisual(bool);
 
 public slots:
     void onCalcSerieFull(IndicatorIdentifier);

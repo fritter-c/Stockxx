@@ -1,7 +1,6 @@
 #ifndef CUSTOMSERIE_H
 #define CUSTOMSERIE_H
 
-#include "IndicatorDataTypes.h"
 #include <QObject>
 #include <StockxxDataTypes.h>
 
@@ -28,7 +27,6 @@ public:
     virtual double Low() = 0;
     virtual double Volume() = 0;
     virtual size_t ActualIndex();
-    virtual CandleArray GetCandles() = 0;
     virtual SerieInterval Interval() = 0;
     virtual bool GoToIndex(size_t) = 0;
     virtual double Max() = 0;

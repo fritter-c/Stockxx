@@ -10,7 +10,6 @@ void MovingAverageCalc::loadParams(IndicatorCalcParams params)
     m_interval = params[0].integer;
     m_type = (MovingAverageType)params[1].integer;
     m_calcOver = (IndicatorCalcOver)params[2].integer;
-    m_shift = params[3].integer;
 }
 
 inline
@@ -97,7 +96,8 @@ void MovingAverageCalc::createIndicatorValues()
             }
         } while(m_baseIndicator->Next());
     }
-    IndicatorManager::Instance().addNewIndicatorData(ID(), 0, Size());
+    if (m_bHasVisual)
+        IndicatorManager::Instance().addNewIndicatorData(ID(), 0, Size());
 }
 
 void MovingAverageCalc::resize(size_t n)

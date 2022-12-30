@@ -14,14 +14,15 @@ class CustomIndicatorProperties : public QDialog
 private:
     Ui::CustomIndicatorProperties *ui;
     PropertiesType m_type;
-    QWidget* style{nullptr};
-    QWidget* properties{nullptr};
+    QWidget* m_style{nullptr};
+    QWidget* m_properties{nullptr};
 
 public:
     explicit CustomIndicatorProperties(QWidget *parent = nullptr);
     ~CustomIndicatorProperties();
     void setupForMovingAverage();
-    const BasicIndicatorStyle& getBasicStyle();
+    void setupForBollingerBands();
+    const BasicIndicatorStyle getBasicStyle();
     QWidget *getProperties();
 
 };

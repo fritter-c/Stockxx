@@ -1,5 +1,10 @@
 #include "customindicator.h"
 
+CustomIndicator::CustomIndicator(CustomSerie* base)
+{
+    m_baseIndicator = base;
+    connect(this, &CustomIndicator::NewData, this, &CustomIndicator::NotifyNewData);
+}
 QGraphicsItem *CustomIndicator::visualParent() const
 {
     return m_visualParent;
@@ -28,12 +33,6 @@ void CustomIndicator::NotifyNewData(size_t start)
         }
         i--;
     }
-}
-
-CustomIndicator::CustomIndicator(CustomSerie* base)
-{
-    m_baseIndicator = base;
-    connect(this, &CustomIndicator::NewData, this, &CustomIndicator::NotifyNewData);
 }
 
 CustomIndicator::~CustomIndicator()

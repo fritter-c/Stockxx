@@ -151,11 +151,6 @@ QuoteIdentifier PriceIndicator::Quote()
     return m_arData[m_nIndex].qi;
 }
 
-CandleArray PriceIndicator::GetCandles()
-{
-    return m_arData;
-}
-
 SerieInterval PriceIndicator::Interval()
 {
     return m_baseIndicator->Interval();

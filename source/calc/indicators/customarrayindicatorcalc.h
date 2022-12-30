@@ -12,7 +12,6 @@ protected:
     virtual void setInnerSize(size_t N);
     virtual void resize(size_t n) = 0;
     virtual void grow(size_t n) = 0;
-    virtual void createIndicatorValues() override;
 public:
     CustomArrayIndicatorCalc(CustomSerieCalc*base);
     // CustomSerieCalc interface

@@ -12,7 +12,7 @@ CustomIndicatorCalc::~CustomIndicatorCalc()
 
 void CustomIndicatorCalc::onCalcSerieFull(IndicatorIdentifier id)
 {
-    if (id == ID())
+    if ((id == ID()) or (id == AnonymousIndicator))
         createIndicatorValues();
 }
 
@@ -24,6 +24,11 @@ IndicatorIdentifier CustomIndicatorCalc::ID() const
 void CustomIndicatorCalc::setID(IndicatorIdentifier newNID)
 {
     m_ID = newNID;
+}
+
+void CustomIndicatorCalc::setHasVisual(bool newBHasVisual)
+{
+    m_bHasVisual = newBHasVisual;
 }
 
 void CustomIndicatorCalc::createIndicatorValues()

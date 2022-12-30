@@ -31,7 +31,6 @@ public:
     virtual bool GoToQuote(QuoteIdentifier) override;
     virtual bool GoToQuote(size_t) override;
     virtual QuoteIdentifier Quote() override;
-    virtual CandleArray GetCandles() override;
     virtual SerieInterval Interval() override;
     virtual bool GoToIndex(size_t) override;
 

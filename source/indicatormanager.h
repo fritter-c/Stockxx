@@ -28,6 +28,7 @@ private:
     QQueue<IndicatorIdentifier> m_deleteQueue;
     QTimer m_deleteTimer;
     IndicatorIdentifier getNewID(IndicatorType);
+    QMutex m_IndicatorCriticalSection;
 public:
     explicit IndicatorManager(QObject *parent = nullptr);
     static IndicatorManager& Instance(){

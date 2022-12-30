@@ -43,6 +43,12 @@ void MinuteDataSerie::loadSerieFromCSV(QString path, QChar delimiter)
            in >> dt.qiQuote.id;
            dt.qiQuote.dtQuoteDate = dt.dtQuoteDate;
            ar_values.append(dt);
+           if(dt.dHigh > m_dMax){
+               m_dMax = dt.dHigh;
+           }
+           if (dt.dLow < m_dMin){
+               m_dMin = dt.dLow;
+           }
 
        }
        file.close();
@@ -89,6 +95,12 @@ void MinuteDataSerie::loadSerieFromStream()
         in >> dt.qiQuote.id;
         dt.qiQuote.dtQuoteDate = dt.dtQuoteDate;
         temp_values.append(dt);
+        if(dt.dHigh > m_dMax){
+            m_dMax = dt.dHigh;
+        }
+        if (dt.dLow < m_dMin){
+            m_dMin = dt.dLow;
+        }
 
     }
     ar_values.resize(temp_values.count());
@@ -144,6 +156,12 @@ void MinuteDataSerie::loadSerieFromJsonAV(QString json)
 
         temp_values.append(quote);
         quoteaux = quote;
+        if(quote.dHigh > m_dMax){
+            m_dMax = quote.dHigh;
+        }
+        if (quote.dLow < m_dMin){
+            m_dMin = quote.dLow;
+        }
     }
     ar_values.resize(temp_values.count());
     for(long long i{temp_values.count() -1}; i >= 0; --i){

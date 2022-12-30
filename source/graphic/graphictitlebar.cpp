@@ -52,23 +52,21 @@ void GraphicTitlebar::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     QBrush brush{Qt::black};
     painter->setBrush(brush);
 
-    if (m_bHighlight)
-        setOpacity(0.7);
-    else{
-        setOpacity(0.4);
+    if (m_bHighlight){
+        painter->setOpacity(0.7);
+        painter->drawRect(rect);
     }
-
-    painter->drawRect(rect);
 
     QPen pen{Qt::white};
     painter->setPen(pen);
-    QFont font {painter->font()};
-    font.setPixelSize(12);
+    QFont font {"Arial", 12, QFont::DemiBold};
     painter->setFont(font);
 
     const int c_nHmargin = 5;
     const int c_nVmargin = 2;
 
+    painter->setOpacity(1.0);
+    painter->beginNativePainting();
     QPointF p(c_nHmargin, boundingRect().bottom() - c_nVmargin);
     painter->drawText(p, m_mainTitle);
     QFontMetricsF metric(font);
@@ -88,4 +86,5 @@ void GraphicTitlebar::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
                 ")";
         painter->drawText(p3, string);
     }
+    painter->endNativePainting();
 }

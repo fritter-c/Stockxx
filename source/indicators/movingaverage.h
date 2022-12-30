@@ -12,9 +12,8 @@ protected:
 
 public:
     MovingAverage(CustomSerie* base);
-    virtual void addNewValue(size_t, size_t, DoublyArray*) override;
-    double Value();
+    double Value() override;
+    virtual QVector<double> Values() override;
 };
-
 
 #endif // MOVINGAVERAGE_H

@@ -1,6 +1,7 @@
 #include "graphicmanager.h"
 #include "fibonaccistudie.h"
 #include "freehandstudie.h"
+#include "indicators/visuals/bollingerbandsvisual.h"
 #include "linestudie.h"
 #include "mainwindow.h"
 #include <QResizeEvent>
@@ -200,6 +201,7 @@ void GraphicManager::handleMouseMoveStudie(QMouseEvent* event)
 void GraphicManager::connectMainIndicators()
 {
     connect(qobject_cast<MainWindow*>(m_main), &MainWindow::addMovingAverage, this, &GraphicManager::onMainAddMovingAverage);
+    connect(qobject_cast<MainWindow*>(m_main), &MainWindow::addBollingerBands, this, &GraphicManager::onMainAddBollingerBands);
 }
 
 void GraphicManager::deleteStudie(IVisualItem* studie)
@@ -387,4 +389,20 @@ void GraphicManager::onMainAddMovingAverage(BasicIndicatorStyle style, Indicator
 
     IndicatorVisualGroup* group = m_visualGroups[0];
     group->addChild(new MovingAverageVisual(params, m_tsVisual, m_psVisual, qobject_cast<MovingAverage*>(indicator), m_view, this));
+}
+
+void GraphicManager::onMainAddBollingerBands(BasicIndicatorStyle style, IndicatorCalcOver calcOver, int interval, int shift, MovingAverageType type , double stdDev)
+{
+    IndicatorCalcParams lst;
+    IndicatorParam a{interval},b{type},c{calcOver},d{stdDev};
+    lst << a << b << c << d;
+
+    CustomIndicator* indicator = IndicatorManager::Instance().requestIndicator(m_assetId, m_sInterval, itBollingerBands, lst);
+
+    IndicatorVisualParams params;
+    BasicIndicatorStyle* pstyle = new BasicIndicatorStyle(style);
+    params.append(pstyle);
+
+    IndicatorVisualGroup* group = m_visualGroups[0];
+    group->addChild(new BollingerBandsVisual(params, m_tsVisual, m_psVisual, qobject_cast<BollingerBands*>(indicator), m_view, this));
 }

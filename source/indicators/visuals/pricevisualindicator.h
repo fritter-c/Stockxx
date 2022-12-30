@@ -25,7 +25,6 @@ public:
     PriceIndicator* GetPrice();
     double Max();
     double Min();
-    CandleArray getCandles();
     Candle getHoveredCandle();
     Candle getCandle(QuoteIdentifier);
     virtual void changeGeometry() override;

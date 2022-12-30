@@ -46,7 +46,7 @@ bool CustomArrayIndicator::NextAll()
 
 bool CustomArrayIndicator::PriorN(size_t N)
 {
-    if ((m_nIndex) >= N) {
+    if (m_nIndex >= N) {
 		m_nIndex = m_nIndex - N;
 		return true;
 	}
@@ -115,7 +115,16 @@ QuoteIdentifier CustomArrayIndicator::Quote()
 
 void CustomArrayIndicator::addNewValue(size_t start, size_t count, DoublyArray* values)
 {
+    if ((start == 0) and (count > 0))
+        resize(count);
+    else if (count > Size()) grow(Size() - count);
 
+    for(size_t i{start}; i < count; ++i){
+        for(long long j{0}; j < m_arData.count(); ++j){
+            m_arData[j][i] = (*values)[j][i - start];
+        }
+    }
+    emit NewData(start);
 }
 
 bool CustomArrayIndicator::GoToQuote(size_t n)
@@ -129,13 +138,6 @@ bool CustomArrayIndicator::GoToQuote(size_t n)
     }
 }
 
-CandleArray CustomArrayIndicator::GetCandles()
-{
-    if (!qobject_cast<CustomPrice*>(m_baseIndicator))
-        return CandleArray();
-    return qobject_cast<CustomPrice*>(m_baseIndicator)->GetCandles();
-
-}
 
 SerieInterval CustomArrayIndicator::Interval()
 {

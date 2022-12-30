@@ -11,7 +11,6 @@ class CustomPrice : public CustomSerie
     Q_OBJECT
 protected:
     CustomDataSerie* m_dataSerie;
-    CandleArray m_candles;
     AssetId m_assetId;
     SerieInterval m_interval;
     double m_dMax{std::numeric_limits<double>::lowest()};
@@ -36,7 +35,6 @@ public:
     virtual SerieInterval Interval() override;
     virtual bool GoToQuote(QuoteIdentifier) override;
     virtual bool GoToQuote(size_t) override;
-    virtual CandleArray GetCandles() override;
     virtual double Max() override;
     virtual double Min() override;
     virtual bool GoToIndex(size_t) override;

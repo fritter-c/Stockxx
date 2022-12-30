@@ -39,7 +39,7 @@ void MovingAverageVisual::paint(QPainter* painter, const QStyleOptionGraphicsIte
 	m_data->PriorAll();
 	bool bNext{ true };
 
-	qreal rFirstPos{ m_tsVisual->getFirstPos() };
+
 	QuoteIdentifier qiFirstQuote{ m_tsVisual->getFirstQuote() };
 	qreal rSpacing{ m_tsVisual->getSpacing() };
 	int nCandlesPainted{ 0 };
@@ -49,8 +49,9 @@ void MovingAverageVisual::paint(QPainter* painter, const QStyleOptionGraphicsIte
 
     // traversa até o primeiro valor válido
     while (!m_data->Valid() and m_data->Next()){
-        rFirstPos += rSpacing;
+
     };
+    qreal rFirstPos{ m_tsVisual->XAtQuote(m_data->Quote()) };
 	do {
 		QPointF start;
 		QPointF end;
@@ -85,6 +86,8 @@ bool MovingAverageVisual::contains(const QPointF& point) const
 	m_data->GoToQuote(qi);
 	QPointF start;
 	QPointF end;
+    //volta um para desenhar uma linha completa
+    m_data->Prior();
 	qreal rFirstPos{ m_tsVisual->XAtQuote(m_data->Quote()) };
 	qreal rSpacing{ m_tsVisual->getSpacing() };
 	QPainterPath path;

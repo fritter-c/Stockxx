@@ -9,7 +9,6 @@ private:
     int m_interval;
     MovingAverageType m_type;
     IndicatorCalcOver m_calcOver;
-    int m_shift;
     // CustomIndicatorCalc interface
 protected:
     virtual void createIndicatorValues() override;

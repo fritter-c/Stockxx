@@ -47,7 +47,7 @@ void PriceVisualIndicator::paint(QPainter *painter, const QStyleOptionGraphicsIt
     if(!(nEntrys > 0)) return;
 
     qreal nSpace{boundingRect().width()};
-    qreal rCandleSize = fmin(100,(nSpace / nEntrys) - qMax(200/nEntrys, 5));
+    qreal rCandleSize = fmin(300,(nSpace / nEntrys) - qMax(200/nEntrys, 5));
     bool bBody{rCandleSize >= 2};
     QPen pen {Qt::black,  m_dPenWidth};
     painter->setPen(pen);
@@ -136,10 +136,6 @@ double PriceVisualIndicator::Min()
     return m_data->Min();
 }
 
-CandleArray PriceVisualIndicator::getCandles()
-{
-    return m_data->GetCandles();
-}
 
 Candle PriceVisualIndicator::getHoveredCandle()
 {

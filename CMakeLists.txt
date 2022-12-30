@@ -126,6 +126,8 @@ set(PROJECT_SOURCES
         source/calc/indicators/priceindicatorcalc.h
         source/calc/indicators/movingaveragecalc.cpp
         source/calc/indicators/movingaveragecalc.h
+        source/calc/indicators/bollingerbandscalc.cpp
+        source/calc/indicators/bollingerbandscalc.h
 
         source/indicators/customindicator.h
         source/indicators/customindicator.cpp
@@ -135,6 +137,8 @@ set(PROJECT_SOURCES
         source/indicators/movingaverage.h
         source/indicators/priceindicator.cpp
         source/indicators/priceindicator.h
+        source/indicators/bollingerbands.cpp
+        source/indicators/bollingerbands.h
 
         source/indicators/visuals/customvisualindicator.cpp
         source/indicators/visuals/customvisualindicator.h
@@ -142,6 +146,8 @@ set(PROJECT_SOURCES
         source/indicators/visuals/pricevisualindicator.cpp
         source/indicators/visuals/movingaveragevisual.h
         source/indicators/visuals/movingaveragevisual.cpp
+        source/indicators/visuals/bollingerbandsvisual.h
+        source/indicators/visuals/bollingerbandsvisual.cpp
 
         source/indicators/properties/customindicatorproperties.cpp
         source/indicators/properties/customindicatorproperties.h
@@ -152,6 +158,9 @@ set(PROJECT_SOURCES
         source/indicators/properties/movingaverageproperties.cpp
         source/indicators/properties/movingaverageproperties.ui
         source/indicators/properties/movingaverageproperties.h
+        source/indicators/properties/bollingerbandsproperties.cpp
+        source/indicators/properties/bollingerbandsproperties.ui
+        source/indicators/properties/bollingerbandsproperties.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

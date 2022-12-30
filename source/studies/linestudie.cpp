@@ -26,6 +26,7 @@ void LineStudie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         m_line = {point1, point2};
         painter->drawLine(m_line);
     }
+
 }
 
 void LineStudie::setSecondPrice(QPointF pf)

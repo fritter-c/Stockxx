@@ -1,5 +1,4 @@
 #include "customarrayindicatorcalc.h"
-#include "indicatormanager.h"
 
 CustomArrayIndicatorCalc::CustomArrayIndicatorCalc(CustomSerieCalc * base) : CustomIndicatorCalc{base}
 {
@@ -10,11 +9,6 @@ void CustomArrayIndicatorCalc::setInnerSize(size_t N)
 {
     if (N > 0)
         m_arData.resize(N);
-}
-
-void CustomArrayIndicatorCalc::createIndicatorValues()
-{
-    IndicatorManager::Instance().addNewIndicatorData(ID(), 0, Size());
 }
 
 bool CustomArrayIndicatorCalc::Next()

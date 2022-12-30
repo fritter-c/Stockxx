@@ -30,12 +30,10 @@ inline uint qHash(const AssetId &key, uint seed)
     return (uint)qHash(key.name, seed);
 }
 
-// assetID
-
-
 // define a data invalida e o quoteid invalidos
 inline QDateTime const ZERO_DATE = QDateTime(QDate(1900, 12, 31), QTime(23, 59, 59, 999));
-constexpr int64_t INVALID_QUOTEID = -1;
+
+inline constexpr int64_t INVALID_QUOTEID = -1;
 
 // QuoteIdentifier
 struct QuoteIdentifier{
@@ -88,11 +86,9 @@ inline uint qHash(const QuoteIdentifier &key, uint seed)
     return (uint)qHash(key.dtQuoteDate, seed) ^ (key.id + 1);
 }
 
-// QuoteIdentifier
+const double INVALID_DOUBLE = std::numeric_limits<double>::lowest();
 
-
-constexpr double INVALID_DOUBLE = std::numeric_limits<double>::lowest();
-
+#pragma region DataSerieValues
 struct DataSerieValue{
     double dOpen;
     double dClose;
@@ -114,9 +110,27 @@ public:
         qiQuote = INVALID_QUOTE;
     }
 };
+inline bool operator !=(const DataSerieValue &a, const DataSerieValue &b){
+    return (!(a.qiQuote == b.qiQuote));
+}
 
+inline bool operator ==(const DataSerieValue &a, const DataSerieValue &b){
+    return ((a.qiQuote == b.qiQuote));
+}
 
+inline DataSerieValue const INVALID_DATA = DataSerieValue();
+#pragma endregion DataSerieValues
+
+#pragma region Studies
 enum StudieType {stNoStudie, stLine, stResistance, stFibonacci, stVertLine, stChannel, stFreeHand};
+struct BasicStudieStyle{
+    Qt::PenStyle penStyle;
+    int width;
+    QColor color;
+};
+#pragma endregion Studies
+
+#pragma region SerieInterval
 enum SerieInterval {siDaily = 0, siOneMin = 1, siFiveMin = 5,
                     siFifteenMin = 15, siThirtyMin = 30, siSixtyMin = 60, siUnknown = -1};
 
@@ -148,38 +162,24 @@ inline const QString ToString(SerieInterval const & v)
     }
     return string;
 }
+#pragma endregion SerieInterval
 
-
-
+#pragma region DataSerieIdentifier
 struct DataSerieIdentifier{
     AssetId id;
     SerieInterval si;
 };
+
+inline const QString ToString(DataSerieIdentifier const & v){
+    return v.id.name + " " + ToString(v.si);
+}
 inline bool operator==(const DataSerieIdentifier &a, const DataSerieIdentifier &b){
     return ((a.id == b.id) && (a.si == b.si));
-}
-
-inline bool operator !=(const DataSerieValue &a, const DataSerieValue &b){
-    return (!(a.qiQuote == b.qiQuote));
-}
-
-inline bool operator ==(const DataSerieValue &a, const DataSerieValue &b){
-    return ((a.qiQuote == b.qiQuote));
 }
 inline uint qHash(const DataSerieIdentifier &key, uint seed)
 {
     return (uint)qHash(key.id.name, seed) ^ (key.si + 1);
 }
-
-inline DataSerieValue const INVALID_DATA = DataSerieValue();
-
-struct BasicStudieStyle{
-    Qt::PenStyle penStyle;
-    int width;
-    QColor color;
-};
-
-
+#pragma endregion DataSerieIdentifier
 
 #endif
-

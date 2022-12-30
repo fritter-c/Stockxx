@@ -23,5 +23,6 @@ public:
     CustomChart(AssetId assetid,SerieInterval si, QWidget *parent_main, QWidget *parent = nullptr);
     ~CustomChart();
     GoTView* GetGraphicsView();
+    GraphicManager *gManager() const;
 };
 #endif // CUSTOMCHART_H

@@ -4,6 +4,7 @@
 #include "QActionGroup"
 #include "customchart.h"
 #include "dataseriemanager.h"
+#include "indicators/properties/bollingerbandsproperties.h"
 #include "indicators/properties/customindicatorproperties.h"
 #include "indicators/properties/movingaverageproperties.h"
 #include "studieproperties.h"
@@ -50,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_btnStudieColor->setGeometry(0,0, 30,30);
     connect(m_btnStudieColor, &QPushButton::clicked, this,  &MainWindow::on_btnStudieColor_clicked);
     ui->toolBar->addWidget(m_btnStudieColor);
+    connect(ui->mdiArea, &QMdiArea::subWindowActivated, this, &MainWindow::onSubWindowActivated);
 
 #ifdef QT_DEBUG
     ui->menuTests->menuAction()->setVisible(true);
@@ -292,7 +294,6 @@ void MainWindow::on_actionOpen_CustomProperties_triggered()
 {
    CustomIndicatorProperties properties;
    properties.exec();
-   BasicIndicatorStyle style{properties.getBasicStyle()};
 }
 
 
@@ -303,9 +304,27 @@ void MainWindow::on_actionMoving_Average_triggered()
     properties.exec();
     if (properties.result() == QDialog::Accepted){
         BasicIndicatorStyle style{properties.getBasicStyle()};
-        MovingAverageProperties* settings = qobject_cast<MovingAverageProperties*>(properties.getProperties());
+        MovingAverageProperties* settings = static_cast<MovingAverageProperties*>(properties.getProperties());
         emit addMovingAverage(style, settings->getCalcOver(), settings->getInterval(), settings->getShift(), settings->getType());
     }
 
+}
+
+void MainWindow::onSubWindowActivated(QMdiSubWindow *)
+{
+
+}
+
+
+void MainWindow::on_actionBollinger_Bands_triggered()
+{
+    CustomIndicatorProperties properties;
+    properties.setupForBollingerBands();
+    properties.exec();
+    if (properties.result() == QDialog::Accepted){
+        BasicIndicatorStyle style{properties.getBasicStyle()};
+        BollingerBandsProperties* settings = static_cast<BollingerBandsProperties*>(properties.getProperties());
+        emit addBollingerBands(style, settings->getCalcOver(), settings->getInterval(), settings->getShift(), settings->getType(), settings->getStdDev());
+    }
 }
 

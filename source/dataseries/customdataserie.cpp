@@ -39,6 +39,16 @@ void CustomDataSerie::createId()
 
 }
 
+double CustomDataSerie::dMin() const
+{
+    return m_dMin;
+}
+
+double CustomDataSerie::dMax() const
+{
+    return m_dMax;
+}
+
 CustomDataSerieCalc *CustomDataSerie::calcSerie() const
 {
     return m_calcSerie;

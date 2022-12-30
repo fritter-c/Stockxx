@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "graphicmanager.h"
+#include "qmdisubwindow.h"
 #include "qprogressbar.h"
 #include "qpushbutton.h"
 
@@ -35,6 +36,7 @@ signals:
     void deleteAllStudies();
     void randomClose(bool);
     void addMovingAverage(BasicIndicatorStyle, IndicatorCalcOver, int interval, int shift, MovingAverageType);
+    void addBollingerBands(BasicIndicatorStyle, IndicatorCalcOver, int interval, int shift, MovingAverageType, double);
 private slots:
     void on_actionResistance_Studie_toggled(bool arg1);
     void on_actionLine_Studie_toggled(bool arg1);
@@ -62,5 +64,7 @@ private slots:
     void on_actionOpen_LinePicker_triggered();
     void on_actionOpen_CustomProperties_triggered();
     void on_actionMoving_Average_triggered();
+    void onSubWindowActivated(QMdiSubWindow*);
+    void on_actionBollinger_Bands_triggered();
 };
 #endif // MAINWINDOW_H
